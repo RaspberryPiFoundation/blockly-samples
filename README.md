@@ -1,8 +1,8 @@
 <h1 align="center">
-Blockly Samples <br /> <a href="https://github.com/google/blockly"><img src="https://tinyurl.com/built-on-blockly" /> </a>
+Blockly Samples <br /> <a href="https://github.com/RaspberryPiFoundation/blockly"><img src="https://tinyurl.com/built-on-blockly" /> </a>
 </h1>
 
-Plugins, codelabs, and examples related to the [Blockly](https://github.com/google/blockly) library.
+Plugins, codelabs, and examples related to the [Blockly](https://github.com/RaspberryPiFoundation/blockly) library.
 
 This repository has three sections:
 
@@ -10,7 +10,7 @@ This repository has three sections:
 - [Examples](examples/): self-contained sample projects demonstrating techniques to include and extend the Blockly library.
 - [Codelabs](codelabs/): interactive tutorials demonstrating how to use Blockly.
 
-Please see our [GitHub Pages site](https://google.github.io/blockly-samples/index.html) for interactive demos of most plugins.
+Please see our [GitHub Pages site](https://raspberrypifoundation.github.io/blockly-samples/index.html) for interactive demos of most plugins.
 
 ## Support
 
