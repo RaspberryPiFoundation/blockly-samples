@@ -1,0 +1,142 @@
+/* This file uses CSS to recreate the blocks part
+   of the classic theme for the thrasos renderer, */
+   
+/* LOGIC BLOCKS */
+
+.logic_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #5b80a5;
+  stroke: #8ca6c0;
+}
+
+.logic_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #bdccdb;
+  stroke: none;
+}
+
+.logic_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #5b80a5 !important;
+}
+
+.logic_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #bdccdb !important;
+}
+
+/* LOOOP BLOCKS */
+
+.loop_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #5ba55b;
+  stroke: #8cc08c;
+}
+
+.loop_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #bddbbd;
+  stroke: none;
+}
+
+.loop_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #5ba55b !important;
+}
+
+.loop_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #bddbbd !important;
+}
+
+/* MATH BLOCKS */
+
+.math_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #5b67a5;
+  stroke: #8c95c0;
+}
+
+.math_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #bdc2db;
+  stroke: none;
+}
+
+.math_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #5b67a5 !important;
+}
+
+.math_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #bdc2db !important;
+}
+
+/* TEXT BLOCKS */
+
+.text_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #5ba58c;
+  stroke: #8cc0af;
+}
+
+.text_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #bddbd1;
+  stroke: none;
+}
+
+.text_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #5ba58c !important;
+}
+
+.text_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #bddbd1 !important;
+}
+
+/* LIST BLOCKS */
+
+.list_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #745ba5;
+  stroke: #9e8cc0;
+}
+
+.list_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #c7bddb;
+  stroke: none;
+}
+
+.list_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #745ba5 !important;
+}
+
+.list_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #c7bddb !important;
+}
+
+/* VARIABLE BLOCKS */
+
+.variable_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #a55b80;
+  stroke: #c08ca6;
+}
+
+.variable_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #dbbdcc;
+  stroke: none;
+}
+
+.variable_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #a55b80 !important;
+}
+
+.variable_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #dbbdcc !important;
+}
+
+/* PROCEDURE BLOCKS */
+
+.procedure_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+  fill: #995ba5;
+  stroke: #b88cc0;
+}
+.procedure_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+  fill: #d6bddb;
+  stroke: none;
+}
+
+.procedure_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #995ba5 !important;
+}
+
+.procedure_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #d6bddb !important;
+}
+
