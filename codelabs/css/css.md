@@ -125,9 +125,9 @@ different ranges of elements.
 
 ## Components
 
-In this section, you will create CSS rules to assign the same colours as the
+In this section, you will create CSS rules to assign the colours used by the
 [components section](https://blocklycodelabs.dev/codelabs/theme-extension-identifier/index.html#3)
-of the themes codelab.
+of the themes codelab to various components.
 
 To start, create a file named `halloween.css` and add it to your `index.html`
 file:
@@ -140,7 +140,7 @@ file:
 
 ### Main workspace colour
 
-Our first rule will set the background colour of the main workspace. In your
+Your first rule will set the background colour of the main workspace. In your
 Blockly editor, find the `<rect>` element with the `blocklyMainBackground`
 class:
 
@@ -153,7 +153,7 @@ class:
           <rect class="blocklyMainBackground">
 ```
 
-This seems like a good target for our rule, except that the `fill` property is
+This seems like a good target for your rule, except that the `fill` property is
 already used to set the grid pattern. Instead, we'll set the `background-color`
 property of the `blocklySvg` element. To do this, add the following rule to
 `halloween.css`:
@@ -216,23 +216,18 @@ Themes allow you to define the colours of many (but not all) components. The
 following table shows what classes and properties to use to set the same colours
 as the component styles in themes:
 
-| Component style             | Selectors (properties)                       |
-| --------------------------- | -------------------------------------------- |
-| `workspaceBackgroundColour` | `.blocklySvg (background-color)`,            |
-:                             : `.blocklyMutatorBackground (fill)`           :
-| `toolboxBackgroundColour`   | `.blocklyToolbox (background-color)`         |
-| `toolboxForegroundColour`   | `.blocklyToolbox (color)`                    |
-| `flyoutBackgroundColour`    | `.blocklyFlyoutBackground (fill)`            |
-| `flyoutForegroundColour`    | `.blocklyFlyoutLabel>.blocklyFlyoutLabelText |
-:                             : (fill)`, `.blocklyFlyoutButton>.blocklyText  :
-:                             : (fill)`                                      :
-| `flyoutOpacity`             | `.blocklyFlyoutBackground (fill-opacity)`    |
-| `scrollbarColour`           | `.blocklyScrollbarHandle (fill)`             |
-| `scrollbarOpacity`          | `.blocklyScrollbarHandle (fill-opacity)`     |
-| `insertionMarkerColour`     | `.blocklyInsertionMarker>.blocklyPath        |
-:                             : (fill)`                                      :
-| `insertionMarkerOpacity`    | `.blocklyInsertionMarker>.blocklyPath        |
-:                             : (fill-opacity)`                              :
+| Component style             | Selectors (properties)                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------------------ |
+| `workspaceBackgroundColour` | `.blocklySvg (background-color)`, `.blocklyMutatorBackground (fill)`                             |
+| `toolboxBackgroundColour`   | `.blocklyToolbox (background-color)`                                                             |
+| `toolboxForegroundColour`   | `.blocklyToolbox (color)`                                                                        |
+| `flyoutBackgroundColour`    | `.blocklyFlyoutBackground (fill)`                                                                |
+| `flyoutForegroundColour`    | `.blocklyFlyoutLabel>.blocklyFlyoutLabelText (fill)`, `.blocklyFlyoutButton>.blocklyText (fill)` |
+| `flyoutOpacity`             | `.blocklyFlyoutBackground (fill-opacity)`                                                        |
+| `scrollbarColour`           | `.blocklyScrollbarHandle (fill)`                                                                 |
+| `scrollbarOpacity`          | `.blocklyScrollbarHandle (fill-opacity)`                                                         |
+| `insertionMarkerColour`     | `.blocklyInsertionMarker>.blocklyPath (fill)`                                                    |
+| `insertionMarkerOpacity`    | `.blocklyInsertionMarker>.blocklyPath (fill-opacity)`                                            |
 
 Add the following rules to `halloween.css`:
 
@@ -318,27 +313,16 @@ A simpler rule of thumb is that if your rule doesn't work, you probably need an
 
 ## Toolbox categories
 
-In this section, you will create CSS rules to assign the same colours as the
+In this section, you will create CSS rules to assign the colours used by the
 [categories section](https://blocklycodelabs.dev/codelabs/theme-extension-identifier/index.html#4)
-of the themes codelab.
+of the themes codelab to the toolbox's categories.
 
 ### Identify the category element
 
-The toolbox is defined in `toolbox.js`. For each category, it assigns a category
-style, whose colour can then be set with a theme. For example, here is the
-definition of the **Logic** category:
-
-```js
-    {
-      kind: 'category',
-      name: 'Logic',
-      categorystyle: 'logic_category',
-      contents: [...],
-    },
-```
-
-In the element inspector, find the `blocklyToolboxCategory` `<div>` for the
-**Logic** category:
+Your first rule will set the colour of the **Logic** category. This rule needs
+to uniquely identify the element used by the **Logic** category, so open the
+developer tools and find the `blocklyToolboxCategory` `<div>` for the **Logic**
+category:
 
 ```
 <body>
@@ -350,18 +334,28 @@ In the element inspector, find the `blocklyToolboxCategory` `<div>` for the
             <div class="blocklyToolboxCategory" id="blockly-1">
 ```
 
-The only thing that distinguishes this `<div>` from those use by the other
-categories is the generated `id` attribute (`blockly-1`). However, this isn't
-stable enough to use in a CSS rule -- for example, if you switched the order of
-two categories you'd also have to switch the selectors in their rules.
+Unfortunately, the only thing that distinguishes this `<div>` from other
+category `<div>`s is a generated `id` attribute (`blockly-1`). This isn't stable
+enough to use in a CSS rule -- for example, if you switched the order of two
+categories you'd also have to switch the selectors in their rules.
 
-To solve this problem, replace the `categorystyle` property in the category
-definition with the `cssConfig` property. This allows you to add a class that
-uniquely identifies the `<div>` containing the **Logic** category. (For a
-complete explanation, see
-[Custom CSS classes](https://developers.google.com/blockly/guides/configure/web/toolboxes/appearance#custom_css_classes).)
-Notice that this code keeps the `blocklyToolboxCategory` class, which is used by
-Blockly to define CSS rules that apply to all categories.
+To solve this problem, you'll need to add a class. Open the `toolbox.js` file
+and find the definition of the **Logic** category:
+
+```js
+    {
+      kind: 'category',
+      name: 'Logic',
+      categorystyle: 'logic_category',
+      contents: [...],
+    },
+```
+
+The `categorystyle` property assigns a style that is used by a theme. Because
+you're not using themes to assign category colours, replace this with a
+`cssConfig` property that adds two classes to the **Logic** category's `<div>`:
+`logic_category` uniquely identifies the `<div>` and `blocklyToolboxCategory` is
+used by Blockly's CSS to define rules that apply to all categories.
 
 ```js
     {
@@ -373,6 +367,10 @@ Blockly to define CSS rules that apply to all categories.
       contents: [...],
     },
 ```
+
+For a complete explanation of how `cssConfig` works, see
+[Custom CSS classes](https://developers.google.com/blockly/guides/configure/web/toolboxes/appearance#custom_css_classes)
+in the toolbox documentation.
 
 ### Add your rules
 
@@ -419,8 +417,8 @@ Before you can write rules for the remaining categories, you need to replace
 
 Next, add the following rules to `halloween.css`. These rules use the colours
 from themes codelab for the **Loops**, **Text**, and **Lists** categories and
-from the Classic theme (the default theme) for the **Math**, **Variables**, and
-**Functions** categories.
+the colours from the Classic theme (the default theme) for the **Math**,
+**Variables**, and **Functions** categories.
 
 ```css
 .loop_category {
@@ -479,14 +477,15 @@ Refresh your web page. You should see the new colours beside each category:
 
 ## Blocks
 
-In this section, you will create CSS rules to assign the same colours as the
+In this section, you will create CSS rules to assign the colours used by the
 [blocks section](https://blocklycodelabs.dev/codelabs/theme-extension-identifier/index.html#5)
-of the themes codelab. This is a bit more complex than setting component or
-category colours and you'll do it in several steps.
+of the themes codelab to the logic, loops, text, and lists blocks. This is a bit
+more complex than setting component or category colours and you'll do it in
+several steps.
 
 ### Block fill and stroke
 
-Your first step is to set the block's `fill` and `stroke`.
+Your first step is to set the `fill` and `stroke` of the logic blocks.
 
 #### Identify the block element
 
@@ -529,7 +528,7 @@ is that you need to write different CSS rules for different renderers.)
 #### Choose colours
 
 The last step before writing your colour rules is to decide what colours to use.
-The Halloween theme sets three colours:
+The Halloween theme in the themes codelab sets three colours:
 
 ```
     'logic_blocks': {
