@@ -216,18 +216,18 @@ Themes allow you to define the colours of many (but not all) components. The
 following table shows what classes and properties to use to set the same colours
 as the component styles in themes:
 
-| Component style             | Selectors (properties)                                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------------------ |
-| `workspaceBackgroundColour` | `.blocklySvg (background-color)`, `.blocklyMutatorBackground (fill)`                             |
-| `toolboxBackgroundColour`   | `.blocklyToolbox (background-color)`                                                             |
-| `toolboxForegroundColour`   | `.blocklyToolbox (color)`                                                                        |
-| `flyoutBackgroundColour`    | `.blocklyFlyoutBackground (fill)`                                                                |
-| `flyoutForegroundColour`    | `.blocklyFlyoutLabel>.blocklyFlyoutLabelText (fill)`, `.blocklyFlyoutButton>.blocklyText (fill)` |
-| `flyoutOpacity`             | `.blocklyFlyoutBackground (fill-opacity)`                                                        |
-| `scrollbarColour`           | `.blocklyScrollbarHandle (fill)`                                                                 |
-| `scrollbarOpacity`          | `.blocklyScrollbarHandle (fill-opacity)`                                                         |
-| `insertionMarkerColour`     | `.blocklyInsertionMarker>.blocklyPath (fill)`                                                    |
-| `insertionMarkerOpacity`    | `.blocklyInsertionMarker>.blocklyPath (fill-opacity)`                                            |
+| Component style             | Selectors (properties)                                                                               |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `workspaceBackgroundColour` | `.blocklySvg (background-color)`, `.blocklyMutatorBackground (fill)`                                 |
+| `toolboxBackgroundColour`   | `.blocklyToolbox (background-color)`                                                                 |
+| `toolboxForegroundColour`   | `.blocklyToolbox (color)`                                                                            |
+| `flyoutBackgroundColour`    | `.blocklyFlyoutBackground (fill)`                                                                    |
+| `flyoutForegroundColour`    | `.blocklyFlyoutLabel > .blocklyFlyoutLabelText (fill)`, `.blocklyFlyoutButton > .blocklyText (fill)` |
+| `flyoutOpacity`             | `.blocklyFlyoutBackground (fill-opacity)`                                                            |
+| `scrollbarColour`           | `.blocklyScrollbarHandle (fill)`                                                                     |
+| `scrollbarOpacity`          | `.blocklyScrollbarHandle (fill-opacity)`                                                             |
+| `insertionMarkerColour`     | `.blocklyInsertionMarker > .blocklyPath (fill)`                                                      |
+| `insertionMarkerOpacity`    | `.blocklyInsertionMarker > .blocklyPath (fill-opacity)`                                              |
 
 Add the following rules to `halloween.css`:
 
@@ -242,11 +242,11 @@ Add the following rules to `halloween.css`:
   fill-opacity: 1;
 }
 
-.blocklyFlyoutLabel>.blocklyFlyoutLabelText {
+.blocklyFlyoutLabel > .blocklyFlyoutLabelText {
   fill: #ccc !important;
 }
 
-.blocklyFlyoutButton>.blocklyText {
+.blocklyFlyoutButton > .blocklyText {
   fill: #ccc !important;
 }
 
@@ -255,7 +255,7 @@ Add the following rules to `halloween.css`:
   fill-opacity: 0.4;
 }
 
-.blocklyInsertionMarker>.blocklyPath {
+.blocklyInsertionMarker > .blocklyPath {
   fill: #fff !important;
   fill-opacity: 0.3 !important;
   stroke: none;
@@ -292,7 +292,7 @@ ways, some of which are easily overridden and some of which aren't.
     `.blocklyScrollbarHandle` has the same specificity as Blockly's rule for
     this class, but overrides Blockly's rule because it occurs later in the
     document. On the other hand, the rule for
-    `.blocklyFlyoutLabel>.blocklyFlyoutLabelText` has a lower specificity than
+    `.blocklyFlyoutLabel > .blocklyFlyoutLabelText` has a lower specificity than
     Blockly's rule and must override it with an `!important` declaration.
 
 *   **Inline styles:** These rules are included via a `style` attribute and can
@@ -422,7 +422,7 @@ the colours from the Classic theme (the default theme) for the **Math**,
 
 ```css
 .loop_category {
-  border-left: 8px solid  #85e21f;
+  border-left: 8px solid #85e21f;
 }
 
 .loop_category.blocklyToolboxSelected {
@@ -430,7 +430,7 @@ the colours from the Classic theme (the default theme) for the **Math**,
 }
 
 .math_category {
-  border-left: 8px solid  #5b67a5;
+  border-left: 8px solid #5b67a5;
 }
 
 .math_category.blocklyToolboxSelected {
@@ -438,7 +438,7 @@ the colours from the Classic theme (the default theme) for the **Math**,
 }
 
 .text_category {
-  border-left: 8px solid  #fe9b13;
+  border-left: 8px solid #fe9b13;
 }
 
 .text_category.blocklyToolboxSelected {
@@ -555,12 +555,12 @@ blocks:
 
 /* LOGIC BLOCKS */
 
-.logic_blocks>.blocklyPath {
+.logic_blocks > .blocklyPath {
   fill: #8b4513;
-  stroke: #C5EAFF;
+  stroke: #c5eaff;
 }
 
-.logic_blocks.blocklyShadow>.blocklyPath {
+.logic_blocks.blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
@@ -586,18 +586,18 @@ cross-hatch pattern.](blocks-disabled-wrong.png)
 This is because the rules you just added have the same specificity as the
 Blockly rules that set the cross-hatch pattern. (You can see this if you click
 on the `if do` block's `<path>` element and inspect its styles.) Because your
-rules occurs later in the document, they take precedence. To use the standard
+rules occur later in the document, they take precedence. To use the standard
 CSS for disabled blocks, add a `:not(.blocklyDisabledPattern)` to your rules:
 
 ```css
 /* LOGIC BLOCKS */
 
-.logic_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+.logic_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
   fill: #8b4513;
-  stroke: #C5EAFF;
+  stroke: #c5eaff;
 }
 
-.logic_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+.logic_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
@@ -637,11 +637,11 @@ be overridden with an `!important` declaration. To do this, add the following
 rules:
 
 ```css
-.logic_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+.logic_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #8b4513 !important;
 }
 
-.logic_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+.logic_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #ff0000 !important;
 }
 ```
@@ -658,62 +658,62 @@ Your last step is to add similar rules for the loop, text, and list blocks:
 ```css
 /* LOOP BLOCKS */
 
-.loop_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
-  fill: #85E21F;
-  stroke: #C5EAFF;
+.loop_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
+  fill: #85e21f;
+  stroke: #c5eaff;
 }
 
-.loop_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+.loop_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
 
-.loop_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
-  fill: #85E21F !important;
+.loop_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #85e21f !important;
 }
 
-.loop_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+.loop_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #ff0000 !important;
 }
 
 /* TEXT BLOCKS */
 
-.text_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
-  fill: #FE9B13;
-  stroke: #C5EAFF;
+.text_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
+  fill: #fe9b13;
+  stroke: #c5eaff;
 }
 
-.text_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+.text_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
 
-.text_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
-  fill: #FE9B13 !important;
+.text_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #fe9b13 !important;
 }
 
-.text_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+.text_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #ff0000 !important;
 }
 
 /* LIST BLOCKS */
 
-.list_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+.list_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
   fill: #4a148c;
-  stroke: #CDB6E9;
+  stroke: #cdb6e9;
 }
 
-.list_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
-  fill: #AD7BE9;
+.list_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
+  fill: #ad7Be9;
   stroke: none;
 }
 
-.list_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+.list_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #4a148c !important;
 }
 
-.list_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
-  fill: #AD7BE9 !important;
+.list_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #ad7be9 !important;
 }
 ```
 
