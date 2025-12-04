@@ -20,11 +20,11 @@
   fill-opacity: 1;
 }
 
-.blocklyFlyoutLabel>.blocklyFlyoutLabelText {
+.blocklyFlyoutLabel > .blocklyFlyoutLabelText {
   fill: #ccc !important;
 }
 
-.blocklyFlyoutButton>.blocklyText {
+.blocklyFlyoutButton > .blocklyText {
   fill: #ccc !important;
 }
 
@@ -33,7 +33,7 @@
   fill-opacity: 0.4;
 }
 
-.blocklyInsertionMarker>.blocklyPath {
+.blocklyInsertionMarker > .blocklyPath {
   fill: #fff !important;
   fill-opacity: 0.3 !important;
   stroke: none;
@@ -52,7 +52,7 @@
 }
 
 .loop_category {
-  border-left: 8px solid  #85e21f;
+  border-left: 8px solid #85e21f;
 }
 
 .loop_category.blocklyToolboxSelected {
@@ -60,7 +60,7 @@
 }
 
 .math_category {
-  border-left: 8px solid  #5b67a5;
+  border-left: 8px solid #5b67a5;
 }
 
 .math_category.blocklyToolboxSelected {
@@ -68,7 +68,7 @@
 }
 
 .text_category {
-  border-left: 8px solid  #fe9b13;
+  border-left: 8px solid #fe9b13;
 }
 
 .text_category.blocklyToolboxSelected {
@@ -105,80 +105,80 @@
 
 /* LOGIC BLOCKS */
 
-.logic_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+.logic_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
   fill: #8b4513;
-  stroke: #C5EAFF;
+  stroke: #c5eaff;
 }
 
-.logic_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+.logic_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
 
-.logic_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+.logic_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #8b4513 !important;
 }
 
-.logic_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+.logic_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #ff0000 !important;
 }
 
 /* LOOP BLOCKS */
 
-.loop_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
-  fill: #85E21F;
-  stroke: #C5EAFF;
+.loop_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
+  fill: #85e21f;
+  stroke: #c5eaff;
 }
 
-.loop_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+.loop_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
 
-.loop_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
-  fill: #85E21F !important;
+.loop_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #85e21f !important;
 }
 
-.loop_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+.loop_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #ff0000 !important;
 }
 
 /* TEXT BLOCKS */
 
-.text_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
-  fill: #FE9B13;
-  stroke: #C5EAFF;
+.text_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
+  fill: #fe9b13;
+  stroke: #c5eaff;
 }
 
-.text_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
+.text_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
   fill: #ff0000;
   stroke: none;
 }
 
-.text_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
-  fill: #FE9B13 !important;
+.text_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #fe9b13 !important;
 }
 
-.text_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
+.text_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #ff0000 !important;
 }
 
 /* LIST BLOCKS */
 
-.list_blocks:not(.blocklyDisabledPattern)>.blocklyPath {
+.list_blocks:not(.blocklyDisabledPattern) > .blocklyPath {
   fill: #4a148c;
-  stroke: #CDB6E9;
+  stroke: #cdb6e9;
 }
 
-.list_blocks:not(.blocklyDisabledPattern).blocklyShadow>.blocklyPath {
-  fill: #AD7BE9;
+.list_blocks:not(.blocklyDisabledPattern).blocklyShadow > .blocklyPath {
+  fill: #ad7be9;
   stroke: none;
 }
 
-.list_blocks>.blocklyDropdownField .blocklyDropdownText tspan {
+.list_blocks > .blocklyDropdownField .blocklyDropdownText tspan {
   fill: #4a148c !important;
 }
 
-.list_blocks.blocklyShadow>.blocklyDropdownField .blocklyDropdownText tspan {
-  fill: #AD7BE9 !important;
+.list_blocks.blocklyShadow > .blocklyDropdownField .blocklyDropdownText tspan {
+  fill: #ad7be9 !important;
 }
