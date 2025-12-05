@@ -113,7 +113,7 @@ export class BlockSearcher {
     if (normalizedInput.length <= 3) return [normalizedInput];
 
     const trigrams: string[] = [];
-    for (let start = 0; start < normalizedInput.length - 3; start++) {
+    for (let start = 0; start <= normalizedInput.length - 3; start++) {
       trigrams.push(normalizedInput.substring(start, start + 3));
     }
 
