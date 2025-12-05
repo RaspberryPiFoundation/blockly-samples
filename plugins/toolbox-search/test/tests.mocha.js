@@ -57,6 +57,23 @@ suite('BlockSearcher', () => {
     assert.sameMembers(ransomNoteMatches, [listCreateWithBlock]);
   });
 
+  test('requires the final trigram when matching longer queries', () => {
+    const searcher = new BlockSearcher();
+    const mathConstrainBlock = {
+      kind: 'block',
+      type: 'math_constrain',
+    };
+    searcher.indexBlocks([mathConstrainBlock]);
+
+    const matches = searcher.blockTypesMatching('conso');
+
+    assert.notInclude(
+      matches,
+      mathConstrainBlock,
+      'query missing trailing trigram should not match',
+    );
+  });
+
   test('returns an empty list when no matches are found', () => {
     const searcher = new BlockSearcher();
     assert.isEmpty(searcher.blockTypesMatching('abc123'));
