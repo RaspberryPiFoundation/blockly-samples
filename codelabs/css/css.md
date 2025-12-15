@@ -23,7 +23,7 @@ codelab.
 ### What you'll need
 
 -   A browser
--   Basic knowledge of HTML, CSS, and JavaScript.
+-   Basic knowledge of HTML, CSS, SVG, and JavaScript.
 -   Basic knowledge of your browser's developer tools.
 -   Basic understanding of Blockly, including workspace components, category
     toolboxes, block definitions, and themes.
@@ -168,7 +168,7 @@ property of the `blocklySvg` element. To do this, add the following rule to
 }
 ```
 
-Refresh your page and notice the change in colour:
+Refresh your page and notice that the workspace background is now orange:
 
 ![A Blockly editor with an orange workspace.](components-workspace.png)
 
@@ -206,7 +206,8 @@ Next, add a CSS rule to set the workspace's background colour:
 ```
 
 To see your new colours, reload the web page, drag the `if do` block out again,
-and reopen the mutator. You should see something like this:
+and reopen the mutator. You should see that the mutator workspace background
+colour is orange, matching the main workspace background:
 
 ![An "if do" block with a mutator that has an orange background.](components-mutator.png)
 
@@ -262,7 +263,8 @@ Add the following rules to `halloween.css`:
 }
 ```
 
-Now reload your page. You should see a Blockly editor with Halloween colours:
+Now reload your page. You should see a Blockly editor with a yellow toolbox and
+red scrollbars:
 
 ![A Blockly editor with Halloween colors.](components-halloween.png)
 
@@ -271,9 +273,9 @@ Now reload your page. You should see a Blockly editor with Halloween colours:
 You might have noticed that some rules use `background-color` and `color` and
 others use `fill` and `stroke`. This is because `background-color` and `color`
 apply to HTML elements, like the `<div>` used by the toolbox, and `fill` and
-`stroke` apply to SVG elements, like the `<path>` used by the flyout background.
-(An exception to this is the `<svg>` element, which uses `background-color` and
-`color`.)
+`stroke` apply to most SVG elements, like the `<path>` used by the flyout
+background. (An exception to this is the top-level <svg> element that contains
+Blockly, which uses `background-color` and `color`.)
 
 ### The !important declaration
 
@@ -308,9 +310,6 @@ you let go of the parent to highlight the insertion marker's element. In these
 cases, you will need to
 [search Blockly's rules](https://developers.google.com/blockly/guides/configure/web/appearance/css#blockly_css_rules).
 
-A simpler rule of thumb is that if your rule doesn't work, you probably need an
-`!important` declaration.
-
 ## Toolbox categories
 
 In this section, you will create CSS rules to assign the colours used by the
@@ -339,8 +338,9 @@ category `<div>`s is a generated `id` attribute (`blockly-1`). This isn't stable
 enough to use in a CSS rule -- for example, if you switched the order of two
 categories you'd also have to switch the selectors in their rules.
 
-To solve this problem, you'll need to add a class. Open the `toolbox.js` file
-and find the definition of the **Logic** category:
+To solve this problem, you'll need to add a class to the
+`blocklyToolboxCategory` `<div>` for the **Logic** category. Open the
+`toolbox.js` file and find the definition of the **Logic** category:
 
 ```js
     {
@@ -352,10 +352,11 @@ and find the definition of the **Logic** category:
 ```
 
 The `categorystyle` property assigns a style that is used by a theme. Because
-you're not using themes to assign category colours, replace this with a
-`cssConfig` property that adds two classes to the **Logic** category's `<div>`:
-`logic_category` uniquely identifies the `<div>` and `blocklyToolboxCategory` is
-used by Blockly's CSS to define rules that apply to all categories.
+you're not using themes to assign category colours, you don't need the
+`categorystyle` property. Delete it and add a `cssConfig` property that adds two
+classes to the **Logic** category's `<div>`: `logic_category` uniquely
+identifies the `<div>` and `blocklyToolboxCategory` is used by Blockly's CSS to
+define rules that apply to all categories.
 
 ```js
     {
@@ -487,6 +488,12 @@ several steps.
 
 Your first step is to set the `fill` and `stroke` of the logic blocks.
 
+Note that setting the `fill` and `stroke` is specific to the
+[renderer](https://developers.google.com/blockly/guides/create-custom-blocks/renderers/overview),
+you are using. (In this codelab, you are using the Thrasos renderer.) An
+important consequence of this is that you need different CSS for different
+renderers.
+
 #### Identify the block element
 
 Drag an `if do` block onto the workspace and find it with the element inspector:
@@ -519,11 +526,10 @@ element identifies the block but doesn't draw it. Instead, you can use the `<g>`
 element's first child. This is a `<path>` element with `fill` and `stroke`
 presentation attributes, which are easily overridden.
 
-(Note that different renderers use different numbers of `<path>` elements to
-draw a block. The renderer used in this codelab (thrasos) uses a single `<path>`
-element. Geras uses three. And zelos uses one `<path>` for the outside of the
-block and one `<path>` for each inline input. An important consequence of this
-is that you need to write different CSS rules for different renderers.)
+Note that different renderers use different numbers of `<path>` elements to
+draw a block: Thrasos uses a single `<path>` element, Geras uses three `<path>`
+elements, and Zelos uses one `<path>` for the outside of the block and one
+`<path>` for each inline input.
 
 #### Choose colours
 
@@ -534,11 +540,11 @@ The Halloween theme in the themes codelab sets three colours:
     'logic_blocks': {
       'colourPrimary': "#8b4513",
       'colourSecondary':"#ff0000",
-      'colourTertiary':"#C5EAFF"
+      'colourTertiary':"#c5eaff"
     },
 ```
 
-How these colours are used depends on the renderer. The thrasos renderer uses
+How these colours are used depends on the renderer. The Thrasos renderer uses
 the primary colour as the `fill` of the block, the tertiary colour as the
 `stroke`, and the secondary colour as the `fill` when the block is a
 [shadow block](https://developers.google.com/blockly/guides/configure/web/toolboxes/preset#shadow_blocks).
@@ -566,8 +572,8 @@ blocks:
 }
 ```
 
-Refresh your web page and open the **Logic** category. You should see something
-like this:
+Refresh your web page and open the **Logic** category. You should see that the
+logic blocks are now rendered in autumnal brown instead of blue:
 
 ![A Blockly editor with the Logic category open. The blocks in the flyout are
 brown.](blocks-logic.png)
