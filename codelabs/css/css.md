@@ -14,6 +14,11 @@ In this codelab you will learn how to use CSS to customize the colours of:
 -   Categories
 -   Blocks
 
+If you don't need the fine-grained control provided by CSS, consider using
+themes instead. For more information, see the
+[Customizing your themes](https://blocklycodelabs.dev/codelabs/theme-extension-identifier/index.html#0)
+codelab.
+
 ### What you'll build
 
 A simple Blockly workspace that uses the same Halloween colours as the
@@ -489,7 +494,7 @@ several steps.
 Your first step is to set the `fill` and `stroke` of the logic blocks.
 
 Note that setting the `fill` and `stroke` is specific to the
-[renderer](https://developers.google.com/blockly/guides/create-custom-blocks/renderers/overview),
+[renderer](https://developers.google.com/blockly/guides/create-custom-blocks/renderers/overview)
 you are using. (In this codelab, you are using the Thrasos renderer.) An
 important consequence of this is that you need different CSS for different
 renderers.
