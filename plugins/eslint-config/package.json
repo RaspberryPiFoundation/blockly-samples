@@ -34,8 +34,7 @@
     "eslint": "7.x"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://wombat-dressing-room.appspot.com"
+    "access": "public"
   },
   "engines": {
     "node": ">=10.0.0"

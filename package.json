@@ -51,8 +51,7 @@
     "typescript": "^5.5.4"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://wombat-dressing-room.appspot.com"
+    "access": "public"
   },
   "workspaces": [
     "plugins/*"

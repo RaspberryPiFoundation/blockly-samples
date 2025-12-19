@@ -53,8 +53,7 @@
     "@blockly/plugin-modal": "^8.0.4"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://wombat-dressing-room.appspot.com"
+    "access": "public"
   },
   "engines": {
     "node": ">=8.17.0"

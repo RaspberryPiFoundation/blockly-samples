@@ -32,8 +32,7 @@
     "semver": "^7.3.5"
   },
   "publishConfig": {
-    "access": "public",
-    "registry": "https://wombat-dressing-room.appspot.com"
+    "access": "public"
   },
   "engines": {
     "node": ">=8.17.0"

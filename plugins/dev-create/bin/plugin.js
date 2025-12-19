@@ -144,7 +144,6 @@ exports.createPlugin = function (pluginName, options) {
     publishConfig: isFirstParty
       ? {
           access: 'public',
-          registry: 'https://wombat-dressing-room.appspot.com',
         }
       : {},
     eslintConfig: {
