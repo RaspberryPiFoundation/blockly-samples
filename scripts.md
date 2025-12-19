@@ -23,7 +23,7 @@ https://YOURUSERNAME.github.io/blockly-samples/.
 
 This script is similar to `npm run deploy` but it deploys the plugins to
 `blockly-samples` upstream. You can browse these plugin playgrounds at:
-https://google.github.io/blockly-samples/.
+https://raspberrypifoundation.github.io/blockly-samples/.
 
 ### `npm run license`
 

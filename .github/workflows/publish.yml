@@ -8,14 +8,15 @@ on:
     - cron: '5 17 * * 4' # Thursdays at 17:05 UTC (09:05 PST / 10:05 PDT)
 
 permissions:
+  id-token: write # Required for OIDC.
   contents: write # For checkout and tag.
   packages: write # For publish.
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # Don't try to publish from a fork of google/blockly-samples.
-    if: ${{ github.repository_owner == 'google' }}
+    # Don't try to publish from a fork of RaspberryPiFoundation/blockly-samples.
+    if: ${{ github.repository_owner == 'RaspberryPiFoundation' }}
 
     # Environment specific to releasing so we can isolate the npm token.
     environment: release
@@ -26,7 +27,7 @@ jobs:
         # fetch all tags and commits so that lerna can version appropriately
         with:
           fetch-depth: 0
-          ref: 'master'
+          ref: 'main'
 
       # This uses a reverse-engineered email for the github actions bot. See
       # https://github.com/actions/checkout/issues/13#issuecomment-724415212
@@ -39,11 +40,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-
-      - name: Configure npm
-        run: npm config set //wombat-dressing-room.appspot.com/:_authToken=$NODE_AUTH_TOKEN
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.RELEASE_BACKED_NPM_TOKEN }}
 
       - name: NPM install
         # Use CI so that we don't update dependencies in this step.
@@ -64,6 +60,6 @@ jobs:
     name: Update GitHub Pages
     # Call the Update gh-pages workflow only if publishing succeeds
     needs: [publish]
-    # Don't try to auto-update if on a fork of google/blockly-samples.
-    if: ${{ github.repository_owner == 'google' }}
+    # Don't try to auto-update if on a fork of RaspberryPiFoundation/blockly-samples.
+    if: ${{ github.repository_owner == 'RaspberryPiFoundation' }}
     uses: ./.github/workflows/update_gh_pages.yml

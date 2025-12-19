@@ -69,15 +69,15 @@ function injectFooter(initialContents) {
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">
@@ -107,7 +107,7 @@ function injectFooter(initialContents) {
  * @returns {string} The modified contents of the page, as a string.
  */
 function injectPluginNavBar(inputString, packageJson, pluginDir, isLocal) {
-  const codeLink = `https://github.com/google/blockly-samples/blob/master/plugins/${pluginDir}`;
+  const codeLink = `https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/${pluginDir}`;
   const npmLink = `https://www.npmjs.com/package/${packageJson.name}`;
   const baseURL = isLocal ? '/' : '/blockly-samples/';
 
@@ -367,7 +367,7 @@ function injectExampleNavBar(inputString, demoConfig, pageRoot, isLocal) {
   const descriptionString = demoConfig.description
     ? `<div class="subtitle">${demoConfig.description}</div>`
     : ``;
-  const codeLink = `https://github.com/google/blockly-samples/blob/master/${pageRoot}`;
+  const codeLink = `https://github.com/raspberrypifoundation/blockly-samples/blob/main/${pageRoot}`;
 
   const pages = demoConfig.pages;
   const tabString = pages ? createExampleTabs(pageRoot, pages, isLocal) : '';
@@ -594,10 +594,10 @@ function createIndexPage(isLocal) {
   <!-- HEADER -->
   <nav id="toolbar">
     <div class="site-width layout horizontal">
-      <a href="https://google.github.io/blockly-samples/"><img src="https://blocklycodelabs.dev/images/logo_knockout.png" class="logo-devs"
+      <a href="https://raspberrypifoundation.github.io/blockly-samples/"><img src="https://blocklycodelabs.dev/images/logo_knockout.png" class="logo-devs"
           alt="Blockly" /></a>
     </div>
-    <a class="button" href="https://github.com/google/blockly-samples">View on GitHub</a>
+    <a class="button" href="https://github.com/raspberrypifoundation/blockly-samples">View on GitHub</a>
   </nav>
   <main id="main" class="index">
     <div class="drop-shadow"></div>

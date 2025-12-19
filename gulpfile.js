@@ -66,7 +66,7 @@ function prepareForPublish(done) {
       `${path.resolve(releaseDir)}`,
   );
   execSync(
-    `git clone https://github.com/google/blockly-samples ${releaseDir}`,
+    `git clone https://github.com/RaspberryPiFoundation/blockly-samples ${releaseDir}`,
     {stdio: 'pipe'},
   );
 
@@ -84,7 +84,7 @@ function prepareForPublish(done) {
 
   // Login to npm.
   console.log('Logging in to npm.');
-  execSync(`npm login --registry https://wombat-dressing-room.appspot.com`, {
+  execSync(`npm login`, {
     stdio: 'inherit',
   });
   done();
@@ -304,7 +304,9 @@ function deployToGhPagesOrigin(done) {
  * @returns {Function} Gulp task.
  */
 function deployToGhPagesUpstream(done) {
-  return deployToGhPages('https://github.com/google/blockly-samples.git')(done);
+  return deployToGhPages(
+    'https://github.com/RaspberryPiFoundation/blockly-samples.git',
+  )(done);
 }
 
 module.exports = {
