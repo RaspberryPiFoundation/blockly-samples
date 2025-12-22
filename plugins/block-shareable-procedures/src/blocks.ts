@@ -361,7 +361,7 @@ const procedureDefUpdateShapeMixin = {
         this.moveInputBefore('STACK', 'RETURN');
       }
       // Restore the stack, if one was saved.
-      this.statementConnection_?.(this, 'STACK');
+      this.statementConnection_?.reconnect(this, 'STACK');
       this.statementConnection_ = null;
     } else {
       // Save the stack, then disconnect it.
