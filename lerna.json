@@ -4,5 +4,6 @@
   "changelogPreset": {
     "name": "conventionalcommits"
   },
-  "ignoreChanges": ["**/package-lock.json"]
+  "ignoreChanges": ["**/package-lock.json"],
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
