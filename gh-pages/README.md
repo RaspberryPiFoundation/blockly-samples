@@ -50,4 +50,4 @@ Note: Updating GitHub Pages is done automatically when publishing plugins throug
         npm run deploy:upstream
         ```
 
-        Test at https://google.github.io/blockly-samples/
+        Test at https://raspberrypifoundation.github.io/blockly-samples/

@@ -12,7 +12,7 @@ npm install @blockly/dev-tools -D --save
 
 ### Playground
 
-The playground is a tremendously useful tool for debugging your Blockly project. As a preview, here is [one of the plugin playgrounds](https://google.github.io/blockly-samples/plugins/theme-modern/test/). The playground features are:
+The playground is a tremendously useful tool for debugging your Blockly project. As a preview, here is [one of the plugin playgrounds](https://raspberrypifoundation.github.io/blockly-samples/plugins/theme-modern/test/). The playground features are:
 
 - All the default blocks
 - All the language generators (JavaScript, Python, PHP, Lua, and Dart)
