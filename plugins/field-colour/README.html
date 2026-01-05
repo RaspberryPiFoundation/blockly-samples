@@ -24,9 +24,9 @@
       <div class="title">@blockly/field-colour Demo</div>
       <div class="subtitle">A Blockly colour field.</div>
     </div>
-    6.0.4
+    6.0.10
 
-    <a href="https://github.com/google/blockly-samples/blob/master/plugins/field-colour" class="button" target="_blank">View code</a>
+    <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/field-colour" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/field-colour" class="button" target="_blank">View on npm</a>
   </nav>
   <!-- END NAV BAR -->
@@ -70,11 +70,11 @@ automatically be installed.</p>
 <code>value</code> is a string with the format <code>#rrggbb</code>, while its <code>text</code> may be a string
 with the format <code>#rgb</code> if possible.</p>
 <h4 id="colour-field">Colour field</h4>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/field-colour/readme-media/on_block.png" alt="" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/field-colour/readme-media/on_block.png" alt="" /></p>
 <h4 id="colour-field-with-editor-open">Colour field with editor open</h4>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/field-colour/readme-media/with_editor.png" alt="" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/field-colour/readme-media/with_editor.png" alt="" /></p>
 <h4 id="colour-field-on-collapsed-block">Colour field on collapsed block</h4>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/field-colour/readme-media/collapsed.png" alt="" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/field-colour/readme-media/collapsed.png" alt="" /></p>
 <h3 id="creation">Creation</h3>
 <h4 id="javascript">JavaScript</h4>
 <pre><code class="js language-js">import * as Blockly from 'blockly';
@@ -196,7 +196,7 @@ colours will be their <code>#rrggbb</code> value.</p>
   field.setColumns(3);
 });</code></pre>
 <p>This is done using a JSON
-<a href="https://developers.google.com/blockly/guides/create-custom-blocks/extensions">extension</a>.</p>
+<a href="https://developers.google.com/blockly/guides/create-custom-blocks/define/extensions">extension</a>.</p>
 <h4 id="javascript-1">JavaScript</h4>
 <pre><code class="js language-js">Blockly.Blocks['example_colour'] = {
   init: function () {
@@ -209,7 +209,7 @@ colours will be their <code>#rrggbb</code> value.</p>
     this.appendDummyInput().appendField('colour:').appendField(field, 'COLOUR');
   },
 };</code></pre>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/field-colour/readme-media/customized.png" alt="Customized colour field editor" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/field-colour/readme-media/customized.png" alt="Customized colour field editor" /></p>
 <h4 id="creating-a-colour-validator">Creating a colour validator</h4>
 <p>Note: For information on validators in general see <a href="https://developers.google.com/blockly/guides/create-custom-blocks/fields/validators">Validators</a>.</p>
 <p>A colour field's value is a <code>#rrggbb</code> format string, so any validators must
@@ -222,7 +222,7 @@ the colour of the field.</p>
   return newValue;
 }</code></pre>
 <h4 id="block-changing-colour-based-on-its-colour-field">Block changing colour based on its colour field</h4>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/field-colour/readme-media/validator.gif" alt="" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/field-colour/readme-media/validator.gif" alt="" /></p>
 <h3 id="blocks">Blocks</h3>
 <p>This package also provides four blocks related to the colour field. Each block
 has generators in JavaScript, Python, PHP, Lua, and Dart.</p>
@@ -264,21 +264,19 @@ colourBlend.installBlock({
   javascript: javascriptGenerator,
 });</code></pre>
 <h4 id="message-files-and-locales">Message files and locales</h4>
-<p>The blocks in this package contain text that can be
-<a href="https://developers.google.com/blockly/guides/create-custom-blocks/localize-blocks">localized</a>
-into multiple languages. As of August 2024, the relevant messages are
-included in the core Blockly language files.</p>
+<p>The blocks in this package contain text that can be localized into multiple
+languages. As of August 2024, the relevant messages are included in the core
+Blockly language files. For information on Blockly's approach to localization,
+see <a href="https://developers.google.com/blockly/guides/configure/web/translations">Localization</a>
+in the developer's guide.</p>
 <p>If your blocks show <code>%{BKY_COLOUR_BLEND_TITLE}</code> or similar text instead
 of the expected text, make sure that you either:</p>
 <ul>
-<li>Import the <a href="https://developers.google.com/blockly/guides/configure/web/translations#import_blockly_default_modules">default Blockly modules</a>,
-which includes the English langfiles, or</li>
-<li>Explicitly <a href="https://developers.google.com/blockly/guides/configure/web/translations#import_blockly_languages">import a language</a>
-and call <code>setLocale</code> before using these blocks.</li>
+<li>Import the default Blockly modules, which includes the English langfiles, or</li>
+<li>Explicitly import a language and call <code>setLocale</code> before using these blocks.</li>
 </ul>
-<p>For more information on Blockly's approach to localization, see the
-<a href="https://developers.google.com/blockly/guides/create-custom-blocks/localize-blocks">Localize Blocks</a>
-developer guide.</p>
+<p>For more information, see <a href="https://developers.google.com/blockly/guides/configure/web/translations#load-blockly">Load a Blockly localization
+table</a>.</p>
 <h3 id="api-reference">API Reference</h3>
 <ul>
 <li><code>setColours</code>: Sets the colour options, and optionally the titles for the
@@ -298,15 +296,15 @@ options. The colours should be an array of <code>#rrggbb</code> strings.</li>
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">

@@ -188,13 +188,13 @@ const toolbox = {
 function init() {
   // Inject primary workspace.
   const primaryWorkspace = Blockly.inject('primaryDiv', {
-    media: './node_modules/blockly/media/',
+    media: '../lib/blockly/media/',
     toolbox: toolbox,
     trashcan: true,
   });
   // Inject secondary workspace.
   const secondaryWorkspace = Blockly.inject('secondaryDiv', {
-    media: './node_modules/blockly/media/',
+    media: '../lib/blockly/media/',
     toolbox: toolbox,
     trashcan: true,
   });

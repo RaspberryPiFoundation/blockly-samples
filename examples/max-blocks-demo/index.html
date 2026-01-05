@@ -11,9 +11,9 @@
   <!-- END INJECTED HEADER -->
     <meta charset="utf-8" />
     <title>Maximum Block Limit</title>
-    <script src="./node_modules/blockly/blockly_compressed.js"></script>
-    <script src="./node_modules/blockly/blocks_compressed.js"></script>
-    <script src="./node_modules/blockly/msg/en.js"></script>
+    <script src="../lib/blockly/blockly_compressed.js"></script>
+    <script src="../lib/blockly/blocks_compressed.js"></script>
+    <script src="../lib/blockly/msg/en.js"></script>
     <style>
       body {
         background-color: #fff;
@@ -43,7 +43,7 @@
       <div class="subtitle">Limit the total number of blocks allowed (for academic exercises).</div>
     </div>
 
-    <a href="https://github.com/google/blockly-samples/blob/master/examples/max-blocks-demo" class="button" target="_blank">View code</a>
+    <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/examples/max-blocks-demo" class="button" target="_blank">View code</a>
   </nav>
   <!-- END NAV BAR -->
       <main id="main" class="has-tabs">
@@ -116,7 +116,7 @@
 
     <script>
       var demoWorkspace = Blockly.inject('blocklyDiv', {
-        media: './node_modules/blockly/media/',
+        media: '../lib/blockly/media/',
         maxBlocks: 5,
         toolbox: document.getElementById('toolbox'),
       });
@@ -139,15 +139,15 @@
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">

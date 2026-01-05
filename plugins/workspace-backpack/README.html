@@ -24,9 +24,9 @@
       <div class="title">@blockly/workspace-backpack Demo</div>
       <div class="subtitle">A Blockly plugin that adds Backpack support.</div>
     </div>
-    7.0.2
+    7.0.8
 
-    <a href="https://github.com/google/blockly-samples/blob/master/plugins/workspace-backpack" class="button" target="_blank">View code</a>
+    <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/workspace-backpack" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/workspace-backpack" class="button" target="_blank">View on npm</a>
   </nav>
   <!-- END NAV BAR -->
@@ -67,7 +67,7 @@
 <li>"Copy to Backpack" on a Block stack in main Workspace</li>
 <li>"Empty" option when right clicking the Backpack that is disabled if the Backpack is empty</li>
 </ul>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/workspace-backpack/readme-media/context-menu.gif" alt="An animated picture of all the context menu options in use" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/workspace-backpack/readme-media/context-menu.gif" alt="An animated picture of all the context menu options in use" /></p>
 <h2 id="usage">Usage</h2>
 <pre><code class="js language-js">import * as Blockly from 'blockly';
 import {Backpack} from '@blockly/workspace-backpack';
@@ -132,7 +132,7 @@ backpack image when the backpack has something in it.</p>
 context menu option from disabling the context menu option if the block is
 already in the Backpack. Setting this flag to <code>true</code> to disable the check can be
 beneficial for performance if you expect blocks stacks to be very large.</p>
-<p><img src="https://github.com/google/blockly-samples/raw/master/plugins/workspace-backpack/readme-media/context-menu-precondition.gif" alt="An animated picture of the &quot;Copy to Backpack&quot; context menu" /></p>
+<p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/workspace-backpack/readme-media/context-menu-precondition.gif" alt="An animated picture of the &quot;Copy to Backpack&quot; context menu" /></p>
 <p>Note: Currently the empty Backpack context menu is registered globally, while
 the others are registered per workspace.</p>
 <h3 id="blockly-languages">Blockly Languages</h3>
@@ -205,7 +205,7 @@ for <code>Blockly.Trashcan</code>. If a custom class is registered for either of
 types, then the Backpack Flyout may need to be tested for compatibility.</p>
 <h3 id="draggables">Draggables</h3>
 <p>If you have a custom draggable object, you can make it possible to add it to
-the backpack by implementing the <a href="https://github.com/google/blockly-samples/blob/master/plugins/workspace-backpack/src/backpack.ts"><code>Backpackable</code></a> interface.</p>
+the backpack by implementing the <a href="https://github.com/RaspberryPiFoundation/blockly-samples/blob/master/plugins/workspace-backpack/src/backpack.ts"><code>Backpackable</code></a> interface.</p>
 <p>This interface requires the draggable to have a method that converts it into
 <a href="https://developers.google.com/blockly/reference/js/blockly.utils_namespace.toolbox_namespace.flyoutiteminfo_typealias.md"><code>FlyoutItemInfo</code></a>. As of Blockly core v11 flyouts only support displaying blocks, buttons, and labels.</p>
 <h2 id="license">License</h2>
@@ -221,15 +221,15 @@ the backpack by implementing the <a href="https://github.com/google/blockly-samp
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">

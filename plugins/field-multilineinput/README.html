@@ -24,9 +24,9 @@
       <div class="title">@blockly/field-multilineinput Demo</div>
       <div class="subtitle">A Blockly multilineinput field.</div>
     </div>
-    6.0.2
+    6.0.7
 
-    <a href="https://github.com/google/blockly-samples/blob/master/plugins/field-multilineinput" class="button" target="_blank">View code</a>
+    <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/field-multilineinput" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/field-multilineinput" class="button" target="_blank">View on npm</a>
   </nav>
   <!-- END NAV BAR -->
@@ -51,23 +51,38 @@
     <article class="article-container site-width">
       <div class="article">
       <h1 id="blocklyfield-multilineinput-built-on-blocklyhttpstinyurlcombuilt-on-blocklyhttpsgithubcomgoogleblockly">@blockly/field-multilineinput <a href="https://github.com/google/blockly"><img src="https://tinyurl.com/built-on-blockly" alt="Built on Blockly" /></a></h1>
-<p>A <a href="https://www.npmjs.com/package/blockly">Blockly</a> multilineinput field and associated block.</p>
+<p>A <a href="https://www.npmjs.com/package/blockly">Blockly</a> multiline input field and
+associated block.</p>
+<h4 id="multiline-input-field">Multiline input field</h4>
+<p><img src="readme-media/on_block.png" alt="A block with the label &quot;multiline text input:&quot; and a multiline input field
+with the text &quot;default text \n with newline character." /></p>
+<h4 id="multiline-input-field-with-editor-open">Multiline input field with editor open</h4>
+<p><img src="readme-media/with_editor.png" alt="The same block with editor open." /></p>
+<h4 id="multiline-input-on-collapsed-block">Multiline input on collapsed block</h4>
+<p><img src="readme-media/collapsed.png" alt="The same block after being collapsed. It has the label &quot;multiline text input:
+defau…&quot; and a jagged right edge to show it is collapsed." /></p>
 <h2 id="installation">Installation</h2>
 <h3 id="yarn">Yarn</h3>
 <pre><code>yarn add @blockly/field-multilineinput</code></pre>
 <h3 id="npm">npm</h3>
 <pre><code>npm install @blockly/field-multilineinput --save</code></pre>
 <h2 id="usage">Usage</h2>
-<h3 id="field">Field</h3>
-<p>This field accepts up to 3 parameters:</p>
+<p>This plugin adds a field of type <code>FieldMultilineInput</code> that is registered with
+the name <code>'field_multilinetext'</code>. It is a subclass of <code>Blockly.FieldInput</code>.</p>
+<p>This field stores a string as its value and a string as its text. Its value is
+always a valid string, while its text could be any string entered into its
+editor. Unlike a text input field, this field also supports newline characters
+entered in the editor.</p>
+<p>The constructor for this field accepts three optional parameters:</p>
 <ul>
-<li>"text" to specify the default text. Defaults to <code>""</code>.</li>
-<li>"maxLines" to specify the maximum number of lines displayed before scrolling
+<li><code>value</code>: The default text. Defaults to <code>""</code>.</li>
+<li><code>validator</code>: A function that is called to validate what the user entered.</li>
+<li><code>config</code>: An object with three optional properties:<ul>
+<li><code>maxLines</code>: The maximum number of lines displayed before scrolling
 functionality is enabled. Defaults to <code>Infinity</code>.</li>
-<li>"spellcheck" to specify whether spell checking is enabled. Defaults to
-<code>true</code>.</li>
+<li><code>spellcheck</code>: Whether spell checking is enabled. Defaults to <code>true</code>.</li>
+<li><code>tooltip</code>: A tooltip.</li></ul></li>
 </ul>
-<p>The multiline input field is a subclass of Blockly.FieldInput</p>
 <p>If you want to use only the field, you must register it with Blockly. You can
 do this by calling <code>registerFieldMultilineInput</code> before instantiating your
 blocks. If another field is registered under the same name, this field will
@@ -103,6 +118,40 @@ Blockly.defineBlocksWithJsonArray([
                 "text": "some text \n with newlines"
             }
     }]);</code></pre>
+<h3 id="customization">Customization</h3>
+<h4 id="spellcheck">Spellcheck</h4>
+<p>The <code>setSpellcheck</code> function can be used to set whether the field spellchecks
+its input text or not. Spellchecking is on by default.</p>
+<p><img src="readme-media/spellcheck.gif" alt="An animation showing multiline text input fields with and without
+spellcheck." /></p>
+<p>This applies to individual fields. If you want to modify all fields change the
+<code>Blockly.FieldMultilineInput.prototype.spellcheck_</code> property.</p>
+<h4 id="validation">Validation</h4>
+<p>A multiline text input field's value is a string, so any validators must accept
+a string and return a string, <code>null</code>, or <code>undefined</code>.</p>
+<p>Here is an example of a validator that removes all 'a' characters from the
+string:</p>
+<pre><code>function(newValue) {
+  return newValue.replace(/a/gm, '');
+}</code></pre>
+<p><img src="readme-media/validator.gif" alt="An animation showing validation." /></p>
+<h3 id="serialization">Serialization</h3>
+<h4 id="json-1">JSON</h4>
+<p>The JSON for a multiline text input field looks like so:</p>
+<pre><code class="json language-json">{
+  "fields": {
+    "FIELDNAME": "line1\nline2"
+  }
+}</code></pre>
+<p>where <code>FIELDNAME</code> is a string referencing a multiline text input field, and the
+value is the value to apply to the field. The value follows the same rules as
+the constructor value.</p>
+<h4 id="xml">XML</h4>
+<p>The XML for a multiline text input field looks like so:</p>
+<pre><code class="xml language-xml">&lt;field name="FIELDNAME"&gt;line1&amp;amp;#10;line2&lt;/field&gt;</code></pre>
+<p>where the field's <code>name</code> attribute contains a string referencing a multiline
+text input field, and the inner text is the value to apply to the field. The
+inner text value follows the same rules as the constructor value.</p>
 <h3 id="blocks">Blocks</h3>
 <p>This package also provides a simple block containing a multiline input
 field. It has generators in JavaScript, Python, PHP, Lua, and Dart.</p>
@@ -149,15 +198,15 @@ scrolling functionality is enabled.</li>
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">

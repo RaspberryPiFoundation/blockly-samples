@@ -12,10 +12,10 @@
     <meta charset="utf-8" />
     <title>Graph</title>
     <script src="https://www.google.com/jsapi"></script>
-    <script src="./node_modules/blockly/blockly_compressed.js"></script>
-    <script src="./node_modules/blockly/blocks_compressed.js"></script>
-    <script src="./node_modules/blockly/javascript_compressed.js"></script>
-    <script src="./node_modules/blockly/msg/en.js"></script>
+    <script src="../lib/blockly/blockly_compressed.js"></script>
+    <script src="../lib/blockly/blocks_compressed.js"></script>
+    <script src="../lib/blockly/javascript_compressed.js"></script>
+    <script src="../lib/blockly/msg/en.js"></script>
 
     <style>
       body {
@@ -57,7 +57,7 @@
       <div class="subtitle">Instant updates when blocks are changed.</div>
     </div>
 
-    <a href="https://github.com/google/blockly-samples/blob/master/examples/graph-demo" class="button" target="_blank">View code</a>
+    <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/examples/graph-demo" class="button" target="_blank">View code</a>
   </nav>
   <!-- END NAV BAR -->
       <main id="main" class="has-tabs">
@@ -69,7 +69,7 @@
     <p>
       &rarr; More info on
       <a
-        href="https://developers.google.com/blockly/guides/configure/web/code-generators#generating_code"
+        href="https://developers.google.com/blockly/guides/app-integration/run-code#continuous_updates"
         >Realtime generation</a
       >&hellip;
     </p>
@@ -581,7 +581,7 @@
         Graph.workspace = Blockly.inject('blocklyDiv', {
           collapse: false,
           disable: false,
-          media: './node_modules/blockly/media/',
+          media: '../lib/blockly/media/',
           toolbox: toolbox,
         });
 
@@ -607,15 +607,15 @@
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">

@@ -24,9 +24,9 @@
       <div class="title">@blockly/dev-tools Demo</div>
       <div class="subtitle">A library of common utilities for Blockly extension development.</div>
     </div>
-    9.0.2
+    9.0.7
 
-    <a href="https://github.com/google/blockly-samples/blob/master/plugins/dev-tools" class="button" target="_blank">View code</a>
+    <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/dev-tools" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/dev-tools" class="button" target="_blank">View on npm</a>
   </nav>
   <!-- END NAV BAR -->
@@ -56,7 +56,7 @@
 <pre><code>npm install @blockly/dev-tools -D --save</code></pre>
 <h2 id="usage">Usage</h2>
 <h3 id="playground">Playground</h3>
-<p>The playground is a tremendously useful tool for debugging your Blockly project. As a preview, here is <a href="https://google.github.io/blockly-samples/plugins/theme-modern/test/">one of the plugin playgrounds</a>. The playground features are:</p>
+<p>The playground is a tremendously useful tool for debugging your Blockly project. As a preview, here is <a href="https://raspberrypifoundation.github.io/blockly-samples/plugins/theme-modern/test/">one of the plugin playgrounds</a>. The playground features are:</p>
 <ul>
 <li>All the default blocks</li>
 <li>All the language generators (JavaScript, Python, PHP, Lua, and Dart)</li>
@@ -110,7 +110,7 @@ const toolbox = generateFieldTestBlocks('field_template', [
 ]);</code></pre>
 <h3 id="test-helpers">Test Helpers</h3>
 <p>This package is also used in mocha tests, and exports a suite of useful test helpers.
-You can find the full list of helpers <a href="https://github.com/google/blockly-samples/blob/master/plugins/dev-tools/src/test_helpers.mocha.js">here</a>.</p>
+You can find the full list of helpers <a href="https://github.com/RaspberryPiFoundation/blockly-samples/blob/master/plugins/dev-tools/src/test_helpers.mocha.js">here</a>.</p>
 <h3 id="debug-renderer">Debug Renderer</h3>
 <p>The <a href="https://www.npmjs.com/package/@blockly/dev-tools">debug renderer</a> is a renderer plugin that wraps your normal
 renderer, and visualizes the measurements the <a href="https://developers.google.com/blocklyguides/create-custom-blocks/appearance/renderers/concepts/info">render info</a>
@@ -125,26 +125,26 @@ about the block it is trying to render.</p>
     <th>Description</th>
   </tr>
     <td><a href="https://developers.google.com/blocklyguides/create-custom-blocks/appearance/renderers/concepts/rows">Rows</a></td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/row.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/row.png"/></td>
     <td>The bounds of the individual rows in a block.</td>
   <tr>
     <td><a href="https://developers.google.com/blocklyguides/create-custom-blocks/appearance/renderers/concepts/rows#row_spacer">Row spacers</a></td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/row-spacer.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/row-spacer.png"/></td>
     <td>The bounds of the row spacers in a block.</td>
   </tr>
   <tr>
     <td><a href="https://developers.google.com/blocklyguides/create-custom-blocks/appearance/renderers/concepts/elements">Elements</a></td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/element.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/element.png"/></td>
     <td>The bounds of the elements in a block.</td>
   </tr>
   <tr>
     <td><a href="https://developers.google.com/blocklyguides/create-custom-blocks/appearance/renderers/concepts/elements#element_spacer">Element spacers</a></td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/element-spacer.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/element-spacer.png"/></td>
     <td>The bounds of the element spacers in a block.</td>
   </tr>
   <tr>
     <td>Connections</td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/connection.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/connection.png"/></td>
     <td>
       The locations of the connection points, with large circles for next and
       input connections (parent connections) and small circles for output and
@@ -153,14 +153,14 @@ about the block it is trying to render.</p>
   </tr>
   <tr>
     <td>Block bounds</td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/block-bounds.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/block-bounds.png"/></td>
     <td>
       The bounds of the block, not including any child blocks.
     </td>
   </tr>
   <tr>
     <td>Connectioned block bounds</td>
-    <td><img src="https://github.com/google/blockly-samples/raw/master/plugins/dev-tools/readme-media/block-bounds-with-children.png"/></td>
+    <td><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/dev-tools/readme-media/block-bounds-with-children.png"/></td>
     <td>
       The bounds of the block, including child blocks.
     </td>
@@ -216,15 +216,15 @@ logger.disableLogger(workspace);</code></pre>
         <ul>
           <li><a target="_blank" href="https://developers.google.com/blockly/guides/overview/">Developer Docs</a></li>
           <li><a target="_blank" href="https://blocklycodelabs.dev/">Codelabs</a></li>
-          <li><a target="_blank" href="https://google.github.io/blockly-samples/developer-tools/index.html">Developer
+          <li><a target="_blank" href="https://raspberrypifoundation.github.io/blockly-samples/developer-tools/index.html">Developer
               Tools</a></li>
         </ul>
       </div>
       <div class="link-list">
         <label>Github</label>
         <ul>
-          <li><a target="_blank" href="https://github.com/google/blockly/">Blockly Sources</a></li>
-          <li><a target="_blank" href="https://github.com/google/blockly-samples/">Blockly Samples</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly/">Blockly Sources</a></li>
+          <li><a target="_blank" href="https://github.com/raspberrypifoundation/blockly-samples/">Blockly Samples</a></li>
         </ul>
       </div>
       <div class="link-list">
