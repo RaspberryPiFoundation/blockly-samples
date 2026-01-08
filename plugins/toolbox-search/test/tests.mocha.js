@@ -148,7 +148,7 @@ suite('BlockSearcher', () => {
               options: [
                 [
                   {
-                    src: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEA',
+                    src: '',
                     width: 1,
                     height: 1,
                     alt: 'Sunny',
@@ -157,7 +157,7 @@ suite('BlockSearcher', () => {
                 ],
                 [
                   {
-                    src: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEA',
+                    src: '',
                     width: 1,
                     height: 1,
                     alt: 'Cloudy',
