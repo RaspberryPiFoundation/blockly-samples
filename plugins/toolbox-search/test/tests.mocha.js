@@ -101,10 +101,10 @@ suite('BlockSearcher', () => {
     searcher.indexBlocks([blockInfo]);
 
     assert.sameMembers(
-      searcher.blockTypesMatching('custom block with underscore'),
+      searcher.blockTypesMatching('searcher underscore block'),
       [blockInfo],
     );
-    assert.isEmpty(searcher.blockTypesMatching('custom_block_with_underscore'));
+    assert.isEmpty(searcher.blockTypesMatching('searcher_underscore_block'));
   });
 
   test('longer queries disambiguate similar blocks', () => {
