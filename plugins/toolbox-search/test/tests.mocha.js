@@ -130,8 +130,9 @@ suite('BlockSearcher', () => {
     const broadQueryMatches = searcher.blockTypesMatching('alpha bravo');
     assert.sameMembers(broadQueryMatches, [blockA, blockB]);
 
-    const specificQueryMatches =
-      searcher.blockTypesMatching('alpha bravo charlie');
+    const specificQueryMatches = searcher.blockTypesMatching(
+      'alpha bravo charlie',
+    );
     assert.sameMembers(specificQueryMatches, [blockA]);
   });
 
