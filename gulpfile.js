@@ -48,7 +48,7 @@ function checkLicenses() {
 /**
  * Prepare for publishing. Must be run before any manual publish command.
  *
- * Clones blockly-samples, runs build and tests, logs into npm publish service.
+ * Clones blockly-samples, runs build and tests.
  * @param {Function} done Completed callback.
  */
 function prepareForPublish(done) {
@@ -82,11 +82,6 @@ function prepareForPublish(done) {
   console.log('Testing all plugins.');
   execSync('npm run test', {cwd: releaseDir, stdio: 'inherit'});
 
-  // Login to npm.
-  console.log('Logging in to npm.');
-  execSync(`npm login`, {
-    stdio: 'inherit',
-  });
   done();
 }
 
@@ -100,7 +95,7 @@ function exitIfNoReleaseDir(releaseDir, done) {
   if (!fs.existsSync(releaseDir)) {
     console.error(
       `No release directory ${releaseDir} exists. ` +
-        `Did you run 'npm run publish:prepare'?`,
+        `blockly-samples may not have been cloned correctly.`,
     );
     done();
     process.exit(1);
@@ -108,8 +103,7 @@ function exitIfNoReleaseDir(releaseDir, done) {
 }
 
 /**
- * This script does not log into the npm publish service. If you haven't run
- * the prepare script recently, publishing will fail for that reason.
+ * Publishes plugins using lerna. MUST be run after `prepareForPublish`.
  * @param {boolean=} force True for forcing all plugins to publish, even ones
  *     that have not changed.
  * @returns {Function} Gulp task.
@@ -141,8 +135,8 @@ function publish(force) {
  * @param {Function} done Completed callback.
  * @returns {Function} Gulp task.
  */
-function publishManual(done) {
-  return publish(false)(done);
+function prepareAndPublish(done) {
+  return gulp.series(prepareForPublish, publish(false))(done);
 }
 
 /**
@@ -151,8 +145,8 @@ function publishManual(done) {
  * @param {Function} done Completed callback.
  * @returns {Function} Gulp task.
  */
-function forcePublish(done) {
-  return publish(true)(done);
+function prepareAndForcePublish(done) {
+  return gulp.series(prepareForPublish, publish(true))(done);
 }
 
 /**
@@ -179,6 +173,16 @@ function publishFromPackage(done) {
 }
 
 /**
+ * Publishes plugins that haven't been previously uploaded to npm.
+ * Also runs the prepare scripts to ensure plugins have been built and tested before publishing.
+ * @param {Function} done Completed callback.
+ * @returns {Function} Gulp task.
+ */
+function prepareAndPublishFromPackage(done) {
+  return gulp.series(prepareForPublish, publishFromPackage)(done);
+}
+
+/**
  * Runs lerna version to check which version numbers would be updated.
  * The version numbers will not be pushed and no tags or releases will
  * be created, even if you answer 'yes' to the prompt.
@@ -200,6 +204,15 @@ function checkVersions(done) {
   );
 
   done();
+}
+
+/**
+ * Runs prepareForPublish and then checkVersions.
+ * @param {Function} done Completed callback.
+ * @returns {Function} Gulp task.
+ */
+function prepareAndCheckVersions(done) {
+  return gulp.series(prepareForPublish, checkVersions)(done);
 }
 
 /**
@@ -312,10 +325,10 @@ module.exports = {
   deployUpstream: deployToGhPagesUpstream,
   predeploy: predeployTasks.predeployAll,
   prepareForPublish: prepareForPublish,
-  publishManual: publishManual,
-  forcePublish: forcePublish,
-  publishFromPackage: publishFromPackage,
-  checkVersions: checkVersions,
+  publishManual: prepareAndPublish,
+  forcePublish: prepareAndForcePublish,
+  publishFromPackage: prepareAndPublishFromPackage,
+  checkVersions: prepareAndCheckVersions,
   testGhPagesBeta: testGhPagesLocally(true),
   testGhPages: testGhPagesLocally(false),
 };
