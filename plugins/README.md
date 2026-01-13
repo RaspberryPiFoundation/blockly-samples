@@ -43,8 +43,6 @@ tag on [npm](https://www.npmjs.com/search?q=%40blockly).
   plugin based on a pre-existing template.
 - [`@blockly/migrate`](migration/): A tool for migrating apps built on Blockly
   to newer versions of Blockly that make breaking changes.
-- [`@blockly/eslint-config`](eslint-config/): ESlint configuration used by
-  Blockly plugins.
 - [`@blockly/dev-tool`](dev-tools/): A library of common utilities for Blockly
   plugin development.
 - [`@blockly/dev-scripts`](dev-scripts/): Configuration and scripts for Blockly
