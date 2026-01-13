@@ -624,6 +624,9 @@ export default {
         {
           type: 'lists_create_with',
           kind: 'block',
+          extraState: {
+            itemCount: 0,
+          },
         },
         {
           type: 'lists_create_with',
