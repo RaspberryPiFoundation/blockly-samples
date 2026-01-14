@@ -72,8 +72,17 @@ export class ContinuousFlyout extends Blockly.VerticalFlyout {
    *
    * @returns Toolbox that owns this flyout.
    */
-  private getParentToolbox(): ContinuousToolbox {
-    return this.targetWorkspace.getToolbox() as ContinuousToolbox;
+  private getParentToolbox(): ContinuousToolbox | null {
+    const toolbox = this.targetWorkspace.getToolbox();
+    if (!toolbox || toolbox instanceof ContinuousToolbox) return toolbox;
+
+    console.log(
+      'Expected a `ContinuousToolbox` instance but did not find one. ' +
+      'Make sure `registerContinuousToolbox()` has been called and the ' +
+      'continuous toolbox has been injected.'
+    );
+
+    return null;
   }
 
   /**
@@ -110,7 +119,7 @@ export class ContinuousFlyout extends Blockly.VerticalFlyout {
       // Note that `FlyoutButton` represents both buttons and labels.
       element instanceof Blockly.FlyoutButton &&
       element.isLabel() &&
-      this.getParentToolbox().getCategoryByName(element.getButtonText())
+      this.getParentToolbox()?.getCategoryByName(element.getButtonText())
     );
   }
 
@@ -146,7 +155,7 @@ export class ContinuousFlyout extends Blockly.VerticalFlyout {
       ...this.scrollPositions.entries(),
     ].reverse()) {
       if (scaledPosition >= position) {
-        this.getParentToolbox().selectCategoryByName(name);
+        this.getParentToolbox()?.selectCategoryByName(name);
         return;
       }
     }
@@ -271,7 +280,7 @@ export class ContinuousFlyout extends Blockly.VerticalFlyout {
     super.show(flyoutDef);
     this.recordScrollPositions();
     this.getWorkspace().resizeContents();
-    if (!this.getParentToolbox().getSelectedItem()) {
+    if (!this.getParentToolbox()?.getSelectedItem()) {
       this.selectCategoryByScrollPosition(0);
     }
     this.getRecyclableInflater().emptyRecycledBlocks();
