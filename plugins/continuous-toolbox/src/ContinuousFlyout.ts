@@ -76,10 +76,10 @@ export class ContinuousFlyout extends Blockly.VerticalFlyout {
     const toolbox = this.targetWorkspace.getToolbox();
     if (!toolbox || toolbox instanceof ContinuousToolbox) return toolbox;
 
-    console.log(
+    console.warn(
       'Expected a `ContinuousToolbox` instance but did not find one. ' +
-      'Make sure `registerContinuousToolbox()` has been called and the ' +
-      'continuous toolbox has been injected.'
+        'Make sure `registerContinuousToolbox()` has been called and the ' +
+        'continuous toolbox has been injected.',
     );
 
     return null;
