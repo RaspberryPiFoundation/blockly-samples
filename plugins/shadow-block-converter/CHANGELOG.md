@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.9](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/shadow-block-converter@7.0.8...@blockly/shadow-block-converter@7.0.9) (2026-01-15)
+
+**Note:** Version bump only for package @blockly/shadow-block-converter
+
+
+
+
+
 ## [7.0.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/shadow-block-converter@7.0.7...@blockly/shadow-block-converter@7.0.8) (2026-01-05)
 
 

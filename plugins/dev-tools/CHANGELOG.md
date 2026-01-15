@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/dev-tools@9.0.7...@blockly/dev-tools@9.0.8) (2026-01-15)
+
+
+### Bug Fixes
+
+* Restore `extraState` to `lists_create_with` in the sample toolbox ([#2670](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2670)) ([ecaf83f](https://github.com/RaspberryPiFoundation/blockly-samples/commit/ecaf83f1f85b67921d3463087d76b02f5e21e132))
+
+
+
 ## [9.0.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/dev-tools@9.0.6...@blockly/dev-tools@9.0.7) (2026-01-05)
 
 

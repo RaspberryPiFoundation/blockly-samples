@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/plugin-cross-tab-copy-paste@8.0.6...@blockly/plugin-cross-tab-copy-paste@8.0.7) (2026-01-15)
+
+**Note:** Version bump only for package @blockly/plugin-cross-tab-copy-paste
+
+
+
+
+
 ## [8.0.6](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/plugin-cross-tab-copy-paste@8.0.5...@blockly/plugin-cross-tab-copy-paste@8.0.6) (2026-01-05)
 
 

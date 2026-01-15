@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/field-date@10.0.7...@blockly/field-date@10.0.8) (2026-01-15)
+
+**Note:** Version bump only for package @blockly/field-date
+
+
+
+
+
 ## [10.0.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/field-date@10.0.6...@blockly/field-date@10.0.7) (2026-01-05)
 
 

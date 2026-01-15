@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/toolbox-search@3.1.7...@blockly/toolbox-search@3.1.8) (2026-01-15)
+
+
+### Bug Fixes
+
+* toolbox search final trigram ([#2648](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2648)) ([3998b81](https://github.com/RaspberryPiFoundation/blockly-samples/commit/3998b81bccbfea6646717695792f8eda64c222ba))
+
+
+
 ## [3.1.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/toolbox-search@3.1.6...@blockly/toolbox-search@3.1.7) (2026-01-05)
 
 

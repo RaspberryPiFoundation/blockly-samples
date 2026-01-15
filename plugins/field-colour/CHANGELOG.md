@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.11](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/field-colour@6.0.10...@blockly/field-colour@6.0.11) (2026-01-15)
+
+**Note:** Version bump only for package @blockly/field-colour
+
+
+
+
+
 ## [6.0.10](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/field-colour@6.0.9...@blockly/field-colour@6.0.10) (2026-01-05)
 
 

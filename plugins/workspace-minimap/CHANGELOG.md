@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/workspace-minimap@0.3.7...@blockly/workspace-minimap@0.3.8) (2026-01-15)
+
+**Note:** Version bump only for package @blockly/workspace-minimap
+
+
+
+
+
 ## [0.3.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/workspace-minimap@0.3.6...@blockly/workspace-minimap@0.3.7) (2026-01-05)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/continuous-toolbox@7.0.7...@blockly/continuous-toolbox@7.0.8) (2026-01-15)
+
+
+### Bug Fixes
+
+* Remove unsafe cast in ContinuousFlyout ([#2671](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2671)) ([5d84f65](https://github.com/RaspberryPiFoundation/blockly-samples/commit/5d84f65d6689d3c73839f4e0b012f2547bb22d47))
+
+
+
 ## [7.0.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/continuous-toolbox@7.0.6...@blockly/continuous-toolbox@7.0.7) (2026-01-05)
 
 
