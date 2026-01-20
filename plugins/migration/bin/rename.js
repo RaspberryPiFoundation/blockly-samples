@@ -16,7 +16,7 @@ import {readFileSync, statSync, writeFileSync} from 'fs';
 import * as versionUtils from './versions.js';
 import JSON5 from 'json5';
 
-const DATABASE_URL = `https://raw.githubusercontent.com/google/blockly/master/scripts/migration/renamings.json5`;
+const DATABASE_URL = `https://raw.githubusercontent.com/RaspberryPiFoundation/blockly/main/packages/blockly/scripts/migration/renamings.json5`;
 
 export const rename = createSubCommand(
   'rename',
@@ -57,7 +57,7 @@ export const rename = createSubCommand(
 /**
  * Gets the database of renames.
  * @param {string=} url The URL to fetch the renamings database from, or
- *     undefined to fetch from master.
+ *     undefined to fetch from main.
  * @returns {!Promise<!Object>} The database of renames as an object.
  */
 export async function getDatabase(url = undefined) {
@@ -69,7 +69,7 @@ export async function getDatabase(url = undefined) {
     if (e instanceof SyntaxError) {
       process.stderr.write(
         'Unable to parse the renamings database. Please ' +
-          'report the issue at github.com/google/blockly/issues/new/choose\n',
+          'report the issue at github.com/RaspberryPiFoundation/blockly/issues/new/choose\n',
       );
       process.exit();
     }
