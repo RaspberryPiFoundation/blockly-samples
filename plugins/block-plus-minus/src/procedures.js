@@ -479,7 +479,7 @@ const procedureDefMutator = {
     /**
      * Returns true if the given argDatum is associated with this field, or has
      * a different caseless name than the argDatum associated with this field.
-     * @param {{model: Blockly.VariableModel, argId:string}} argDatum The
+     * @param {{model: Blockly.IVariableModel, argId:string}} argDatum The
      *     argDatum we want to make sure does not conflict with the argDatum
      *     associated with this field.
      * @returns {boolean} True if the given datum does not conflict with the
@@ -574,7 +574,7 @@ const procedureDefHelper = function () {
    * An array of objects containing data about the args belonging to the
    * procedure definition.
    * @type {!Array<{
-   *          model:Blockly.VariableModel,
+   *          model:Blockly.IVariableModel,
    *          argId: string
    *       }>}
    * @private
@@ -624,7 +624,7 @@ const procedureVars = function () {
 
     /**
      * Return all variables referenced by this block.
-     * @returns {!Array.<!Blockly.VariableModel>} List of variable models.
+     * @returns {!Array.<!Blockly.IVariableModel>} List of variable models.
      * @this {Blockly.Block}
      */
     getVarModels: function () {
@@ -659,7 +659,7 @@ const procedureVars = function () {
     /**
      * Notification that a variable is renaming but keeping the same ID.  If the
      * variable is in use on this block, rerender to show the new name.
-     * @param {!Blockly.VariableModel} variable The variable being renamed.
+     * @param {!Blockly.IVariableModel} variable The variable being renamed.
      * @package
      * @override
      * @this {Blockly.Block}
