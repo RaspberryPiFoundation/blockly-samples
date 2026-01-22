@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.9](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/block-plus-minus@9.0.8...@blockly/block-plus-minus@9.0.9) (2026-01-22)
+
+
+### Bug Fixes
+
+* Update JSDoc types in plus-minus procedure blocks ([#2673](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2673)) ([25142c1](https://github.com/RaspberryPiFoundation/blockly-samples/commit/25142c1a5aff0b3fb01890ca83ee9b2d5bb0278b))
+
+
+
 ## [9.0.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/block-plus-minus@9.0.7...@blockly/block-plus-minus@9.0.8) (2026-01-15)
 
 **Note:** Version bump only for package @blockly/block-plus-minus

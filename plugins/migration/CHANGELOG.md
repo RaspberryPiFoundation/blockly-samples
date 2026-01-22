@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.8](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/migrate@3.0.7...@blockly/migrate@3.0.8) (2026-01-22)
+
+
+### Bug Fixes
+
+* Update URLs in migration plugin ([#2672](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2672)) ([81b6279](https://github.com/RaspberryPiFoundation/blockly-samples/commit/81b6279a4286833dc92015c2b86a3139e52ac39a))
+
+
+
 ## [3.0.7](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/migrate@3.0.6...@blockly/migrate@3.0.7) (2026-01-05)
 
 
