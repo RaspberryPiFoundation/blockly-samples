@@ -467,32 +467,47 @@ export class Backpack
    * @returns The JSON object as a string.
    */
   private blockToJsonString(block: Blockly.Block): string {
-    const json = Blockly.serialization.blocks.save(block);
+    const json = Blockly.serialization.blocks.save(
+      block,
+    ) as Blockly.utils.toolbox.FlyoutItemInfo | null;
 
-    // Add a 'kind' key so the flyout can recognize it as a block.
-    (json as Blockly.utils.toolbox.FlyoutItemInfo).kind = 'BLOCK';
+    if (json) {
+      // Add a 'kind' key so the flyout can recognize it as a block.
+      json.kind = 'BLOCK';
+      this.cleanFlyoutInfo(json);
+    }
 
+    return JSON.stringify(json);
+  }
+
+  /**
+   * Removes unnecessary keys from flyout info in place.
+   *
+   * @param dirtyInfo The flyout info object to clean.
+   */
+  private cleanFlyoutInfo(dirtyInfo: Blockly.utils.toolbox.FlyoutItemInfo) {
     // The keys to remove.
-    const keys = ['id', 'height', 'width', 'pinned', 'enabled'];
+    const removeKeys = ['id', 'height', 'width', 'pinned', 'enabled'];
 
-    // Traverse the JSON recursively.
-    const traverseJson = function (json: StateWithIndex, keys: string[]) {
-      for (const key in json) {
-        if (key) {
-          if (keys.indexOf(key) !== -1) {
-            delete json[key];
-          }
-          if (json[key] && typeof json[key] === 'object') {
-            traverseJson(json[key] as StateWithIndex, keys);
-          }
+    // Traverse the object recursively.
+    const traverseClean = function (
+      obj: {[key: string]: unknown},
+      keys: string[],
+    ) {
+      for (const key of Object.keys(obj)) {
+        if (keys.indexOf(key) !== -1) {
+          delete obj[key];
+          continue;
+        }
+
+        const item = obj[key];
+        if (item !== null && typeof item === 'object') {
+          traverseClean(item as {[key: string]: unknown}, keys);
         }
       }
     };
 
-    if (json) {
-      traverseJson(json as StateWithIndex, keys);
-    }
-    return JSON.stringify(json);
+    traverseClean(dirtyInfo as unknown as {[key: string]: unknown}, removeKeys);
   }
 
   /**
@@ -1032,8 +1047,4 @@ class BackpackSerializer {
     const backpack = componentManager.getComponent('backpack') as Backpack;
     backpack?.empty();
   }
-}
-
-interface StateWithIndex extends Blockly.serialization.blocks.State {
-  [key: string]: unknown;
 }
