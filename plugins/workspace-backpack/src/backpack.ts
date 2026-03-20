@@ -487,7 +487,14 @@ export class Backpack
    */
   private cleanFlyoutInfo(dirtyInfo: Blockly.utils.toolbox.FlyoutItemInfo) {
     // The keys to remove.
-    const removeKeys = ['id', 'height', 'width', 'pinned', 'enabled'];
+    const removeKeys = [
+      'id',
+      'height',
+      'width',
+      'pinned',
+      'enabled',
+      'disabledReasons',
+    ];
 
     // Traverse the object recursively.
     const traverseClean = function (
@@ -615,7 +622,10 @@ export class Backpack
       backpackables
         .map((b) => b.toFlyoutInfo())
         .reduce((acc, curr) => [...acc, ...curr])
-        .map((info) => JSON.stringify(info)),
+        .map((info) => {
+          this.cleanFlyoutInfo(info);
+          return JSON.stringify(info);
+        }),
     );
   }
 
