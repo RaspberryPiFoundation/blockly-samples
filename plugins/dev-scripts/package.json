@@ -2,9 +2,6 @@
   "name": "@blockly/dev-scripts",
   "version": "4.0.11",
   "description": "Configuration and scripts for Blockly plugins.",
-  "scripts": {
-    "lint": "eslint ."
-  },
   "bin": {
     "blockly-scripts": "./bin/blockly-scripts.js"
   },
@@ -26,10 +23,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/code-frame": "^7.8.3",
-    "@blockly/eslint-config": "^4.0.1",
     "chalk": "^4.0.0",
-    "eslint": "^7.15.0",
-    "eslint-webpack-plugin": "^3.0.0",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
     "mocha": "^10.7.0",
     "rimraf": "^3.0.2",
