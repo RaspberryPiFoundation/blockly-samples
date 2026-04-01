@@ -78,7 +78,9 @@ function copyFilesWithBase(sources, baseDir, destRoot) {
     }
     const rel = path.relative(baseResolved, path.resolve(srcPath));
     if (rel.startsWith('..') || path.isAbsolute(rel)) {
-      throw new Error(`Source ${srcPath} is not under base directory ${baseDir}`);
+      throw new Error(
+        `Source ${srcPath} is not under base directory ${baseDir}`,
+      );
     }
     const destPath = path.join(destRootResolved, rel);
     fs.mkdirSync(path.dirname(destPath), {recursive: true});
