@@ -1,20 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs').promises;
 const path = require('path');
-
-async function copyDir(src, dest) {
-  await fs.mkdir(dest, {recursive: true});
-  const entries = await fs.readdir(src, {withFileTypes: true});
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
-      await copyDir(srcPath, destPath);
-    } else if (entry.isFile()) {
-      await fs.copyFile(srcPath, destPath);
-    }
-  }
-}
+const {copyDirectoryContents} = require('./copy-helpers');
 
 (async () => {
   const destRoot = path.resolve(__dirname, '..', 'examples', 'lib');
@@ -54,7 +41,7 @@ async function copyDir(src, dest) {
 
     // Copy the entire blockly package into destRoot (preserves README, dist, msg, media, etc.)
     try {
-      await copyDir(blocklyDir, blocklyRoot);
+      await copyDirectoryContents(blocklyDir, blocklyRoot);
       console.log('Blockly copied to', blocklyRoot);
     } catch (e) {
       console.error('Failed to copy Blockly package:', e);
@@ -88,7 +75,7 @@ async function copyDir(src, dest) {
                 distExists = false;
               }
               if (distExists) {
-                await copyDir(srcDist, path.join(dest, 'dist'));
+                await copyDirectoryContents(srcDist, path.join(dest, 'dist'));
                 copiedLocal.push(shortName);
                 console.log(
                   `Copied local @blockly/${shortName}/dist to ${path.join(

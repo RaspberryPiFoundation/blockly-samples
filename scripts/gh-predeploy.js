@@ -15,6 +15,8 @@ const path = require('path');
 const showdown = require('showdown');
 gulp.header = require('gulp-header');
 
+const {copyFilesWithBase, copyDirectoryContents} = require('./copy-helpers');
+
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
@@ -288,18 +290,16 @@ function createReadmePage(pluginDir, isLocal) {
  * @param {string} pluginDir The directory with the plugin source files.
  * @param {boolean} isLocal True if building for a local test. False if
  *     building for gh-pages.
- * @returns {*} gulp stream
  */
 function preparePlugin(pluginDir, isLocal) {
   console.log(`Preparing ${pluginDir} plugin for deployment.`);
   createPluginPage(pluginDir, isLocal);
   createReadmePage(pluginDir, isLocal);
-  return gulp
-    .src(['./plugins/' + pluginDir + '/build/test_bundle.js'], {
-      base: './plugins/',
-      allowEmpty: true,
-    })
-    .pipe(gulp.dest('./gh-pages/plugins/'));
+  copyFilesWithBase(
+    [path.join('plugins', pluginDir, 'build', 'test_bundle.js')],
+    'plugins',
+    path.join('gh-pages', 'plugins'),
+  );
 }
 
 /**
@@ -328,8 +328,9 @@ function prepareToDeployPlugins(done) {
   const folders = getPluginFolders();
   return gulp.parallel(
     folders.map(function (folder) {
-      return function preDeployPlugin() {
-        return preparePlugin(folder, false);
+      return function preDeployPlugin(done) {
+        preparePlugin(folder, false);
+        done();
       };
     }),
   )(done);
@@ -344,8 +345,9 @@ function prepareLocalPlugins(done) {
   const folders = getPluginFolders();
   return gulp.parallel(
     folders.map(function (folder) {
-      return function preDeployPlugin() {
-        return preparePlugin(folder, true);
+      return function preDeployPlugin(done) {
+        preparePlugin(folder, true);
+        done();
       };
     }),
   )(done);
@@ -445,7 +447,6 @@ function createExamplePage(pageRoot, pagePath, demoConfig, isLocal) {
  * @param {boolean} isLocal True if building for a local test. False if
  *     building for gh-pages.
  * @param {Function} done Completed callback.
- * @returns {Function | undefined} Gulp task.
  */
 function prepareExample(exampleDir, isLocal, done) {
   const baseDir = 'examples';
@@ -468,12 +469,13 @@ function prepareExample(exampleDir, isLocal, done) {
 
   // Special case: do a straight copy for the devsite demo, with no wrappers.
   if (packageJson.name == 'blockly-devsite-demo') {
-    return gulp
-      .src(
-        fileList.map((f) => path.join(baseDir, exampleDir, f)),
-        {base: baseDir, allowEmpty: true},
-      )
-      .pipe(gulp.dest('./gh-pages/examples/'));
+    copyFilesWithBase(
+      fileList.map((f) => path.join(baseDir, exampleDir, f)),
+      baseDir,
+      path.join('gh-pages', 'examples'),
+    );
+    done();
+    return;
   }
 
   // All other examples.
@@ -487,14 +489,14 @@ function prepareExample(exampleDir, isLocal, done) {
   // Copy over all other files mentioned in the demoConfig to the
   // correct directory.
   const assets = fileList.filter((f) => !pageRegex.test(f));
-  let stream;
   if (assets.length) {
-    stream = gulp.src(
+    copyFilesWithBase(
       assets.map((f) => path.join(baseDir, exampleDir, f)),
-      {base: baseDir, allowEmpty: true},
+      baseDir,
+      path.join('gh-pages', 'examples'),
     );
   }
-  return stream.pipe(gulp.dest('./gh-pages/examples/'));
+  done();
 }
 
 /**
@@ -517,20 +519,17 @@ function getExampleFolders() {
  *
  * This is treated separately from other examples because it doesn't
  * get the same page chrome added to it.
- * @returns {Function | undefined} Gulp task.
  */
-function prepareDeveloperTools() {
+async function prepareDeveloperTools() {
   const baseDir = 'examples';
   const devToolsDir = 'developer-tools';
   console.log(`Preparing developer-tools for deployment.`);
 
-  // Create target folder, if it doesn't exist.
-  fs.mkdirSync(path.join('gh-pages', baseDir, devToolsDir), {recursive: true});
-
-  // Copy all files from `dist/` subdirectory into the corresponding gh-pages directory
-  return gulp
-    .src('./examples/developer-tools/dist/*')
-    .pipe(gulp.dest('./gh-pages/examples/developer-tools'));
+  // Copy all files from `dist/` into the gh-pages developer-tools directory
+  await copyDirectoryContents(
+    path.join(baseDir, devToolsDir, 'dist'),
+    path.join('gh-pages', baseDir, devToolsDir),
+  );
 }
 
 /**
