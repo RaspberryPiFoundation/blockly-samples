@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.10](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/workspace-backpack@7.0.9...@blockly/workspace-backpack@7.0.10) (2026-04-02)
+
+
+### Bug Fixes
+
+* strip disabledReasons when saving blocks to backpack ([#2680](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2680)) ([52e38e0](https://github.com/RaspberryPiFoundation/blockly-samples/commit/52e38e09a86a89469de527ad8ca57d793deea4b6))
+
+
+
 ## [7.0.9](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/workspace-backpack@7.0.8...@blockly/workspace-backpack@7.0.9) (2026-01-15)
 
 **Note:** Version bump only for package @blockly/workspace-backpack

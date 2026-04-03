@@ -104,7 +104,6 @@ exports.createPlugin = function (pluginName, options) {
       'audit:fix': 'blockly-scripts auditFix',
       'build': 'blockly-scripts build',
       'clean': 'blockly-scripts clean',
-      'lint': 'blockly-scripts lint',
       'predeploy': 'blockly-scripts predeploy',
       'start': 'blockly-scripts start',
       'test': 'blockly-scripts test',
@@ -147,9 +146,6 @@ exports.createPlugin = function (pluginName, options) {
           access: 'public',
         }
       : {},
-    eslintConfig: {
-      extends: '@blockly/eslint-config',
-    },
   };
 
   // Add dev dependencies.
