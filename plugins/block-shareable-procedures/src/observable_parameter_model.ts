@@ -74,9 +74,12 @@ export class ObservableParameterModel
     name: string,
     varId?: string,
   ): Blockly.IVariableModel<Blockly.IVariableState> {
-    this.variable =
-      this.workspace.getVariable(name) ??
-      this.workspace.createVariable(name, '', varId);
+    this.variable = Blockly.Variables.getOrCreateVariablePackage(
+      this.workspace,
+      varId || null,
+      name,
+      '',
+    );
     return this.variable;
   }
 
