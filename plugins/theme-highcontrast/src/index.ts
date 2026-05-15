@@ -90,7 +90,6 @@ export default Blockly.Theme.defineTheme('highcontrast', {
   componentStyles: {
     selectedGlowColour: '#000000',
     // selectedGlowSize: 1,
-    replacementGlowColour: '#000000',
   },
   fontStyle: {
     family: undefined, // Use default font-family.
