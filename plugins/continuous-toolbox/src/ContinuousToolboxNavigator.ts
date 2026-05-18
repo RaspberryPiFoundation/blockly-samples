@@ -19,6 +19,9 @@ export class ContinuousToolboxNavigator extends Blockly.ToolboxNavigator {
   /**
    * Returns the next node when navigating "in", in this case the first flyout
    * item in the toolbox's currently selected category.
+   *
+   * @param node The node to navigate relative to.
+   * @returns The node "in" relative to the given node.
    */
   override getInNode(
     node = Blockly.getFocusManager().getFocusedNode(),
