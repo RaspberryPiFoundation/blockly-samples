@@ -10,6 +10,7 @@
 
 import * as Blockly from 'blockly/core';
 import {ContinuousFlyout} from './ContinuousFlyout';
+import {ContinuousToolboxNavigator} from './ContinuousToolboxNavigator';
 
 /**
  * Class for continuous toolbox.
@@ -20,6 +21,12 @@ export class ContinuousToolbox extends Blockly.Toolbox {
    * changes.
    */
   private refreshDebouncer?: ReturnType<typeof setTimeout>;
+
+  /**
+   * Navigator object responsible for handling keyboard navigation within this
+   * toolbox.
+   */
+  private continuousToolboxNavigator = new ContinuousToolboxNavigator(this);
 
   /**
    * Initializes the continuous toolbox.
@@ -191,5 +198,13 @@ export class ContinuousToolbox extends Blockly.Toolbox {
       return flyout.getClientRect();
     }
     return super.getClientRect();
+  }
+
+  /**
+   * Returns the Navigator object responsible for handling keyboard navigation
+   * inside this toolbox.
+   */
+  override getNavigator(): Blockly.ToolboxNavigator {
+    return this.continuousToolboxNavigator;
   }
 }
