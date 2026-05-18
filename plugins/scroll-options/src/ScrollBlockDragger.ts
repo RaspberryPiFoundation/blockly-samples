@@ -190,7 +190,7 @@ export class ScrollBlockDragger extends Blockly.dragging.Dragger {
     if (!isAutoScrollable(this.draggable)) return;
 
     const mouse = Blockly.utils.svgMath.screenToWsCoordinates(
-      this.workspace,
+      this.draggable.workspace,
       new Blockly.utils.Coordinate(e.clientX, e.clientY),
     );
 
@@ -206,7 +206,9 @@ export class ScrollBlockDragger extends Blockly.dragging.Dragger {
     };
 
     // Get ViewMetrics in workspace coordinates.
-    const viewMetrics = this.workspace.getMetricsManager().getViewMetrics(true);
+    const viewMetrics = this.draggable.workspace
+      .getMetricsManager()
+      .getViewMetrics(true);
 
     // Get possible scroll velocities based on the location of both the block
     // and the mouse.
@@ -229,7 +231,7 @@ export class ScrollBlockDragger extends Blockly.dragging.Dragger {
 
     // Update the autoscroll or start a new one.
     this.activeAutoScroll_ =
-      this.activeAutoScroll_ || new AutoScroll(this.workspace, this);
+      this.activeAutoScroll_ || new AutoScroll(this.draggable.workspace, this);
     this.activeAutoScroll_.updateProperties(overallScrollVector);
   }
 

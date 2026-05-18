@@ -46,6 +46,7 @@ function registerEmptyBackpack(workspace: Blockly.WorkspaceSvg) {
         workspace,
       },
       weight: 0,
+      id: 'empty_backpack',
     };
     menuOptions.push(backpackOptions);
   };
