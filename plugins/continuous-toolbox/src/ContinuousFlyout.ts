@@ -193,6 +193,26 @@ export class ContinuousFlyout extends Blockly.VerticalFlyout {
   }
 
   /**
+   * Returns the header item in the flyout corresponding to the given
+   * toolbox category, if any.
+   *
+   * @param category The toolbox category to retrieve header item for.
+   * @returns The given category's header item, or undefined if not found.
+   */
+  headerForCategory(
+    category: Blockly.ISelectableToolboxItem,
+  ): Blockly.IFocusableNode | undefined {
+    return this.getContents()
+      .find((item) => {
+        return (
+          this.toolboxItemIsLabel(item) &&
+          item.getElement().getButtonText() === category.getName()
+        );
+      })
+      ?.getElement();
+  }
+
+  /**
    * Step the scrolling animation by scrolling a fraction of the way to
    * a scroll target, and request the next frame if necessary.
    */
