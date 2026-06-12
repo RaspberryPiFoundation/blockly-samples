@@ -491,7 +491,7 @@ suite('Procedure data models', function () {
 
   suite('backing variable to parameters', function () {
     test('construction references an existing variable if available', function () {
-      const variable = this.workspace.createVariable('test1');
+      const variable = this.workspace.getVariableMap().createVariable('test1');
       const param = new ObservableParameterModel(this.workspace, 'test1');
 
       chai.assert.equal(
@@ -505,14 +505,14 @@ suite('Procedure data models', function () {
       const param = new ObservableParameterModel(this.workspace, 'test1');
 
       chai.assert.equal(
-        this.workspace.getVariable('test1'),
+        this.workspace.getVariableMap().getVariable('test1'),
         param.getVariableModel(),
         'Expected the parameter model to create a variable',
       );
     });
 
     test('setName references an existing variable if available', function () {
-      const variable = this.workspace.createVariable('test2');
+      const variable = this.workspace.getVariableMap().createVariable('test2');
       const param = new ObservableParameterModel(this.workspace, 'test1');
 
       param.setName('test2');
@@ -530,7 +530,7 @@ suite('Procedure data models', function () {
       param.setName('test2');
 
       chai.assert.equal(
-        this.workspace.getVariable('test2'),
+        this.workspace.getVariableMap().getVariable('test2'),
         param.getVariableModel(),
         'Expected the parameter model to create a variable',
       );

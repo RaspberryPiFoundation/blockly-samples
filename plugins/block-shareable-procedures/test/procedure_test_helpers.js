@@ -42,7 +42,9 @@ export function createGenUidStubWithReturns(returnIds) {
 export function assertBlockVarModels(block, varIds) {
   const expectedVarModels = [];
   for (let i = 0; i < varIds.length; i++) {
-    expectedVarModels.push(block.workspace.getVariableById(varIds[i]));
+    expectedVarModels.push(
+      block.workspace.getVariableMap().getVariableById(varIds[i]),
+    );
   }
   assert.sameDeepOrderedMembers(block.getVarModels(), expectedVarModels);
 }
