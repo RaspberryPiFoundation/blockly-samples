@@ -165,7 +165,8 @@ module.exports = (env) => {
             commonjs2: 'blockly/lua',
             amd: 'blockly/lua',
           },
+          'jsdom': 'commonjs jsdom',
         }
-      : {},
+      : {jsdom: 'commonjs jsdom'},
   };
 };
