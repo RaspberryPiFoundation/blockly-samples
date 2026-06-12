@@ -681,6 +681,10 @@ export class FieldAngle extends Blockly.FieldNumber {
     return new this(options.value, undefined, options);
   }
 
+  /**
+   * Hides the angle editor and updates the ARIA label.
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   protected override widgetDispose_() {
     super.widgetDispose_();
     this.recomputeAriaContext();
