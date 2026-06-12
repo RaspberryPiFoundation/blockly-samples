@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@vscode/sqlite3": "^5.0.8",
-    "blockly": "^12.0.0",
+    "blockly": "^13.0.0-beta.9",
     "socket.io": "^4.7.5",
     "socket.io-client": "^2.3.0"
   },

@@ -33,7 +33,7 @@
     "@eslint/js": "^8.49.0",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "blockly": "^13.0.0-beta.4",
+    "blockly": "^13.0.0-beta.9",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "eslint": "^8.49.0",
     "eslint-config-google": "^0.14.0",
