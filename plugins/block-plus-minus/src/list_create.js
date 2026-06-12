@@ -130,7 +130,10 @@ const listCreateMutator = {
     if (this.itemCount_ == 0) {
       this.removeInput('EMPTY');
       this.topInput_ = this.appendValueInput('ADD' + this.itemCount_)
-        .appendField(createPlusField(), 'PLUS')
+        .appendField(
+          createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_LIST_ITEM']),
+          'PLUS',
+        )
         .appendField(Blockly.Msg['LISTS_CREATE_WITH_INPUT_WITH']);
     } else {
       this.appendValueInput('ADD' + this.itemCount_);
@@ -149,7 +152,10 @@ const listCreateMutator = {
     this.removeInput('ADD' + this.itemCount_);
     if (this.itemCount_ == 0) {
       this.topInput_ = this.appendDummyInput('EMPTY')
-        .appendField(createPlusField(), 'PLUS')
+        .appendField(
+          createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_LIST_ITEM']),
+          'PLUS',
+        )
         .appendField(Blockly.Msg['LISTS_CREATE_EMPTY_TITLE']);
     }
   },
@@ -161,7 +167,11 @@ const listCreateMutator = {
   updateMinus_: function () {
     const minusField = this.getField('MINUS');
     if (!minusField && this.itemCount_ > 0) {
-      this.topInput_.insertFieldAt(1, createMinusField(), 'MINUS');
+      this.topInput_.insertFieldAt(
+        1,
+        createMinusField(undefined, Blockly.Msg['ARIA_LABEL_REMOVE_LIST_ITEM']),
+        'MINUS',
+      );
     } else if (minusField && this.itemCount_ < 1) {
       this.topInput_.removeField('MINUS');
     }
@@ -173,7 +183,11 @@ const listCreateMutator = {
  * @this {Blockly.Block}
  */
 const listCreateHelper = function () {
-  this.getInput('EMPTY').insertFieldAt(0, createPlusField(), 'PLUS');
+  this.getInput('EMPTY').insertFieldAt(
+    0,
+    createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_LIST_ITEM']),
+    'PLUS',
+  );
   this.updateShape_(3);
 };
 

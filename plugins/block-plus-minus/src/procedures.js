@@ -452,7 +452,9 @@ const procedureDefMutator = {
 
     this.appendDummyInput(argId)
       .setAlign(Blockly.inputs.Align.RIGHT)
-      .appendField(createMinusField(argId))
+      .appendField(
+        createMinusField(argId, Blockly.Msg['ARIA_LABEL_REMOVE_INPUT']),
+      )
       .appendField(Blockly.Msg['PROCEDURE_VARIABLE']) // Untranslated!
       .appendField(nameField, argId); // The name of the field is the arg id.
   },
@@ -587,7 +589,11 @@ const procedureDefHelper = function () {
    */
   this.hasStatements_ = true;
 
-  this.getInput('TOP').insertFieldAt(0, createPlusField(), 'PLUS');
+  this.getInput('TOP').insertFieldAt(
+    0,
+    createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_INPUT']),
+    'PLUS',
+  );
 };
 
 Blockly.Extensions.registerMutator(

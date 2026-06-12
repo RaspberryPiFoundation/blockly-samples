@@ -18,8 +18,8 @@ import {getExtraBlockState} from './serialization_helper';
  *     is clicked.
  * @returns {Blockly.FieldImage} The minus field.
  */
-export function createMinusField(args = undefined) {
-  const minus = new Blockly.FieldImage(minusImage, 15, 15, undefined, onClick_);
+export function createMinusField(args = undefined, altText = '') {
+  const minus = new Blockly.FieldImage(minusImage, 15, 15, altText, onClick_);
   /**
    * Untyped args passed to block.minus when the field is clicked.
    * @type {?(Object|undefined)}

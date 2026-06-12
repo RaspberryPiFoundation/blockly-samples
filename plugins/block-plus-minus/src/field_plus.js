@@ -18,8 +18,8 @@ import {getExtraBlockState} from './serialization_helper';
  *     is clicked.
  * @returns {Blockly.FieldImage} The Plus field.
  */
-export function createPlusField(args = undefined) {
-  const plus = new Blockly.FieldImage(plusImage, 15, 15, undefined, onClick_);
+export function createPlusField(args = undefined, altText = '') {
+  const plus = new Blockly.FieldImage(plusImage, 15, 15, altText, onClick_);
   /**
    * Untyped args passed to block.plus when the field is clicked.
    * @type {?(Object|undefined)}

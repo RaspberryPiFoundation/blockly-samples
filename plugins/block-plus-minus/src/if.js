@@ -143,7 +143,10 @@ const controlsIfMutator = {
       .setCheck('Boolean')
       .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSEIF'])
       .appendField(
-        createMinusField(this.elseIfCount_),
+        createMinusField(
+          this.elseIfCount_,
+          Blockly.Msg['ARIA_LABEL_REMOVE_ELSE_IF'],
+        ),
         'MINUS' + this.elseIfCount_,
       );
     this.appendStatementInput('DO' + this.elseIfCount_).appendField(
@@ -209,7 +212,11 @@ const controlsIfMutator = {
  * @this {Blockly.Block}
  */
 const controlsIfHelper = function () {
-  this.getInput('IF0').insertFieldAt(0, createPlusField(), 'PLUS');
+  this.getInput('IF0').insertFieldAt(
+    0,
+    createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_ELSE_IF']),
+    'PLUS',
+  );
 };
 
 if (Blockly.Extensions.isRegistered('controls_if_mutator')) {
