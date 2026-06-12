@@ -169,6 +169,17 @@ export class FieldAngle extends Blockly.FieldNumber {
     }
   }
 
+  override getAriaTypeName() {
+    return Blockly.Msg['ARIA_TYPE_FIELD_ANGLE'];
+  }
+
+  override getAriaValue() {
+    return Blockly.Msg['ARIA_LABEL_FIELD_ANGLE'].replace(
+      '%1',
+      super.getAriaValue() ?? '',
+    );
+  }
+
   /**
    * Create the block UI for this field.
    *
@@ -181,7 +192,7 @@ export class FieldAngle extends Blockly.FieldNumber {
       // even in RTL (https://github.com/google/blockly/issues/2380).
       this.symbolElement = Blockly.utils.dom.createSvgElement(
         Blockly.utils.Svg.TSPAN,
-        {},
+        {class: 'blocklyAngleSymbol'},
       );
       this.symbolElement.appendChild(document.createTextNode(this.symbol));
       this.getTextElement().appendChild(this.symbolElement);
@@ -212,7 +223,6 @@ export class FieldAngle extends Blockly.FieldNumber {
       Blockly.utils.userAgent.MOBILE ||
       Blockly.utils.userAgent.ANDROID ||
       Blockly.utils.userAgent.IPAD;
-    super.showEditor_(e, noFocus, false);
 
     const editor = this.dropdownCreate();
     Blockly.DropDownDiv.getContentDiv().appendChild(editor);
@@ -229,6 +239,8 @@ export class FieldAngle extends Blockly.FieldNumber {
       this,
       this.dropdownDispose.bind(this),
     );
+
+    super.showEditor_(e, noFocus, false);
 
     this.updateGraph();
   }
@@ -388,6 +400,7 @@ export class FieldAngle extends Blockly.FieldNumber {
 
   /** Hide the editor. */
   private hide() {
+    this.recomputeAriaContext();
     Blockly.DropDownDiv.hideIfOwner(this);
     Blockly.WidgetDiv.hide();
   }
@@ -497,6 +510,7 @@ export class FieldAngle extends Blockly.FieldNumber {
             Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE,
           ))(this.sourceBlock_, this.name || null, oldValue, this.value_),
         );
+        Blockly.utils.aria.announceDynamicAriaState(this.getAriaValue());
       }
     }
   }
@@ -666,6 +680,11 @@ export class FieldAngle extends Blockly.FieldNumber {
     // the static fromJson method.
     return new this(options.value, undefined, options);
   }
+
+  protected override widgetDispose_() {
+    super.widgetDispose_();
+    this.recomputeAriaContext();
+  }
 }
 
 /** Register the field and any dependencies. */
@@ -702,6 +721,10 @@ Blockly.Css.register(`
   stroke-width: 2;
   stroke-linecap: round;
   pointer-events: none;
+}
+
+.blocklyAngleSymbol {
+  dominant-baseline: central;
 }
 `);
 

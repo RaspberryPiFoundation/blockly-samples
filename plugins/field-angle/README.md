@@ -63,6 +63,9 @@ This field accepts up to 9 parameters, in addition to the 4 accepted by the
   ticks end at you "max" rounded down to a multiple of your "majorTick".
   Defaults to 45.
 - "symbol" to specify the unit symbol to append to your number. Defaults to °.
+  If this is used to specify "radians" or similar,
+  `Blockly.Msg['ARIA_LABEL_FIELD_ANGLE']` should be overridden accordingly to
+  ensure that the screenreader description remains consistent.
 
 ### JavaScript
 
