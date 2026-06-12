@@ -502,13 +502,15 @@ const procedureDefMutator = {
      *     only used by this block, or callers of this procedure.
      */
     const varOnlyUsedHere = () => {
-      return workspace.getVariableUsesById(currId).every((block) => {
-        return (
-          block.id == sourceBlock.id ||
-          (block.getProcedureCall &&
-            block.getProcedureCall() == sourceBlock.getProcedureDef()[0])
-        );
-      });
+      return Blockly.Variables.getVariableUsesById(workspace, currId).every(
+        (block) => {
+          return (
+            block.id == sourceBlock.id ||
+            (block.getProcedureCall &&
+              block.getProcedureCall() == sourceBlock.getProcedureDef()[0])
+          );
+        },
+      );
     };
 
     if (!newName || !argData.every(hasDifName)) {
@@ -529,14 +531,17 @@ const procedureDefMutator = {
 
     // Create new vars instead of renaming the old ones, so users can't
     // accidentally rename/coalesce vars.
-    let model = workspace.getVariable(newName, '');
+    let model = workspace.getVariableMap().getVariable(newName, '');
     if (!model) {
-      model = workspace.createVariable(newName, '');
+      model = workspace.getVariableMap().createVariable(newName, '');
       this.varIdsToDelete_.push(model.getId());
     } else if (model.name != newName) {
       // Blockly is case-insensitive so we have to update the var instead of
       // creating a new one.
-      workspace.renameVariableById(model.getId(), newName);
+      const variable = workspace
+        .getVariableMap()
+        .getVariableById(model.getId());
+      workspace.getVariableMap().renameVariable(variable, newName);
     }
     if (model.getId() != currId) {
       argDatum.model = model;
@@ -653,7 +658,7 @@ const procedureVars = function () {
         return; // Not on this block.
       }
 
-      const newVar = this.workspace.getVariableById(newId);
+      const newVar = this.workspace.getVariableMap().getVariableById(newId);
       const newName = newVar.name;
       this.addVarInput_(newName, newId);
       this.moveInputBefore(newId, oldId);
