@@ -385,7 +385,7 @@ suite('Text join block', function () {
           ADD1: {
             block: {
               type: 'text',
-              id: 2,
+              id: '2',
               fields: {
                 TEXT: 'abc',
               },
