@@ -191,7 +191,7 @@ export class TypedVariableModal extends Modal {
         Blockly.dialog.alert(msg);
       } else {
         // No conflict
-        this.workspace_.createVariable(text, type);
+        this.workspace_.getVariableMap().createVariable(text, type);
         this.hide();
       }
     } else {
