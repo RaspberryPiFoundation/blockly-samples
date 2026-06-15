@@ -164,13 +164,6 @@ export class Minimap {
     if (!blockEvents.has(event.type)) {
       return; // Filter out events.
     }
-    if (
-      event.type === Blockly.Events.BLOCK_CREATE &&
-      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-      (event as any).xml.tagName === 'shadow'
-    ) {
-      return; // Filter out shadow blocks.
-    }
     // Run the event in the minimap.
     const json = event.toJson();
     if (this.minimapWorkspace) {
