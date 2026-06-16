@@ -53,14 +53,40 @@ export class ToolboxSearchCategory extends Blockly.ToolboxCategory {
     this.searchField = document.createElement('input');
     this.searchField.id = this.SEARCH_INPUT_ID;
     this.searchField.type = 'search';
-    this.searchField.placeholder = 'Search';
+    this.searchField.placeholder = 'Search for blocks';
     this.workspace_.RTL
       ? (this.searchField.style.marginRight = '8px')
       : (this.searchField.style.marginLeft = '8px');
-    this.searchField.addEventListener('keyup', (event) => {
-      if (event.key === 'Escape') {
-        this.parentToolbox_.clearSelection();
+    this.searchField.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowUp' && this.searchField?.selectionStart === 0) {
+        const previous = this.parentToolbox_.getNavigator().getPreviousNode();
+        if (previous) {
+          Blockly.getFocusManager().focusNode(previous);
+        }
         return;
+      } else if (
+        event.key === 'ArrowRight' &&
+        this.searchField?.selectionStart === this.searchField?.value.length
+      ) {
+        const previous = this.parentToolbox_.getNavigator().getInNode();
+        if (previous) {
+          Blockly.getFocusManager().focusNode(previous);
+        }
+        return;
+      } else if (
+        event.key === 'ArrowDown' &&
+        this.searchField?.selectionStart === this.searchField?.value.length
+      ) {
+        const next = this.parentToolbox_.getNavigator().getNextNode();
+        if (next) {
+          Blockly.getFocusManager().focusNode(next);
+        }
+        return;
+      } else if (event.key === 'Escape' && this.searchField) {
+        if (this.searchField.value !== '') {
+          this.searchField.value = '';
+          event.stopPropagation();
+        }
       }
 
       this.matchBlocks();
@@ -75,23 +101,6 @@ export class ToolboxSearchCategory extends Blockly.ToolboxCategory {
   }
 
   /**
-   * Returns the numerical position of this category in its parent toolbox.
-   *
-   * @returns The zero-based index of this category in its parent toolbox, or -1
-   *    if it cannot be determined, e.g. if this is a nested category.
-   */
-  private getPosition() {
-    const categories = this.workspace_.options.languageTree?.contents || [];
-    for (let i = 0; i < categories.length; i++) {
-      if (categories[i].kind === ToolboxSearchCategory.SEARCH_CATEGORY_KIND) {
-        return i;
-      }
-    }
-
-    return -1;
-  }
-
-  /**
    * Registers a shortcut for displaying the toolbox search category.
    */
   private registerShortcut() {
@@ -102,8 +111,6 @@ export class ToolboxSearchCategory extends Blockly.ToolboxCategory {
     Blockly.ShortcutRegistry.registry.register({
       name: ToolboxSearchCategory.START_SEARCH_SHORTCUT,
       callback: () => {
-        const position = this.getPosition();
-        if (position < 0) return false;
         Blockly.getFocusManager().focusNode(this);
         return true;
       },
@@ -154,13 +161,12 @@ export class ToolboxSearchCategory extends Blockly.ToolboxCategory {
 
   /** See IFocusableNode.onNodeFocus. */
   override onNodeFocus(): void {
-    this.matchBlocks();
-  }
-
-  /** See IFocusableNode.onNodeBlur. */
-  override onNodeBlur(): void {
-    if (!this.searchField) return;
-    this.searchField.value = '';
+    super.onNodeFocus();
+    if (!this.searchField?.value) {
+      Blockly.renderManagement.finishQueuedRenders().then(() => {
+        this.matchBlocks();
+      });
+    }
   }
 
   /**
@@ -169,9 +175,17 @@ export class ToolboxSearchCategory extends Blockly.ToolboxCategory {
   private matchBlocks() {
     const query = this.searchField?.value || '';
 
+    const oldCount = this.flyoutItems_.length;
     this.flyoutItems_ = query
       ? this.blockSearcher.blockTypesMatching(query)
       : [];
+
+    const newCount = this.flyoutItems_.length;
+    if (oldCount !== newCount) {
+      Blockly.utils.aria.announceDynamicAriaState(
+        `${newCount} matching blocks`,
+      );
+    }
 
     if (!this.flyoutItems_.length) {
       this.flyoutItems_.push({
@@ -195,6 +209,15 @@ export class ToolboxSearchCategory extends Blockly.ToolboxCategory {
     );
   }
 }
+
+// Make the clear button clickable in Safari.
+Blockly.Css.register(`
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 10;
+}`);
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
