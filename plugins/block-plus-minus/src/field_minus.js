@@ -14,11 +14,12 @@ import {getExtraBlockState} from './serialization_helper';
 
 /**
  * Creates a minus image field used for mutation.
+ * @param {!String} altText An accessibility label for the minus button.
  * @param {Object=} args Untyped args passed to block.minus when the field
  *     is clicked.
  * @returns {Blockly.FieldImage} The minus field.
  */
-export function createMinusField(args = undefined, altText = '') {
+export function createMinusField(altText, args = undefined) {
   const minus = new Blockly.FieldImage(minusImage, 15, 15, altText, onClick_);
   /**
    * Untyped args passed to block.minus when the field is clicked.

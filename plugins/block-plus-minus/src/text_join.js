@@ -110,7 +110,7 @@ const textJoinMutator = {
       }
       this.topInput_ = this.appendValueInput('ADD' + this.itemCount_)
         .appendField(
-          createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_TEXT']),
+          createPlusField(Blockly.Msg['ARIA_LABEL_ADD_TEXT']),
           'PLUS',
         )
         .appendField(Blockly.Msg['TEXT_JOIN_TITLE_CREATEWITH']);
@@ -133,7 +133,7 @@ const textJoinMutator = {
     if (this.itemCount_ == 0) {
       this.topInput_ = this.appendDummyInput('EMPTY')
         .appendField(
-          createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_TEXT']),
+          createPlusField(Blockly.Msg['ARIA_LABEL_ADD_TEXT']),
           'PLUS',
         )
         .appendField(this.newQuote_(true))
@@ -150,7 +150,7 @@ const textJoinMutator = {
     if (!minusField && this.itemCount_ > 0) {
       this.topInput_.insertFieldAt(
         1,
-        createMinusField(undefined, Blockly.Msg['ARIA_LABEL_REMOVE_TEXT']),
+        createMinusField(Blockly.Msg['ARIA_LABEL_REMOVE_TEXT']),
         'MINUS',
       );
     } else if (minusField && this.itemCount_ < 1) {

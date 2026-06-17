@@ -144,8 +144,8 @@ const controlsIfMutator = {
       .appendField(Blockly.Msg['CONTROLS_IF_MSG_ELSEIF'])
       .appendField(
         createMinusField(
-          this.elseIfCount_,
           Blockly.Msg['ARIA_LABEL_REMOVE_ELSE_IF'],
+          this.elseIfCount_,
         ),
         'MINUS' + this.elseIfCount_,
       );
@@ -214,7 +214,7 @@ const controlsIfMutator = {
 const controlsIfHelper = function () {
   this.getInput('IF0').insertFieldAt(
     0,
-    createPlusField(undefined, Blockly.Msg['ARIA_LABEL_ADD_ELSE_IF']),
+    createPlusField(Blockly.Msg['ARIA_LABEL_ADD_ELSE_IF']),
     'PLUS',
   );
 };
