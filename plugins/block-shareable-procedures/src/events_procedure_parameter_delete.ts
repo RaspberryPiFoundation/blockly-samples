@@ -100,8 +100,7 @@ export class ProcedureParameterDelete extends ProcedureParameterBase {
   }
 }
 
-export interface ProcedureParameterDeleteJson
-  extends ProcedureParameterBaseJson {
+export interface ProcedureParameterDeleteJson extends ProcedureParameterBaseJson {
   index: number;
 }
 

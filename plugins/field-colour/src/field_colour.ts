@@ -483,8 +483,7 @@ export interface FieldColourConfig extends FieldGridDropdownConfig {
 /**
  * fromJson config options for the colour field.
  */
-export interface FieldColourFromJsonConfig
-  extends FieldGridDropdownFromJsonConfig {
+export interface FieldColourFromJsonConfig extends FieldGridDropdownFromJsonConfig {
   colour?: string;
 }
 

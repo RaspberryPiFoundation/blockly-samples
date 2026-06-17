@@ -122,8 +122,7 @@ export class ProcedureParameterRename extends ProcedureParameterBase {
   }
 }
 
-export interface ProcedureParameterRenameJson
-  extends ProcedureParameterBaseJson {
+export interface ProcedureParameterRenameJson extends ProcedureParameterBaseJson {
   oldName: string;
   newName: string;
   newVarId: string;
