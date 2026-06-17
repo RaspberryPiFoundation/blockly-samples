@@ -386,7 +386,7 @@ export class Controller {
     const messages = document.createElement('ul');
 
     const formatSuccessMessage = function (successes: string[][]): string {
-      let message = '';
+      let message;
       if (successes.length === 1) {
         message = `Successfully loaded one block named `;
       } else {
@@ -487,7 +487,7 @@ export class Controller {
           storage.updateBlock(newName, JSON.stringify(data));
           successes.push([newName, oldName]);
         }
-      } catch (e) {
+      } catch {
         fails++;
       }
 

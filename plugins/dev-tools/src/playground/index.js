@@ -31,9 +31,6 @@ import {
   renderPlayground,
 } from './ui';
 
-// Declare external types to make eslint happy.
-/* global dat, monaco */
-
 /**
  * @typedef {function(!HTMLElement,!Blockly.BlocklyOptions):
  *     Blockly.WorkspaceSvg}
@@ -582,7 +579,7 @@ function registerEditorCommands(editor, playground) {
         Blockly.utils.xml.textToDom(xml),
         workspace,
       );
-    } catch (e) {
+    } catch {
       // If this fails that's fine.
       return false;
     }
@@ -593,7 +590,7 @@ function registerEditorCommands(editor, playground) {
     const workspace = playground.getWorkspace();
     try {
       Blockly.serialization.workspaces.load(JSON.parse(json), workspace);
-    } catch (e) {
+    } catch {
       // If this fails fall back to trying to load XML instead.
       return loadXml();
     }

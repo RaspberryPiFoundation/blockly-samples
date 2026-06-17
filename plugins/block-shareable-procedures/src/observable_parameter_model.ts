@@ -89,8 +89,8 @@ export class ObservableParameterModel
    * implement your own ParameterModel.
    *
    * @param types The types to set this parameter to.
-   * @throws Throws for the ObservableParameterModel specifically because this
-   *     method is unimplemented.
+   * @throws {!Error} Throws for the ObservableParameterModel specifically
+   *     because this method is unimplemented.
    */
   setTypes(types: string[]): this {
     throw new Error(

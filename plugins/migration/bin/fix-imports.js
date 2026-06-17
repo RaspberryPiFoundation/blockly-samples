@@ -49,11 +49,11 @@ export const fixImports = createSubCommand(
 
 /**
  * @typedef {{
- *   import: string,
- *   oldIdentifier?: string,
- *   newIdentifier: string,
- *   newImport: string,
- *   newRequire: string,
+ *   "import": string,
+ *   "oldIdentifier": ?string,
+ *   "newIdentifier": string,
+ *   "newImport": string,
+ *   "newRequire": string,
  * }}
  */
 let MigrationData;

@@ -1,6 +1,3 @@
-// Declare external types to make eslint happy.
-/* global monaco */
-
 /**
  * Load the monaco editor.
  * @param {!HTMLElement} container The container element.
@@ -74,7 +71,7 @@ function checkFileExists(url) {
   http.open('HEAD', url, false);
   try {
     http.send();
-  } catch (_e) {
+  } catch {
     return false;
   }
   return http.status != 404;

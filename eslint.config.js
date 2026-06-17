@@ -64,6 +64,8 @@ module.exports = [
         ...globals.es5,
         Blockly: true,
         goog: true,
+        monaco: true,
+        dat: true,
       },
     },
 
@@ -94,7 +96,6 @@ module.exports = [
       // valid-jsdoc does not work properly for interface methods.
       // https://github.com/eslint/eslint/issues/9978
       'valid-jsdoc': 'off',
-
       // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules
       'require-jsdoc': 'off',
       'jsdoc/newline-after-description': 'off',
@@ -117,6 +118,8 @@ module.exports = [
       'jsdoc/check-access': 'warn',
       'jsdoc/check-types': 'off',
       'jsdoc/check-values': 'off',
+      'jsdoc/reject-any-type': 'off',
+      'jsdoc/reject-function-type': 'off',
       'jsdoc/require-jsdoc': [
         'warn',
         {

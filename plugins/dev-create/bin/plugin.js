@@ -31,7 +31,7 @@ exports.createPlugin = function (pluginName, options) {
       .toString()
       .trim()
       .replace(/\.git$/, '');
-  } catch (err) {
+  } catch {
     // NOP
   }
 
