@@ -189,25 +189,7 @@ module.exports = [
         },
       ],
       '@typescript-eslint/ban-ts-comment': 'error',
-      '@typescript-eslint/ban-types': [
-        'error',
-        {
-          types: {
-            Object: {
-              message: "Use {} or 'object' instead.",
-            },
-            String: {
-              message: "Use 'string' instead.",
-            },
-            Number: {
-              message: "Use 'number' instead.",
-            },
-            Boolean: {
-              message: "Use 'boolean' instead.",
-            },
-          },
-        },
-      ],
+      '@typescript-eslint/no-wrapper-object-types': 'error',
       'camelcase': 'off',
       '@typescript-eslint/naming-convention': [
         'error',
