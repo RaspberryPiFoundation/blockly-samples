@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "rootDir": "./src",
     "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "module": "es2015",
     "moduleResolution": "bundler",
-    "target": "es6",
+    "target": "ES2020",
     "strict": true
   },
   // NOTE: `test/**/*` is automatically included in `blockly-scripts start`.
