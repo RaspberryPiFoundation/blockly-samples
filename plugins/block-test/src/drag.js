@@ -43,6 +43,7 @@ class DragToDupe extends Blockly.dragging.BlockDragStrategy {
   /**
    * Returns a block instance on which the drag should actually be performed,
    * which may differ from that which we were instantiated with.
+   * @returns {!Blockly.BlockSvg} The block to drag.
    */
   getTargetBlock() {
     let targetBlock;
@@ -100,7 +101,6 @@ class DragToDupe extends Blockly.dragging.BlockDragStrategy {
 
   /**
    * If supported, sets whether or not cloning the given block is allowed.
-   *
    * @param {!Blockly.BlockSvg} block The block to toggle cloning on.
    * @param {boolean} allowed Whether or not cloning should be allowed.
    */
