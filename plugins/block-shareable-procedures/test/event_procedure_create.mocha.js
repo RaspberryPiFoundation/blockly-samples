@@ -102,6 +102,7 @@ suite('Procedure Create Event', function () {
         const event = this.createEventToState(model);
         this.procedureMap.add(model);
 
+        this.clock.runAll();
         this.eventSpy.resetHistory();
         event.run(/* forward= */ true);
         this.clock.runAll();

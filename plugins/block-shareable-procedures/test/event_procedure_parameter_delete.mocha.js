@@ -146,6 +146,7 @@ suite('Procedure Parameter Delete Event', function () {
         this.procedureMap.add(proc);
         proc.deleteParameter(0);
 
+        this.clock.runAll();
         this.eventSpy.resetHistory();
         event.run(/* forward= */ false);
         this.clock.runAll();

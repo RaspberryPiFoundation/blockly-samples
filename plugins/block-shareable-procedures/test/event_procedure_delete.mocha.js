@@ -151,6 +151,7 @@ suite('Procedure Delete Event', function () {
         const event = this.createEventToState(model);
         this.procedureMap.add(model);
 
+        this.clock.runAll();
         this.eventSpy.resetHistory();
         event.run(/* forward= */ false);
         this.clock.runAll();
