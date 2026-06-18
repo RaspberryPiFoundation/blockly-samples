@@ -94,7 +94,10 @@ class DragToDupe extends Blockly.dragging.BlockDragStrategy {
    */
   revertDrag() {
     super.revertDrag();
-    if (this.draggingBlock.type === 'drag_to_dupe') {
+    if (
+      'isCloningAllowed' in this.draggingBlock &&
+      typeof this.draggingBlock.isCloningAllowed === 'function'
+    ) {
       this.draggingBlock.dispose();
     }
   }
