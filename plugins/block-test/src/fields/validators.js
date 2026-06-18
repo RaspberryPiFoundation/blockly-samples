@@ -555,11 +555,11 @@ export const category = {
  */
 export function onInit(workspace) {
   const addVariables = function (button) {
-    workspace.createVariable('1b', '', '1B');
-    workspace.createVariable('1c', '', '1C');
-    workspace.createVariable('2a', '', '2A');
-    workspace.createVariable('2b', '', '2B');
-    workspace.createVariable('2c', '', '2C');
+    workspace.getVariableMap().createVariable('1b', '', '1B');
+    workspace.getVariableMap().createVariable('1c', '', '1C');
+    workspace.getVariableMap().createVariable('2a', '', '2A');
+    workspace.getVariableMap().createVariable('2b', '', '2B');
+    workspace.getVariableMap().createVariable('2c', '', '2C');
   };
   const setInput = function (button) {
     Blockly.dialog.prompt('Input text to set.', 'ab', function (input) {

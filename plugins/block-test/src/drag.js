@@ -18,36 +18,102 @@ Blockly.Blocks['drag_to_dupe'] = {
     this.setOutput(true, null);
     this.appendDummyInput().appendField('drag to dupe');
     this.setDragStrategy(new DragToDupe(this));
+
+    this.cloningAllowed = true;
+    this.isCloningAllowed = () => {
+      return this.cloningAllowed && !this.isInFlyout && !this.isShadow();
+    };
+    this.setCloningAllowed = (/** @type {boolean} */ allowed) => {
+      this.cloningAllowed = allowed;
+    };
   },
 };
 
 /** Drag strategy that duplicates the block on drag. */
-class DragToDupe {
+class DragToDupe extends Blockly.dragging.BlockDragStrategy {
+  /**
+   * Creates a new `DragToDupe` drag strategy.
+   * @param {!Blockly.BlockSvg} block The block that will be dragged.
+   */
   constructor(block) {
-    this.block = block;
+    super(block);
+    this.draggingBlock = block;
   }
 
-  isMovable() {
-    return true;
+  /**
+   * Returns a block instance on which the drag should actually be performed,
+   * which may differ from that which we were instantiated with.
+   * @returns {!Blockly.BlockSvg} The block to drag.
+   */
+  getTargetBlock() {
+    let targetBlock;
+
+    if (
+      'isCloningAllowed' in this.draggingBlock &&
+      typeof this.draggingBlock.isCloningAllowed === 'function' &&
+      this.draggingBlock.isCloningAllowed()
+    ) {
+      const json = Blockly.serialization.blocks.save(this.draggingBlock, {
+        addCoordinates: true,
+      });
+      if (json) {
+        targetBlock = /** @type {!Blockly.BlockSvg} */ (
+          Blockly.serialization.blocks.appendInternal(
+            json,
+            this.draggingBlock.workspace,
+            {
+              recordUndo: true,
+            },
+          )
+        );
+      }
+    }
+
+    targetBlock ??= super.getTargetBlock();
+    this.maybeSetCloningAllowed(targetBlock, false);
+    return targetBlock;
   }
 
-  startDrag(e) {
-    const data = this.block.toCopyData();
-    this.copy = Blockly.clipboard.paste(data, this.block.workspace);
-    this.baseStrat = new Blockly.dragging.BlockDragStrategy(this.copy);
-    this.baseStrat.startDrag(e);
+  /**
+   * Handles the end of a drag.
+   * @param {!PointerEvent|!KeyboardEvent} event The event that triggered the
+   *     end of the drag.
+   * @param {Blockly.DragDisposition} disposition How the drag is being ended.
+   */
+  endDrag(event, disposition) {
+    super.endDrag(event, disposition);
+    this.maybeSetCloningAllowed(this.draggingBlock, true);
+
+    if (disposition === Blockly.DragDisposition.REVERT) {
+      this.draggingBlock.dispose();
+    }
   }
 
-  drag(e) {
-    this.baseStrat.drag(e);
+  /**
+   * Handles a drag being reverted/cancelled.
+   */
+  revertDrag() {
+    super.revertDrag();
+    if (
+      'isCloningAllowed' in this.draggingBlock &&
+      typeof this.draggingBlock.isCloningAllowed === 'function'
+    ) {
+      this.draggingBlock.dispose();
+    }
   }
 
-  endDrag(e) {
-    this.baseStrat.endDrag(e);
-  }
-
-  revertDrag(e) {
-    this.copy.dispose();
+  /**
+   * If supported, sets whether or not cloning the given block is allowed.
+   * @param {!Blockly.BlockSvg} block The block to toggle cloning on.
+   * @param {boolean} allowed Whether or not cloning should be allowed.
+   */
+  maybeSetCloningAllowed(block, allowed) {
+    if (
+      'setCloningAllowed' in block &&
+      typeof block.setCloningAllowed === 'function'
+    ) {
+      block.setCloningAllowed(allowed);
+    }
   }
 }
 
