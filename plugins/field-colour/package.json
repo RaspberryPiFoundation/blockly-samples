@@ -55,9 +55,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "dependencies": {
     "@blockly/field-grid-dropdown": "^6.0.10"
   }
