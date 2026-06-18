@@ -42,8 +42,8 @@
   "devDependencies": {
     "@blockly/dev-scripts": "^4.0.12",
     "@blockly/dev-tools": "^9.0.9",
-    "chai": "^4.3.6",
-    "sinon": "^14.0.0"
+    "chai": "^6.2.2",
+    "sinon": "^22.0.0"
   },
   "peerDependencies": {
     "blockly": "^13.0.0"

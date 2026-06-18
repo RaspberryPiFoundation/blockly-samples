@@ -25,8 +25,7 @@ export interface FieldGridDropdownConfig extends Blockly.FieldDropdownConfig {
 /**
  * Construct a FieldGridDropdown from a JSON arg object.
  */
-export interface FieldGridDropdownFromJsonConfig
-  extends FieldGridDropdownConfig {
+export interface FieldGridDropdownFromJsonConfig extends FieldGridDropdownConfig {
   options?: Blockly.MenuGenerator;
 }
 

@@ -109,8 +109,7 @@ export class ProcedureParameterCreate extends ProcedureParameterBase {
   }
 }
 
-export interface ProcedureParameterCreateJson
-  extends ProcedureParameterBaseJson {
+export interface ProcedureParameterCreateJson extends ProcedureParameterBaseJson {
   parameter: Blockly.serialization.procedures.ParameterState;
   index: number;
 }

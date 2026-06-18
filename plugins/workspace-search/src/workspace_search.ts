@@ -541,7 +541,7 @@ export class WorkspaceSearch implements Blockly.IPositionable {
     searchText: string,
     caseSensitive: boolean,
   ): boolean {
-    let blockText = '';
+    let blockText;
     if (block.isCollapsed()) {
       // Search the whole string for collapsed blocks.
       blockText = block.toString();

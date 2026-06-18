@@ -305,9 +305,6 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     // This can't happen, but TypeScript thinks it can and lint forbids `!.`.
     if (!constants) throw Error('Constants not found');
     const nodes = (this.textGroup as SVGElement).childNodes;
-    const fontSize = constants.FIELD_TEXT_FONTSIZE;
-    const fontWeight = constants.FIELD_TEXT_FONTWEIGHT;
-    const fontFamily = constants.FIELD_TEXT_FONTFAMILY;
     let totalWidth = 0;
     let totalHeight = 0;
     for (let i = 0; i < nodes.length; i++) {
@@ -519,8 +516,7 @@ export interface FieldMultilineInputConfig
 /**
  * fromJson config options for the multiline input field.
  */
-export interface FieldMultilineInputFromJsonConfig
-  extends FieldMultilineInputConfig {
+export interface FieldMultilineInputFromJsonConfig extends FieldMultilineInputConfig {
   text?: string;
 }
 

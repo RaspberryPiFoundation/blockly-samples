@@ -98,7 +98,7 @@ export const connectionCheckGroup = {
   updateShape: function () {
     // Modify this block to have the correct number of inputs.
     // Add new inputs.
-    let i = 0;
+    let i;
     for (i = 0; i < this.checkCount; i++) {
       if (!this.getInput('CHECK' + i)) {
         const input = this.appendValueInput('CHECK' + i);

@@ -31,9 +31,10 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "chalk": "^4.0.0",
-    "commander": "^10.0.0",
-    "fs-extra": "^9.0.0"
+    "chalk": "^4.1.2",
+    "commander": "^15.0.0",
+    "fs-extra": "^11.3.5",
+    "install": "^0.13.0"
   },
   "publishConfig": {
     "access": "public"

@@ -44,6 +44,7 @@ suite('Procedure blocks', function () {
     // a new def.
     this.clock.tick(100);
     this.workspace.dispose();
+    sinon.restore();
   });
 
   const testSuites = [

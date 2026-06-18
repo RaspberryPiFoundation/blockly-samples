@@ -41,9 +41,9 @@
   "devDependencies": {
     "@blockly/dev-scripts": "^4.0.12",
     "@blockly/dev-tools": "^9.0.9",
-    "chai": "^4.2.0",
-    "mocha": "^10.2.0",
-    "sinon": "^9.0.1"
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6",
+    "sinon": "^22.0.0"
   },
   "peerDependencies": {
     "blockly": "^13.0.0"

@@ -42,7 +42,7 @@
   "devDependencies": {
     "@blockly/dev-scripts": "^4.0.12",
     "@blockly/dev-tools": "^9.0.9",
-    "chai": "^4.2.0"
+    "chai": "^6.2.2"
   },
   "peerDependencies": {
     "blockly": "^13.0.0"
