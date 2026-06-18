@@ -516,8 +516,7 @@ export interface FieldMultilineInputConfig
 /**
  * fromJson config options for the multiline input field.
  */
-export interface FieldMultilineInputFromJsonConfig
-  extends FieldMultilineInputConfig {
+export interface FieldMultilineInputFromJsonConfig extends FieldMultilineInputConfig {
   text?: string;
 }
 
