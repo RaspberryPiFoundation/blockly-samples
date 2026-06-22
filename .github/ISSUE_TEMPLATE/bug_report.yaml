@@ -19,7 +19,7 @@ body:
     attributes:
       label: Component
       description: Which component has a bug?
-      placeholder: e.g. workspace search plugin, custom generator codelab, RTL demo
+      placeholder: e.g. workspace search plugin, RTL demo
   - type: textarea
     id: description
     attributes:
@@ -34,8 +34,8 @@ body:
       label: Reproduction steps
       description: What steps should we take to reproduce the issue?
       value: |
-        1. 
-        2. 
+        1.
+        2.
         3.
   - type: textarea
     id: stack-trace
