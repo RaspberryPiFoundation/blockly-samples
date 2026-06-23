@@ -297,7 +297,9 @@ function reifyEditedShadowBlock(
   );
 
   if (selectNewBlock) {
-    Blockly.getFocusManager().focusNode(regularBlock as Blockly.BlockSvg);
+    Blockly.renderManagement.finishQueuedRenders().then(() => {
+      Blockly.getFocusManager().focusNode(regularBlock as Blockly.BlockSvg);
+    });
   }
 
   return regularBlock;
