@@ -2,13 +2,12 @@
 Blockly Samples <br /> <a href="https://github.com/RaspberryPiFoundation/blockly"><img src="https://tinyurl.com/built-on-blockly" /> </a>
 </h1>
 
-Plugins, codelabs, and examples related to the [Blockly](https://github.com/RaspberryPiFoundation/blockly) library.
+Plugins and examples related to the [Blockly](https://github.com/RaspberryPiFoundation/blockly) library.
 
-This repository has three sections:
+This repository has two sections:
 
 - [Plugins](plugins/): self-contained pieces of code that add functionality to Blockly.
 - [Examples](examples/): self-contained sample projects demonstrating techniques to include and extend the Blockly library.
-- [Codelabs](codelabs/): interactive tutorials demonstrating how to use Blockly.
 
 Please see our [GitHub Pages site](https://raspberrypifoundation.github.io/blockly-samples/index.html) for interactive demos of most plugins.
 

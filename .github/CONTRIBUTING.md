@@ -2,10 +2,10 @@
 
 ## How can I contribute?
 
-- [Suggest](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=type%3A+feature+request%2C+triage&template=feature_request.md) plugins, examples, or codelabs
+- [Suggest](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=type%3A+feature+request%2C+triage&template=feature_request.md) plugins or examples
   - :arrow_right: Start by reading [How To Write A Good Issue](https://developers.google.com/blockly/guides/modify/contribute/write_a_good_issue)
-- Implement plugins, examples, or codelabs
-  - :arrow_right: Read up on how to [Add a Plugin](https://developers.google.com/blockly/guides/modify/contribute/add_a_plugin) or [Write a Codelab](https://developers.google.com/blockly/guides/modify/contribute/write_a_codelab)
+- Implement plugins
+  - :arrow_right: Read up on how to [Add a Plugin](https://developers.google.com/blockly/guides/modify/contribute/add_a_plugin)
 - [Report bugs](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=type%3A+bug%2C+triage&template=bug_report.md)
   - :arrow_right: Start by reading [How To Write A Good Issue](https://developers.google.com/blockly/guides/modify/contribute/write_a_good_issue)
 - Fix bugs

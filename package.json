@@ -58,7 +58,6 @@
     "plugins/*",
     "examples/blockly-**",
     "examples/**-demo",
-    "examples/**-codelab",
     "examples/sample-**",
     "examples/developer-tools"
   ]
