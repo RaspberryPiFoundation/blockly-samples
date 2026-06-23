@@ -104,7 +104,7 @@ export class Grid {
         this.root.appendChild(row);
       }
 
-      const [label, value] = item;
+      const [label, value, ariaLabel] = item;
       const content = (() => {
         if (isImageProperties(label)) {
           // Convert ImageProperties to an HTMLImageElement.
@@ -120,6 +120,7 @@ export class Grid {
         row,
         content,
         value,
+        ariaLabel,
         (selectedItem: GridItem) => {
           this.setSelectedValue(selectedItem.getValue());
           this.selectionCallback?.(selectedItem);
