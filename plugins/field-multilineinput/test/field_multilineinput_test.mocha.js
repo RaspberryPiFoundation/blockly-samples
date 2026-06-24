@@ -183,20 +183,20 @@ suite('FieldMultilineInput', function () {
       assert.isTrue(this.superStub.calledOnce);
     });
 
-    test('insertNewline_ splices a newline at the cursor', function () {
+    test('insertNewline splices a newline at the cursor', function () {
       this.textarea.value = 'hello world';
       this.textarea.selectionStart = 5;
       this.textarea.selectionEnd = 5;
-      this.field['insertNewline_']();
+      this.field['insertNewline']();
       assert.equal(this.textarea.value, 'hello\n world');
       assert.equal(this.textarea.selectionStart, 6);
     });
 
-    test('insertNewline_ replaces a selection with a newline', function () {
+    test('insertNewline replaces a selection with a newline', function () {
       this.textarea.value = 'hello world';
       this.textarea.selectionStart = 5;
       this.textarea.selectionEnd = 11;
-      this.field['insertNewline_']();
+      this.field['insertNewline']();
       assert.equal(this.textarea.value, 'hello\n');
       assert.equal(this.textarea.selectionStart, 6);
     });

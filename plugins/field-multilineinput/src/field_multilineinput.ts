@@ -44,15 +44,13 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
   static showHint = true;
 
   /** The hint bar DOM element while the editor is open. */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private hintElement_: HTMLDivElement | null = null;
+  private hintElement: HTMLDivElement | null = null;
 
   /**
    * Cached natural width of the hint bar in px, keyed by scale.
    * Invalidated when zoom changes to avoid stale measurements.
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private cachedHintWidth_: {scale: number; widthPx: number} | null = null;
+  private cachedHintWidth: {scale: number; widthPx: number} | null = null;
 
   /**
    * @param value The initial content of the field.  Should cast to a string.
@@ -389,20 +387,20 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
       totalWidth = Math.max(totalWidth, FieldMultilineInput.EDITOR_MIN_WIDTH);
 
       // Measure the hint bar's natural width to make sure the editor is wide enough.
-      if (FieldMultilineInput.showHint && this.hintElement_?.isConnected) {
+      if (FieldMultilineInput.showHint && this.hintElement?.isConnected) {
         const scale = (this.workspace_ as Blockly.WorkspaceSvg).getScale();
-        if (!this.cachedHintWidth_ || this.cachedHintWidth_.scale !== scale) {
+        if (!this.cachedHintWidth || this.cachedHintWidth.scale !== scale) {
           // Temporarily let the element size to its content to measure its
           // natural width, unaffected by the current WidgetDiv width.
-          this.hintElement_.style.width = 'max-content';
-          const widthPx = this.hintElement_.offsetWidth;
-          this.hintElement_.style.width = '';
-          if (widthPx > 0) this.cachedHintWidth_ = {scale, widthPx};
+          this.hintElement.style.width = 'max-content';
+          const widthPx = this.hintElement.offsetWidth;
+          this.hintElement.style.width = '';
+          if (widthPx > 0) this.cachedHintWidth = {scale, widthPx};
         }
-        if (this.cachedHintWidth_) {
+        if (this.cachedHintWidth) {
           totalWidth = Math.max(
             totalWidth,
-            this.cachedHintWidth_.widthPx / scale,
+            this.cachedHintWidth.widthPx / scale,
           );
         }
       }
@@ -487,9 +485,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     this.bindInputEvents_(htmlInput);
 
     if (FieldMultilineInput.showHint) {
-      this.hintElement_ = this.createHint_(hintHeightPx);
-      this.hintElement_.style.fontFamily = constants.FIELD_TEXT_FONTFAMILY;
-      div.appendChild(this.hintElement_);
+      this.hintElement = this.createHint(hintHeightPx);
+      this.hintElement.style.fontFamily = constants.FIELD_TEXT_FONTFAMILY;
+      div.appendChild(this.hintElement);
     }
 
     return htmlInput;
@@ -503,8 +501,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * @param heightPx The height of the hint bar in pixels.
    * @returns The hint bar element.
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private createHint_(heightPx: number): HTMLDivElement {
+  private createHint(heightPx: number): HTMLDivElement {
     const shiftKey = '⇧';
     const enterKey = '⏎';
     const hint = document.createElement('div');
@@ -515,21 +512,21 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     // Plain Enter
     const enterGroup = document.createElement('div');
     enterGroup.className = 'blocklyMultilineHintGroup';
-    enterGroup.appendChild(this.createHintKeycap_(enterKey));
-    enterGroup.appendChild(this.createHintColon_());
+    enterGroup.appendChild(this.createHintKeycap(enterKey));
+    enterGroup.appendChild(this.createHintColon());
     enterGroup.appendChild(
-      this.createHintLabel_(FieldMultilineInput.enterCommits ? 'commit' : 'newline'),
+      this.createHintLabel(FieldMultilineInput.enterCommits ? 'commit' : 'newline'),
     );
     hint.appendChild(enterGroup);
 
     // Modifier+Enter
     const modEnterGroup = document.createElement('div');
     modEnterGroup.className = 'blocklyMultilineHintGroup';
-    modEnterGroup.appendChild(this.createHintKeycap_(shiftKey));
-    modEnterGroup.appendChild(this.createHintKeycap_(enterKey));
-    modEnterGroup.appendChild(this.createHintColon_());
+    modEnterGroup.appendChild(this.createHintKeycap(shiftKey));
+    modEnterGroup.appendChild(this.createHintKeycap(enterKey));
+    modEnterGroup.appendChild(this.createHintColon());
     modEnterGroup.appendChild(
-      this.createHintLabel_(FieldMultilineInput.enterCommits ? 'newline' : 'commit'),
+      this.createHintLabel(FieldMultilineInput.enterCommits ? 'newline' : 'commit'),
     );
     hint.appendChild(modEnterGroup);
 
@@ -541,8 +538,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    *
    * @returns The colon element.
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private createHintColon_(): HTMLSpanElement {
+  private createHintColon(): HTMLSpanElement {
     const colon = document.createElement('span');
     colon.className = 'blocklyMultilineHintColon';
     colon.textContent = ':';
@@ -555,8 +551,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * @param label The key symbol to display.
    * @returns The keycap element.
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private createHintKeycap_(label: string): HTMLSpanElement {
+  private createHintKeycap(label: string): HTMLSpanElement {
     const key = document.createElement('span');
     key.className = 'blocklyMultilineHintKey';
     key.textContent = label;
@@ -571,8 +566,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * @param type Either 'commit' or 'newline'.
    * @returns The label element.
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private createHintLabel_(type: 'commit' | 'newline'): HTMLSpanElement {
+  private createHintLabel(type: 'commit' | 'newline'): HTMLSpanElement {
     const label = document.createElement('span');
     label.className = 'blocklyMultilineHintLabel';
     label.textContent =
@@ -631,7 +625,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
       if (shouldCommit) {
         super.onHtmlInputKeyDown_(e);
       } else {
-        this.insertNewline_();
+        this.insertNewline();
         e.preventDefault();
         e.stopPropagation();
       }
@@ -649,8 +643,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * to trigger Blockly's onHtmlInputChange handler (programmatic `.value`
    * assignment doesn't fire `input` on its own).
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  private insertNewline_() {
+  private insertNewline() {
     const htmlInput = this.htmlInput_!;
     const start = htmlInput.selectionStart ?? htmlInput.value.length;
     const end = htmlInput.selectionEnd ?? start;
