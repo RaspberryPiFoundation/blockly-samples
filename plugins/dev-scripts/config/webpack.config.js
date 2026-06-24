@@ -114,6 +114,7 @@ module.exports = (env) => {
         isTypescript && {
           test: /\.tsx?$/,
           loader: require.resolve('ts-loader'),
+          options: isProduction ? {} : {compilerOptions: {rootDir: '.'}},
         },
       ].filter(Boolean),
     },
