@@ -23,11 +23,9 @@ export class FieldAngle extends Blockly.FieldNumber {
    */
   static readonly RADIUS: number = FieldAngle.HALF - 1;
 
-   
   static readonly DEFAULT_PRECISION = 15;
   static readonly DEFAULT_MIN = 0;
   static readonly DEFAULT_MAX = 360;
-   
 
   /**
    * Whether the angle should increase as the angle picker is moved clockwise

@@ -18,7 +18,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * Minimum editor width (in SVG/workspace units) when the field is open.
    * Prevents narrow editors when the initial text is very short.
    */
-   
+
   static readonly EDITOR_MIN_WIDTH = 150;
 
   /**
