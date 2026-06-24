@@ -20,7 +20,7 @@ import {
  * An array of colour strings for the palette.
  * Copied from goog.ui.ColorPicker.SIMPLE_GRID_COLORS
  */
-const DEFAULT_COLOURS = {
+const DEFAULT_COLOURS: Record<string, string> = {
   // greys
   '#ffffff': 'White',
   '#cccccc': 'Light Grey',
@@ -116,6 +116,8 @@ export class FieldColour extends FieldGridDropdown {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   protected override isDirty_ = false;
 
+  protected override ariaTypeName = Blockly.Msg['ARIA_TYPE_FIELD_COLOUR'];
+
   /**
    * @param value The initial value of the field.  Should be in '#rrggbb'
    *     format.  Defaults to the first value in the default colour array.  Also
@@ -137,9 +139,7 @@ export class FieldColour extends FieldGridDropdown {
   ) {
     const swatches = makeSwatches(
       config?.colourOptions ?? Object.keys(DEFAULT_COLOURS),
-      config?.colourTitles?.length
-        ? config.colourTitles
-        : Object.values(DEFAULT_COLOURS),
+      config?.colourTitles,
     );
     super(swatches, validator, {...config, columns: config?.columns ?? 7});
 
@@ -195,14 +195,6 @@ export class FieldColour extends FieldGridDropdown {
     }
 
     this.recomputeAriaContext();
-  }
-
-  /**
-   * Returns a description of the type of this field for use in screenreader
-   * labels.
-   */
-  override getAriaTypeName(): string | null {
-    return Blockly.Msg['ARIA_TYPE_FIELD_COLOUR'];
   }
 
   /**
@@ -429,8 +421,7 @@ function makeSwatches(
     if (titles && index < titles.length) {
       swatch.title = titles[index];
     }
-
-    return [swatch, colour, titles?.[index]];
+    return [swatch, colour, titles?.[index] ?? DEFAULT_COLOURS[colour]];
   });
 }
 
@@ -511,7 +502,8 @@ export interface FieldColourConfig extends FieldGridDropdownConfig {
 /**
  * fromJson config options for the colour field.
  */
-export interface FieldColourFromJsonConfig extends FieldGridDropdownFromJsonConfig {
+export interface FieldColourFromJsonConfig
+  extends FieldGridDropdownFromJsonConfig {
   colour?: string;
 }
 
