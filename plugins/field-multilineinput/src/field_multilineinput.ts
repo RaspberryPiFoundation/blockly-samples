@@ -466,15 +466,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     const paddingBottomPx = FieldMultilineInput.showHint
       ? paddingY + hintHeightPx
       : paddingY;
-    htmlInput.style.padding =
-      paddingY +
-      'px ' +
-      paddingX +
-      'px ' +
-      paddingBottomPx +
-      'px ' +
-      paddingX +
-      'px';
+    htmlInput.style.padding = `${paddingY}px ${paddingX}px ${paddingBottomPx}px ${paddingX}px`;
     htmlInput.style.lineHeight = lineHeight * scale + 'px';
     div.appendChild(htmlInput);
 
@@ -625,8 +617,8 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
   protected override onHtmlInputKeyDown_(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       if (e.isComposing) {
-        // Let the IME finalize its composition naturally; don't commit or
-        // insert a newline ourselves.
+        // Let the IME (input method editor) finalize its composition naturally;
+        // don't commit or insert a newline ourselves.
         return;
       }
       const shiftPressed = e.shiftKey;
