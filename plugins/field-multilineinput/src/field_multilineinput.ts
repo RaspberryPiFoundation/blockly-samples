@@ -18,6 +18,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * Minimum editor width (in SVG/workspace units) when the field is open.
    * Prevents narrow editors when the initial text is very short.
    */
+   
   static readonly EDITOR_MIN_WIDTH = 150;
 
   /**
@@ -654,7 +655,8 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
    * assignment doesn't fire `input` on its own).
    */
   private insertNewline() {
-    const htmlInput = this.htmlInput_!;
+    const htmlInput = this.htmlInput_;
+    if (!htmlInput) return;
     const start = htmlInput.selectionStart ?? htmlInput.value.length;
     const end = htmlInput.selectionEnd ?? start;
     htmlInput.value =

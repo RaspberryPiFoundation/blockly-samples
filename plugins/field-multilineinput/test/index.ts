@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
       (playground) => {
         playground.addCheckboxAction(
           'Enter sends newline',
-          (_workspace, value: boolean) => {
+          (workspace, value: boolean) => {
             FieldMultilineInput.enterCommits = !value;
           },
           'Field MultilineInput',
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         playground.addCheckboxAction(
           'Disable hint UI',
-          (_workspace, value: boolean) => {
+          (workspace, value: boolean) => {
             FieldMultilineInput.showHint = !value;
           },
           'Field MultilineInput',
