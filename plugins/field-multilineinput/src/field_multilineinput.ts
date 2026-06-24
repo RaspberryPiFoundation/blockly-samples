@@ -166,6 +166,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
       },
       this.fieldGroup_,
     );
+    if (this.fieldGroup_) {
+      Blockly.utils.dom.addClass(this.fieldGroup_, 'blocklyField');
+    }
   }
 
   /**
