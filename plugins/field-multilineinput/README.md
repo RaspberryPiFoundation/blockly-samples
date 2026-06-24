@@ -41,11 +41,39 @@ always a valid string, while its text could be any string entered into its
 editor. Unlike a text input field, this field also supports newline characters
 entered in the editor.
 
+#### Editor keyboard shortcuts
+
+The default keyboard mapping is:
+
+| Key | Action |
+|-----|--------|
+| Enter | Commit the value and close the editor |
+| Shift+Enter | Insert a newline at the cursor |
+| Escape | Revert to the original value and close the editor |
+
+With `FieldMultilineInput.enterCommits = false` the mapping is swapped:
+
+| Key | Action |
+|-----|--------|
+| Enter | Insert a newline at the cursor |
+| Shift+Enter | Commit the value and close the editor |
+| Escape | Revert to the original value and close the editor |
+
+`enterCommits` and `showHint` are global (static) settings that apply to all
+fields. Set them once before creating your blocks:
+
+```js
+import {FieldMultilineInput} from '@blockly/field-multilineinput';
+
+FieldMultilineInput.enterCommits = false; // default: true
+FieldMultilineInput.showHint = false;     // default: true
+```
+
 The constructor for this field accepts three optional parameters:
 
 - `value`: The default text. Defaults to `""`.
 - `validator`: A function that is called to validate what the user entered.
-- `config`: An object with three optional properties:
+- `config`: An object with optional properties:
   - `maxLines`: The maximum number of lines displayed before scrolling
     functionality is enabled. Defaults to `Infinity`.
   - `spellcheck`: Whether spell checking is enabled. Defaults to `true`.
@@ -186,12 +214,23 @@ textMultiline.installBlock({
 
 ### API reference
 
+Instance methods:
+
 - `setMaxLines`: Sets the maximum number of displayed lines before
   scrolling functionality is enabled.
 - `getMaxLines`: Returns the maximum number of displayed lines before
   scrolling functionality is enabled.
 - `setSpellcheck`: Sets whether spell checking is enabled.
 - `getSpellcheck`: Returns whether spell checking is enabled.
+
+Static (global) properties:
+
+- `FieldMultilineInput.enterCommits`: Whether pressing Enter commits the
+  value (`true`, default) or inserts a newline (`false`). Applies to all
+  fields.
+- `FieldMultilineInput.showHint`: Whether the keyboard-shortcut hint bar is
+  shown in the editor. When `false`, no space is reserved for the hint bar.
+  Applies to all fields.
 
 ## License
 

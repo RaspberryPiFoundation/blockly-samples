@@ -15,7 +15,7 @@ import {phpGenerator} from 'blockly/php';
 import {pythonGenerator} from 'blockly/python';
 import {luaGenerator} from 'blockly/lua';
 import {createPlayground} from '@blockly/dev-tools';
-import {textMultiline} from '../src/index';
+import {FieldMultilineInput, textMultiline} from '../src/index';
 
 /**
  * An array of blocks that are defined only for the purposes of
@@ -209,8 +209,7 @@ function createWorkspace(
     python: pythonGenerator,
     php: phpGenerator,
   });
-  const workspace = Blockly.inject(blocklyDiv, options);
-  return workspace;
+  return Blockly.inject(blocklyDiv, options);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -219,6 +218,25 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   const rootElement = document.getElementById('root');
   if (rootElement) {
-    createPlayground(rootElement, createWorkspace, defaultOptions);
+    createPlayground(rootElement, createWorkspace, defaultOptions).then(
+      (playground) => {
+        playground.addCheckboxAction(
+          'Enter sends newline',
+          (_workspace, value: boolean) => {
+            FieldMultilineInput.enterCommits = !value;
+          },
+          'Field MultilineInput',
+          false,
+        );
+        playground.addCheckboxAction(
+          'Disable hint UI',
+          (_workspace, value: boolean) => {
+            FieldMultilineInput.showHint = !value;
+          },
+          'Field MultilineInput',
+          false,
+        );
+      },
+    );
   }
 });
