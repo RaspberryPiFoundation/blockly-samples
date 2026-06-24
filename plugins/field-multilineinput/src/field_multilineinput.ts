@@ -462,7 +462,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     const hintHeightPx = Math.ceil(lineHeight * scale);
     // When the hint bar is visible it occupies one text row at the bottom;
     // pad the textarea by that row so we don't edit text underneath it.
-    const paddingBottomPx = FieldMultilineInput.showHint ? paddingY + hintHeightPx : paddingY;
+    const paddingBottomPx = FieldMultilineInput.showHint
+      ? paddingY + hintHeightPx
+      : paddingY;
     htmlInput.style.padding =
       paddingY +
       'px ' +
@@ -518,7 +520,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     enterGroup.appendChild(this.createHintKeycap(enterKey));
     enterGroup.appendChild(this.createHintColon());
     enterGroup.appendChild(
-      this.createHintLabel(FieldMultilineInput.enterCommits ? 'commit' : 'newline'),
+      this.createHintLabel(
+        FieldMultilineInput.enterCommits ? 'commit' : 'newline',
+      ),
     );
     hint.appendChild(enterGroup);
 
@@ -529,7 +533,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     modEnterGroup.appendChild(this.createHintKeycap(enterKey));
     modEnterGroup.appendChild(this.createHintColon());
     modEnterGroup.appendChild(
-      this.createHintLabel(FieldMultilineInput.enterCommits ? 'newline' : 'commit'),
+      this.createHintLabel(
+        FieldMultilineInput.enterCommits ? 'newline' : 'commit',
+      ),
     );
     hint.appendChild(modEnterGroup);
 
@@ -574,8 +580,7 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     label.className = 'blocklyMultilineHintLabel';
     label.textContent =
       type === 'commit'
-        ? Blockly.Msg['FIELD_MULTILINEINPUT_FINISH_EDITING'] ||
-          'Finish editing'
+        ? Blockly.Msg['FIELD_MULTILINEINPUT_FINISH_EDITING'] || 'Finish editing'
         : Blockly.Msg['FIELD_MULTILINEINPUT_NEW_LINE'] || 'New line';
     return label;
   }
@@ -624,7 +629,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
         return;
       }
       const shiftPressed = e.shiftKey;
-      const shouldCommit = FieldMultilineInput.enterCommits ? !shiftPressed : shiftPressed;
+      const shouldCommit = FieldMultilineInput.enterCommits
+        ? !shiftPressed
+        : shiftPressed;
       if (shouldCommit) {
         super.onHtmlInputKeyDown_(e);
       } else {

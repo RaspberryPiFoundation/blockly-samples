@@ -45,19 +45,19 @@ entered in the editor.
 
 The default keyboard mapping is:
 
-| Key | Action |
-|-----|--------|
-| Enter | Commit the value and close the editor |
-| Shift+Enter | Insert a newline at the cursor |
-| Escape | Revert to the original value and close the editor |
+| Key         | Action                                            |
+| ----------- | ------------------------------------------------- |
+| Enter       | Commit the value and close the editor             |
+| Shift+Enter | Insert a newline at the cursor                    |
+| Escape      | Revert to the original value and close the editor |
 
 With `FieldMultilineInput.enterCommits = false` the mapping is swapped:
 
-| Key | Action |
-|-----|--------|
-| Enter | Insert a newline at the cursor |
-| Shift+Enter | Commit the value and close the editor |
-| Escape | Revert to the original value and close the editor |
+| Key         | Action                                            |
+| ----------- | ------------------------------------------------- |
+| Enter       | Insert a newline at the cursor                    |
+| Shift+Enter | Commit the value and close the editor             |
+| Escape      | Revert to the original value and close the editor |
 
 `enterCommits` and `showHint` are global (static) settings that apply to all
 fields. Set them once before creating your blocks:
@@ -66,7 +66,7 @@ fields. Set them once before creating your blocks:
 import {FieldMultilineInput} from '@blockly/field-multilineinput';
 
 FieldMultilineInput.enterCommits = false; // default: true
-FieldMultilineInput.showHint = false;     // default: true
+FieldMultilineInput.showHint = false; // default: true
 ```
 
 The constructor for this field accepts three optional parameters:
