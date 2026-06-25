@@ -24,7 +24,13 @@ import {Backpackable, isBackpackable} from './backpackable';
  */
 export class Backpack
   extends Blockly.DragTarget
-  implements Blockly.IAutoHideable, Blockly.IPositionable
+  implements
+    Blockly.IComponent,
+    Blockly.IContextMenu,
+    Blockly.IAutoHideable,
+    Blockly.IPositionable,
+    Blockly.IFocusableNode,
+    Blockly.IContextMenu
 {
   /** The unique id for this component. */
   id = 'backpack';
@@ -132,6 +138,7 @@ export class Backpack
         Blockly.ComponentManager.Capability.AUTOHIDEABLE,
         Blockly.ComponentManager.Capability.DRAG_TARGET,
         Blockly.ComponentManager.Capability.POSITIONABLE,
+        Blockly.ComponentManager.Capability.FOCUSABLE,
       ],
     });
     this.initFlyout();
@@ -219,8 +226,32 @@ export class Backpack
   protected createDom() {
     this.svgGroup_ = Blockly.utils.dom.createSvgElement(
       Blockly.utils.Svg.G,
-      {},
+      {
+        id: Blockly.utils.idGenerator.getNextUniqueId(),
+        tabindex: '0',
+        class: 'blocklyBackpackContainer',
+      },
       null,
+    );
+    Blockly.utils.aria.setState(
+      this.svgGroup_,
+      Blockly.utils.aria.State.LABEL,
+      'Open backpack',
+    );
+    Blockly.utils.aria.setRole(this.svgGroup_, Blockly.utils.aria.Role.BUTTON);
+    Blockly.utils.dom.createSvgElement(
+      Blockly.utils.Svg.RECT,
+      {
+        width: this.WIDTH_ + 8,
+        height: this.HEIGHT_ + 8,
+        class: 'blocklyFocusRing',
+        x: -4,
+        y: -4,
+        rx: 2,
+        ry: 2,
+        fill: 'none',
+      },
+      this.svgGroup_,
     );
     const rnd = Blockly.utils.idGenerator.genUid();
     const clip = Blockly.utils.dom.createSvgElement(
@@ -767,21 +798,24 @@ export class Backpack
    * Opens the backpack flyout.
    */
   open() {
-    if (!this.isOpenable()) {
+    if (!this.isOpenable() || !this.flyout_ || !this.svgGroup_) {
       return;
     }
+    Blockly.utils.aria.setState(
+      this.svgGroup_,
+      Blockly.utils.aria.State.LABEL,
+      'Close backpack',
+    );
     const jsons = this.contents_.map((text) => JSON.parse(text));
-    this.flyout_?.show(jsons);
-    // TODO: We can remove the setVisible check when updating from ^10.0.0 to
-    //    ^11.
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    if (
-      this.workspace_.scrollbar &&
-      (this.workspace_.scrollbar as any).setVisible
-    ) {
-      (this.workspace_.scrollbar as any).setVisible(false);
+    this.flyout_.show(jsons);
+    this.workspace_.scrollbar?.setVisible(false);
+    if (Blockly.keyboardNavigationController.getIsActive()) {
+      const flyoutWorkspace = this.flyout_.getWorkspace();
+      const firstItem = flyoutWorkspace?.getNavigator().getFirstNode();
+      if (firstItem) {
+        Blockly.getFocusManager().focusNode(firstItem);
+      }
     }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
     Blockly.Events.fire(new BackpackOpen(true, this.workspace_.id));
   }
 
@@ -800,21 +834,18 @@ export class Backpack
    * Closes the backpack flyout.
    */
   close() {
-    if (!this.isOpen()) {
+    if (!this.isOpen() || !this.svgGroup_) {
       return;
     }
     this.flyout_?.hide();
-    // TODO: We can remove the setVisible check when updating from ^10.0.0 to
-    //    ^11.
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    if (
-      this.workspace_.scrollbar &&
-      (this.workspace_.scrollbar as any).setVisible
-    ) {
-      (this.workspace_.scrollbar as any).setVisible(true);
-    }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    this.workspace_.scrollbar?.setVisible(true);
+
     Blockly.Events.fire(new BackpackOpen(false, this.workspace_.id));
+    Blockly.utils.aria.setState(
+      this.svgGroup_,
+      Blockly.utils.aria.State.LABEL,
+      'Open backpack',
+    );
   }
 
   /**
@@ -836,11 +867,11 @@ export class Backpack
    *
    * @param e Mouse event.
    */
-  protected onClick(e: Event) {
+  protected onClick(e?: Event) {
     if (e instanceof MouseEvent && Blockly.browserEvents.isRightButton(e)) {
       return;
     }
-    this.open();
+    this.isOpen() ? this.close() : this.open();
     const uiEvent = new (Blockly.Events.get(Blockly.Events.CLICK))(
       null,
       this.workspace_.id,
@@ -923,18 +954,76 @@ export class Backpack
    * @param e A mouse down event.
    */
   protected blockMouseDownWhenOpenable(e: Event) {
-    if (
-      e instanceof MouseEvent &&
-      !Blockly.browserEvents.isRightButton(e) &&
-      this.isOpenable()
-    ) {
-      e.stopPropagation(); // Don't start a workspace scroll.
+    if (e instanceof MouseEvent) {
+      if (Blockly.browserEvents.isRightButton(e)) {
+        this.showContextMenu(e);
+        e.stopPropagation();
+        return;
+      }
+
+      if (this.isOpenable()) {
+        e.stopPropagation(); // Don't start a workspace scroll.
+      }
     }
+  }
+
+  getFocusableElement(): HTMLElement | SVGElement {
+    if (!this.svgGroup_) {
+      throw new Error('Attempted to focus an uninitialized backpack');
+    }
+
+    return this.svgGroup_;
+  }
+
+  getFocusableTree(): Blockly.IFocusableTree {
+    return this.workspace_;
+  }
+
+  onNodeFocus(): void {}
+
+  onNodeBlur(): void {}
+
+  canBeFocused(): boolean {
+    return true;
+  }
+
+  performAction(e?: Event): void {
+    this.onClick(e);
+  }
+
+  /**
+   * Show the context menu for the backpack.
+   *
+   * @param e Event that triggered the display of the context menu.
+   */
+  showContextMenu(e: Event): void {
+    if (!this.options.contextMenu?.emptyBackpack) return;
+
+    Blockly.ContextMenu.show(
+      e,
+      [
+        {
+          text: Blockly.Msg['EMPTY_BACKPACK'],
+          enabled: !!this.getCount(),
+          callback: () => {
+            this.empty();
+          },
+          weight: 0,
+          id: 'empty_backpack',
+        },
+      ],
+      this.workspace_.RTL,
+      this.workspace_,
+      new Blockly.utils.Coordinate(
+        e instanceof MouseEvent ? e.clientX : this.left_,
+        e instanceof MouseEvent ? e.clientY : this.top_,
+      ),
+    );
   }
 }
 
 /**
- * Base64 encoded data uri for backpack  icon.
+ * Base64 encoded data uri for backpack icon.
  */
 const backpackSvgDataUri =
   'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC' +
@@ -951,7 +1040,7 @@ const backpackSvgDataUri =
   'YxNHYtMUg4di0xaDdoMVYxM3oiLz48L2c+PC9nPjwvc3ZnPg==';
 
 /**
- * Base64 encoded data uri for backpack  icon when filled.
+ * Base64 encoded data uri for backpack icon when filled.
  */
 const backpackFilledSvgDataUri =
   'data:image/svg+xml;base64,PD94bWwgdmVyc2' +
@@ -1003,7 +1092,7 @@ Blockly.Css.register(`
 .blocklyBackpack {
   opacity: 0.4;
 }
-.blocklyBackpackDarken {
+.blocklyBackpackContainer:focus .blocklyBackpack, .blocklyBackpackDarken {
   opacity: 0.6;
 }
 .blocklyBackpack:active {

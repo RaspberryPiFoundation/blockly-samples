@@ -17,42 +17,6 @@ import {Backpack} from './backpack';
 import {BackpackContextMenuOptions} from './options';
 
 /**
- * Registers a context menu option to empty the backpack when right-clicked.
- *
- * @param workspace The workspace to register the context menu option on.
- */
-function registerEmptyBackpack(workspace: Blockly.WorkspaceSvg) {
-  const prevConfigureContextMenu = workspace.configureContextMenu;
-  workspace.configureContextMenu = (menuOptions, e: Event) => {
-    const backpack = workspace
-      .getComponentManager()
-      .getComponent('backpack') as Backpack;
-    const backpackClientRect = backpack && backpack.getClientRect();
-    if (e instanceof PointerEvent && backpackClientRect) {
-      if (!backpack || !backpackClientRect.contains(e.clientX, e.clientY)) {
-        prevConfigureContextMenu &&
-          prevConfigureContextMenu.call(null, menuOptions, e);
-        return;
-      }
-    }
-    menuOptions.length = 0;
-    const backpackOptions = {
-      text: Blockly.Msg['EMPTY_BACKPACK'],
-      enabled: !!backpack.getCount(),
-      callback: function () {
-        backpack.empty();
-      },
-      scope: {
-        workspace,
-      },
-      weight: 0,
-      id: 'empty_backpack',
-    };
-    menuOptions.push(backpackOptions);
-  };
-}
-
-/**
  * Registers a context menu option to remove a block from a backpack flyout.
  */
 function registerRemoveFromBackpack() {
@@ -240,9 +204,6 @@ export function registerContextMenus(
   contextMenuOptions: BackpackContextMenuOptions,
   workspace: Blockly.WorkspaceSvg,
 ) {
-  if (contextMenuOptions.emptyBackpack) {
-    registerEmptyBackpack(workspace);
-  }
   if (contextMenuOptions.removeFromBackpack) {
     registerRemoveFromBackpack();
   }
