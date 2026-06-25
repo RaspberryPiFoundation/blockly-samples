@@ -155,6 +155,11 @@ export class ScrollBlockDragger extends Blockly.dragging.Dragger {
    * @override
    */
   onDrag(e: PointerEvent, dragDelta: Blockly.utils.Coordinate) {
+    if (Blockly.KeyboardMover.mover.isMoving()) {
+      super.onDrag(e, dragDelta);
+      return;
+    }
+
     const totalDelta = Blockly.utils.Coordinate.sum(
       this.scrollDelta_,
       dragDelta,
@@ -171,6 +176,11 @@ export class ScrollBlockDragger extends Blockly.dragging.Dragger {
    * @override
    */
   onDragEnd(e: PointerEvent) {
+    if (Blockly.KeyboardMover.mover.isMoving()) {
+      super.onDragEnd(e);
+      return;
+    }
+
     super.onDragEnd(e);
     this.stopAutoScrolling();
   }
