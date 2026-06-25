@@ -73,6 +73,28 @@ minimap.init();
 The minimap takes a workspace as input and it inherits its RTL and theme properties (so that they don't need to be configured manually).
 Additional styling of the minimap is possible with CSS. Use the `blockly-minimap` class for the minimap (box-shadow, etc.) and `blockly-focus-region` for the focus region (fill color, etc.).
 
+## Keyboard accessibility
+
+The minimap is a single tab stop in the page tab order. When focused, the arrow
+keys pan the main workspace:
+
+| Key          | Action                  |
+| ------------ | ----------------------- |
+| `ArrowUp`    | Pan the workspace up    |
+| `ArrowDown`  | Pan the workspace down  |
+| `ArrowLeft`  | Pan the workspace left  |
+| `ArrowRight` | Pan the workspace right |
+
+Modifier key combinations (Ctrl, Alt, Shift, Meta) are passed through without
+panning.
+
+The default pan distance is 40 workspace pixels per keypress and is
+configurable:
+
+```js
+minimap.setKeyboardPanStep(80); // pan 80px per arrow press
+```
+
 ## API
 
 - `init`: Initializes the minimap.
@@ -81,6 +103,11 @@ Additional styling of the minimap is possible with CSS. Use the `blockly-minimap
 - `isFocusEnabled`: Returns whether the focus region is enabled.
 - `enableFocusRegion`: Turns on the focus region in the minimap.
 - `disableFocusRegion`: Turns off the focus region in the minimap.
+
+- `setKeyboardPanStep(stepPixels)`: Sets how far (in primary-workspace pixels)
+  each arrow keypress pans the workspace when the minimap is focused.
+- `getKeyboardPanStep()`: Returns the current keyboard pan step in
+  primary-workspace pixels.
 
 The following methods are also accessible with PositionedMinimap instances.
 
