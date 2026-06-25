@@ -142,13 +142,13 @@ export class Minimap {
       this.minimapWrapper,
       'focus',
       this,
-      this.onWrapperFocus,
+      this.onMinimapFocus,
     );
     this.onBlurWrapper = Blockly.browserEvents.bind(
       this.minimapWrapper,
       'blur',
       this,
-      this.onWrapperBlur,
+      this.onMinimapBlur,
     );
 
     this.minimapWorkspace.scrollbar?.setContainerVisible(false);
@@ -351,7 +351,7 @@ export class Minimap {
     this.primaryScroll(event);
   }
 
-  private onWrapperFocus(): void {
+  private onMinimapFocus(): void {
     if (this.minimapWrapper?.matches(':focus-visible')) {
       this.minimapWrapper.style.setProperty(
         'outline-width',
@@ -365,7 +365,7 @@ export class Minimap {
     }
   }
 
-  private onWrapperBlur(): void {
+  private onMinimapBlur(): void {
     if (this.minimapWrapper) {
       this.minimapWrapper.style.removeProperty('outline-width');
       this.minimapWrapper.style.removeProperty('outline-style');
