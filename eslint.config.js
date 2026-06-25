@@ -211,6 +211,11 @@ module.exports = [
           modifiers: ['const'],
           format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
         },
+        {
+          selector: 'classProperty',
+          modifiers: ['static', 'readonly'],
+          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+        },
       ],
       '@typescript-eslint/consistent-type-assertions': 'error',
 
