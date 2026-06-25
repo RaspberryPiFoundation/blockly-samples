@@ -127,6 +127,19 @@ export class FieldGridDropdown extends Blockly.FieldDropdown {
     }
   }
 
+  /**
+   * Updates the ARIA roles and label for this field.
+   */
+  override recomputeAriaContext(): boolean {
+    super.recomputeAriaContext();
+    Blockly.utils.aria.setState(
+      this.getFocusableElement(),
+      Blockly.utils.aria.State.HASPOPUP,
+      'grid',
+    );
+    return true;
+  }
+
   /* eslint-disable @typescript-eslint/naming-convention */
   /**
    * Create a dropdown menu under the text.
@@ -217,7 +230,7 @@ Blockly.Css.register(`
      padding: 7px;
      overflow: auto;
    }
-   
+
   .blocklyFieldGrid {
     display: grid;
     grid-gap: 7px;
@@ -234,11 +247,11 @@ Blockly.Css.register(`
    cursor: pointer;
    padding: 6px 15px;
  }
- 
+
  .blocklyFieldGrid .blocklyFieldGridRow {
    display: contents;
  }
- 
+
  .blocklyFieldGrid .blocklyFieldGridItem.blocklyFieldGridItemSelected {
    background-color: rgba(1, 1, 1, 0.25);
  }
