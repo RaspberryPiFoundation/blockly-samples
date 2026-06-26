@@ -35,7 +35,13 @@ const runCode = () => {
 
   if (outputDiv) outputDiv.innerHTML = '';
 
-  eval(code);
+  // Wrap `eval` in a `try/catch` so that any runtime errors are
+  // logged to the console, instead of failing quietly.
+  try {
+    eval(code);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 if (ws) {
