@@ -10,6 +10,8 @@ on:
         required: false
         type: boolean
         default: false
+  schedule:
+    - cron: '5 17 * * 4' # Thursdays at 17:05 UTC (09:05 PST / 10:05 PDT)
 
 permissions:
   id-token: write # Required for OIDC.
