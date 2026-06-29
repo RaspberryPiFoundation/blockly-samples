@@ -26,6 +26,6 @@
     "webpack-dev-server": "^5.2.5"
   },
   "dependencies": {
-    "blockly": "^13.0.0"
+    "blockly": "^13.1.0"
   }
 }

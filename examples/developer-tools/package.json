@@ -42,6 +42,6 @@
     "@blockly/field-angle": "^6.0.9",
     "@blockly/field-colour": "^6.0.12",
     "@material/web": "^2.4.1",
-    "blockly": "^13.0.0"
+    "blockly": "^13.1.0"
   }
 }
