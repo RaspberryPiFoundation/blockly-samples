@@ -72,6 +72,7 @@ suite('WorkspaceSearch', function () {
     this.workspaceSearch = new WorkspaceSearch(this.workspace);
     // See https://github.com/RaspberryPiFoundation/blockly-samples/issues/2528 for context.
     global.SVGElement = window.SVGElement;
+    global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
   });
 
   teardown(function () {
@@ -492,7 +493,13 @@ suite('WorkspaceSearch', function () {
       this.workspaceSearch.searchAndHighlight('nothingMatchesThis', false);
       this.workspaceSearch.close();
 
-      assert.equal(Blockly.getFocusManager().getFocusedNode(), this.workspace);
+      // As of Blockly v13.1.0 the workspace is focused via a dedicated focus
+      // target node (rather than the workspace itself being the focused node),
+      // so focusing the workspace as a whole lands on that target.
+      assert.equal(
+        Blockly.getFocusManager().getFocusedNode(),
+        this.workspace.getWorkspaceFocusTarget(),
+      );
     });
 
     test('close with match followed by non-match still focuses last found block', function () {
