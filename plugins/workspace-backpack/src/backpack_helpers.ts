@@ -9,8 +9,6 @@
  * @author kozbial@google.com (Monica Kozbial)
  */
 
-import './msg';
-
 import * as Blockly from 'blockly/core';
 
 import {Backpack} from './backpack';

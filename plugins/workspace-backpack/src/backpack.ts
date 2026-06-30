@@ -236,7 +236,7 @@ export class Backpack
     Blockly.utils.aria.setState(
       this.svgGroup_,
       Blockly.utils.aria.State.LABEL,
-      'Open backpack',
+      Blockly.Msg['OPEN_BACKPACK'],
     );
     Blockly.utils.aria.setRole(this.svgGroup_, Blockly.utils.aria.Role.BUTTON);
     Blockly.utils.dom.createSvgElement(
@@ -804,7 +804,7 @@ export class Backpack
     Blockly.utils.aria.setState(
       this.svgGroup_,
       Blockly.utils.aria.State.LABEL,
-      'Close backpack',
+      Blockly.Msg['CLOSE_BACKPACK'],
     );
     const jsons = this.contents_.map((text) => JSON.parse(text));
     this.flyout_.show(jsons);
@@ -844,7 +844,7 @@ export class Backpack
     Blockly.utils.aria.setState(
       this.svgGroup_,
       Blockly.utils.aria.State.LABEL,
-      'Open backpack',
+      Blockly.Msg['OPEN_BACKPACK'],
     );
   }
 
