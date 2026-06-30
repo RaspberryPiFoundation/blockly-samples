@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
+
+### ⚠ BREAKING CHANGES
+
+* Bump Blockly dependency to v13 (#2704)
+
+### Bug Fixes
+
+* Fix the tests for block-dynamic-connection ([#2705](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2705))
+
+### Miscellaneous Chores
+
+* Bump Blockly dependency to v13 ([#2704](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2704))
+
+
 ## [0.8.9](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/block-dynamic-connection@0.8.8...@blockly/block-dynamic-connection@0.8.9) (2026-04-09)
 
 **Note:** Version bump only for package @blockly/block-dynamic-connection

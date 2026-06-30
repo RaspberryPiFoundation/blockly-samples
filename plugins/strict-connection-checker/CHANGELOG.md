@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
+
+### ⚠ BREAKING CHANGES
+
+* Bump Blockly dependency to v13 (#2704)
+
+### Bug Fixes
+
+* Fix strict connection checker tests ([#2703](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2703))
+
+### Miscellaneous Chores
+
+* Bump Blockly dependency to v13 ([#2704](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2704))
+
+
 ## [6.0.9](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/plugin-strict-connection-checker@6.0.8...@blockly/plugin-strict-connection-checker@6.0.9) (2026-04-09)
 
 **Note:** Version bump only for package @blockly/plugin-strict-connection-checker

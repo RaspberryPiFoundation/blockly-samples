@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
+
+### ⚠ BREAKING CHANGES
+
+* Bump Blockly dependency to v13 (#2704)
+
+### Features
+
+* fix keyboard nav for minimap ([#2730](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2730))
+
+### Bug Fixes
+
+* Fix minimap plugin under v13 ([#2702](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2702))
+
+### Miscellaneous Chores
+
+* Bump Blockly dependency to v13 ([#2704](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2704))
+
+
 ## [0.3.9](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/workspace-minimap@0.3.8...@blockly/workspace-minimap@0.3.9) (2026-04-09)
 
 **Note:** Version bump only for package @blockly/workspace-minimap

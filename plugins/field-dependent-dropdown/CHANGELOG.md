@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
+
+### ⚠ BREAKING CHANGES
+
+* make field-multilineinput keyboard navigable and accessible (#2729)
+* Bump Blockly dependency to v13 (#2704)
+
+### Features
+
+* make field-multilineinput keyboard navigable and accessible ([#2729](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2729))
+
+### Miscellaneous Chores
+
+* Bump Blockly dependency to v13 ([#2704](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2704))
+
+
 ## [5.0.10](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/field-dependent-dropdown@5.0.9...@blockly/field-dependent-dropdown@5.0.10) (2026-04-09)
 
 **Note:** Version bump only for package @blockly/field-dependent-dropdown

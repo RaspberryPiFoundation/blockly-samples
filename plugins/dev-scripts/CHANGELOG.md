@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
+
+### Bug Fixes
+
+* Fix JSDom whinging about its default stylesheet ([#2700](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2700))
+
+
 ## [4.0.12](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/dev-scripts@4.0.11...@blockly/dev-scripts@4.0.12) (2026-04-09)
 
 
