@@ -28,7 +28,7 @@ import {generatorStubGenerator} from './output-generators/generator_stub_generat
 
 // Even though En should be loaded by default,
 // if you don't load it specifically, you'll get spurious message warnings.
-Blockly.setLocale(En);
+Blockly.setLocale(En as unknown as {[key: string]: string});
 
 registerAllBlocks();
 
