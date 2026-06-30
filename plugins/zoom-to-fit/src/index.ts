@@ -9,7 +9,9 @@ import * as Blockly from 'blockly/core';
 /**
  * Class for zoom to fit control.
  */
-export class ZoomToFitControl implements Blockly.IPositionable {
+export class ZoomToFitControl
+  implements Blockly.IComponent, Blockly.IPositionable, Blockly.IFocusableNode
+{
   /**
    * The unique id for this component.
    */
@@ -72,7 +74,10 @@ export class ZoomToFitControl implements Blockly.IPositionable {
     this.workspace.getComponentManager().addComponent({
       component: this,
       weight: 2,
-      capabilities: [Blockly.ComponentManager.Capability.POSITIONABLE],
+      capabilities: [
+        Blockly.ComponentManager.Capability.POSITIONABLE,
+        Blockly.ComponentManager.Capability.FOCUSABLE,
+      ],
     });
     this.createDom();
     this.initialized = true;
@@ -97,15 +102,46 @@ export class ZoomToFitControl implements Blockly.IPositionable {
    * Creates DOM for ui element.
    */
   private createDom() {
-    this.svgGroup = Blockly.utils.dom.createSvgElement(
+    this.svgGroup = Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.G, {
+      height: `${this.height}px`,
+      width: `${this.width}px`,
+      class: 'zoomToFit',
+      id: Blockly.utils.idGenerator.getNextUniqueId(),
+      tabindex: '0',
+    });
+    Blockly.utils.aria.setState(
+      this.svgGroup,
+      Blockly.utils.aria.State.LABEL,
+      Blockly.Msg['ZOOM_TO_FIT_ARIA_LABEL'],
+    );
+    Blockly.utils.aria.setRole(this.svgGroup, Blockly.utils.aria.Role.BUTTON);
+
+    Blockly.utils.dom.createSvgElement(
+      Blockly.utils.Svg.RECT,
+      {
+        width: 40,
+        height: 40,
+        x: -4,
+        y: -4,
+        rx: 2,
+        ry: 2,
+        fill: 'none',
+        class: 'blocklyFocusRing',
+      },
+      this.svgGroup,
+    );
+
+    const image = Blockly.utils.dom.createSvgElement(
       Blockly.utils.Svg.IMAGE,
       {
         height: `${this.height}px`,
         width: `${this.width}px`,
-        class: 'zoomToFit',
+        class: 'zoomToFitIcon',
       },
+      this.svgGroup,
     );
-    this.svgGroup.setAttributeNS(
+
+    image.setAttributeNS(
       Blockly.utils.dom.XLINK_NS,
       'xlink:href',
       zoomToFitSvgDataUri,
@@ -130,7 +166,7 @@ export class ZoomToFitControl implements Blockly.IPositionable {
    *
    * @param e A pointer down event.
    */
-  private onClick(e: PointerEvent) {
+  private onClick(e?: Event) {
     this.workspace.zoomToFit();
     const uiEvent = new (Blockly.Events.get(Blockly.Events.CLICK))(
       null,
@@ -138,8 +174,8 @@ export class ZoomToFitControl implements Blockly.IPositionable {
       'zoom_reset_control',
     );
     Blockly.Events.fire(uiEvent);
-    e.stopPropagation(); // avoid to also fire workspace click event
-    e.preventDefault();
+    e?.stopPropagation(); // avoid to also fire workspace click event
+    e?.preventDefault();
   }
 
   /**
@@ -241,6 +277,29 @@ export class ZoomToFitControl implements Blockly.IPositionable {
       `translate(${this.left}, ${this.top})`,
     );
   }
+
+  getFocusableElement(): HTMLElement | SVGElement {
+    if (!this.svgGroup) {
+      throw new Error('Tried to focus an uninitialized zoom to fit control');
+    }
+    return this.svgGroup;
+  }
+
+  getFocusableTree(): Blockly.IFocusableTree {
+    return this.workspace;
+  }
+
+  onNodeFocus(): void {}
+
+  onNodeBlur(): void {}
+
+  canBeFocused(): boolean {
+    return true;
+  }
+
+  performAction(e?: Event): void {
+    this.onClick(e);
+  }
 }
 
 /**
@@ -256,13 +315,13 @@ const zoomToFitSvgDataUri =
   'E0LjVMNSAxNy41OVYxNUgzdjZoNnYtMkg2LjQybDMuMDgtMy4wOXoiLz48L3N2Zz4=';
 
 Blockly.Css.register(`
-.zoomToFit {
+.zoomToFitIcon {
   opacity: 0.4;
 }
-.zoomToFit:hover {
+.zoomToFitIcon:hover, .zoomToFit:focus .zoomToFitIcon {
   opacity: 0.6;
 }
-.zoomToFit:active {
+.zoomToFitIcon:active {
   opacity: 0.8;
 }
 `);
