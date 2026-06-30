@@ -120,27 +120,6 @@ beneficial for performance if you expect blocks stacks to be very large.
 Note: Currently the empty Backpack context menu is registered globally, while
 the others are registered per workspace.
 
-### Blockly Languages
-
-We do not currently support translating the text in this plugin to different
-languages. However, if you would like to support multiple languages the messages
-can be translated by assigning the following properties of Blockly.Msg
-
-- `EMPTY_BACKPACK` (Default: "Empty") context menu - Empty the backpack.
-- `REMOVE_FROM_BACKPACK` (Default: "Remove from Backpack") context menu - Remove
-  the selected Block from the backpack.
-- `COPY_TO_BACKPACK` (Default: "Copy to Backpack") context menu - Copy the
-  selected Block to the backpack.
-- `COPY_ALL_TO_BACKPACK` (Default: "Copy All Blocks to Backpack") Context menu -
-  copy all Blocks on the workspace to the backpack.
-- `PASTE_ALL_FROM_BACKPACK` (Default: "Paste All Blocks from Backpack") context
-  menu - Paste all Blocks from the backpack to the workspace.
-
-```javascript
-Blockly.Msg['EMPTY_BACKPACK'] = 'Opróżnij plecak'; // Polish
-// Inject workspace, etc...
-```
-
 ## API
 
 - `init`: Initializes the backpack.
