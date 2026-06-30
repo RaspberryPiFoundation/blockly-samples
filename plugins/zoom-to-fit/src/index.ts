@@ -112,7 +112,7 @@ export class ZoomToFitControl
     Blockly.utils.aria.setState(
       this.svgGroup,
       Blockly.utils.aria.State.LABEL,
-      'Zoom to fit',
+      Blockly.Msg['ZOOM_TO_FIT_ARIA_LABEL'],
     );
     Blockly.utils.aria.setRole(this.svgGroup, Blockly.utils.aria.Role.BUTTON);
 
