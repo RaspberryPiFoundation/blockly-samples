@@ -498,7 +498,7 @@ suite('WorkspaceSearch', function () {
       // so focusing the workspace as a whole lands on that target.
       assert.equal(
         Blockly.getFocusManager().getFocusedNode(),
-        this.workspace.getWorkspaceFocusTarget(),
+        this.workspace.getRestoredFocusableNode(),
       );
     });
 
