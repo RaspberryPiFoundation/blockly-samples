@@ -49,6 +49,7 @@ suite('shadowBlockConversionChangeListener', function () {
       .callsFake(() => {});
 
     this.clock = sinon.useFakeTimers();
+    global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
   });
 
   teardown(function () {
