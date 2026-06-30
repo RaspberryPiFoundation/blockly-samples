@@ -18,26 +18,19 @@ const compat = new FlatCompat();
 module.exports = [
   {
     ignores: [
-      'codelabs/',
       'gh-pages/',
       'examples/backpack-demo',
       'examples/blockly-angular',
       'examples/blockly-react',
       'examples/blockly-rtc',
       'examples/blockly-vue3',
-      'examples/context-menu-codelab',
-      'examples/css-codelab',
       'examples/custom-dialogs-demo',
-      'examples/custom-toolbox-codelab',
       'examples/devsite-demo',
       'examples/devsite-landing-demo',
-      'examples/getting-started-codelab',
       'examples/interpreter-demo',
       'examples/pitch-field-demo',
       'examples/sample-app-ts',
-      'examples/theme-extension-codelab',
       'examples/turtle-field-demo',
-      'examples/validation-and-warnings-codelab',
       'examples/lib/',
       '**/dist/',
       '**/build/',
@@ -64,6 +57,8 @@ module.exports = [
         ...globals.es5,
         Blockly: true,
         goog: true,
+        monaco: true,
+        dat: true,
       },
     },
 
@@ -94,7 +89,6 @@ module.exports = [
       // valid-jsdoc does not work properly for interface methods.
       // https://github.com/eslint/eslint/issues/9978
       'valid-jsdoc': 'off',
-
       // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules
       'require-jsdoc': 'off',
       'jsdoc/newline-after-description': 'off',
@@ -117,6 +111,8 @@ module.exports = [
       'jsdoc/check-access': 'warn',
       'jsdoc/check-types': 'off',
       'jsdoc/check-values': 'off',
+      'jsdoc/reject-any-type': 'off',
+      'jsdoc/reject-function-type': 'off',
       'jsdoc/require-jsdoc': [
         'warn',
         {
@@ -189,25 +185,7 @@ module.exports = [
         },
       ],
       '@typescript-eslint/ban-ts-comment': 'error',
-      '@typescript-eslint/ban-types': [
-        'error',
-        {
-          types: {
-            Object: {
-              message: "Use {} or 'object' instead.",
-            },
-            String: {
-              message: "Use 'string' instead.",
-            },
-            Number: {
-              message: "Use 'number' instead.",
-            },
-            Boolean: {
-              message: "Use 'boolean' instead.",
-            },
-          },
-        },
-      ],
+      '@typescript-eslint/no-wrapper-object-types': 'error',
       'camelcase': 'off',
       '@typescript-eslint/naming-convention': [
         'error',
@@ -231,6 +209,11 @@ module.exports = [
         {
           selector: 'variable',
           modifiers: ['const'],
+          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['static', 'readonly'],
           format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
         },
       ],

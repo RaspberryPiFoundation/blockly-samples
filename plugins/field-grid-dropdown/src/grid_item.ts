@@ -28,15 +28,21 @@ export class GridItem {
    * @param container The parent element of this grid item in the DOM.
    * @param content The content to display in this grid item.
    * @param value The programmatic value of this grid item.
+   * @param ariaLabel An accessibility label that describes the contents of this
+   *     grid item to screenreaders.
    * @param selectionCallback Function to call when this item is selected.
    */
   constructor(
     container: HTMLElement,
     content: string | HTMLElement,
     private readonly value: string,
+    ariaLabel: string | undefined,
     selectionCallback: (selectedItem: GridItem) => void,
   ) {
     this.selectionCallback = selectionCallback;
+
+    const cell = document.createElement('div');
+    utils.aria.setRole(cell, utils.aria.Role.GRIDCELL);
 
     this.element = document.createElement('button');
     this.element.id = utils.idGenerator.getNextUniqueId();
@@ -48,13 +54,16 @@ export class GridItem {
       this.onClick,
       true,
     );
-    container.appendChild(this.element);
+    cell.appendChild(this.element);
+    container.appendChild(cell);
 
     const contentDom =
       typeof content === 'string' ? document.createTextNode(content) : content;
     this.element.appendChild(contentDom);
 
-    utils.aria.setRole(this.element, utils.aria.Role.GRIDCELL);
+    if (ariaLabel) {
+      utils.aria.setState(this.element, utils.aria.State.LABEL, ariaLabel);
+    }
   }
 
   /**

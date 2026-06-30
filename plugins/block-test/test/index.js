@@ -19,6 +19,9 @@ import {
 document.addEventListener('DOMContentLoaded', function () {
   const workspace = Blockly.inject('root', {
     toolbox: toolbox,
+    maxInstances: {
+      test_basic_limit_instances: 3,
+    },
   });
   onInit(workspace);
 });

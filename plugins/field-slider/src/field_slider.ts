@@ -124,9 +124,13 @@ export class FieldSlider extends Blockly.FieldNumber {
 
     // Focus on the slider field, unless quietInput is passed.
     if (!quietInput) {
-      (editor.firstChild as HTMLInputElement).focus({
-        preventScroll: true,
-      });
+      // Wait for the dropdown to animate in before attempting to focus the
+      // slider.
+      setTimeout(() => {
+        this.sliderInput?.focus({
+          preventScroll: true,
+        });
+      }, 250);
     }
   }
 
@@ -153,7 +157,27 @@ export class FieldSlider extends Blockly.FieldNumber {
     sliderInput.setAttribute('step', `${this.precision_}`);
     sliderInput.setAttribute('value', `${this.getValue()}`);
     sliderInput.setAttribute('tabindex', '0');
+    sliderInput.setAttribute('data-untyped-default-value', String(this.value_));
     sliderInput.className = 'fieldSlider';
+    sliderInput.addEventListener('keydown', (e) => {
+      let handled = false;
+      if (e.key === 'Enter') {
+        handled = true;
+      } else if (e.key === 'Escape') {
+        this.isBeingEdited_ = false;
+        this.setValue(
+          sliderInput.getAttribute('data-untyped-default-value'),
+          false,
+        );
+        handled = true;
+      }
+
+      if (handled) {
+        Blockly.WidgetDiv.hideIfOwner(this);
+        Blockly.DropDownDiv.hideIfOwner(this);
+        e.stopPropagation();
+      }
+    });
     wrapper.appendChild(sliderInput);
     this.sliderInput = sliderInput;
 

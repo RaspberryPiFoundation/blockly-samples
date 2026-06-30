@@ -24,16 +24,6 @@ to include and extend the [Blockly](http://github.com/google/blockly) library.
 - [`toolbox-demo`](toolbox-demo/): A demo of a complex category structure for the toolbox.
 - [`turtle-field-demo`](turtle-field-demo/): A demo of creating custom block fields.
 
-### Codelabs
-
-The [Blockly Codelabs](https://blocklycodelabs.dev/) refer to this example code.
-
-- [`context-menu-codelab`](context-menu-codelab/): Starter code and completed code for the [codelab](https://blocklycodelabs.dev/codelabs/context-menu-option/index.html) on context menu options.
-- [`custom-toolbox-codelab`](custom-toolbox-codelab/): Starter code and completed code for the [codelab](https://blocklycodelabs.dev/codelabs/custom_toolbox/index.html) on how to customize your toolbox.
-- [`getting-started-codelab`](getting-started-codelab/): Code for the [Blockly getting started codelab](https://blocklycodelabs.dev/codelabs/getting-started/index.html).
-- [`theme-extension-codelab`](theme-extension-codelab/): Starter code and completed code for the [codelab](https://blocklycodelabs.dev/codelabs/theme-extension-identifier/index.html) on applying themes.
-- [`validation-and-warnings-codelab`](validation-and-warnings-codelab/): Starter code and completed code for the [codelab](https://blocklycodelabs.dev/codelabs/validation-and-warnings/index.html) on validating blocks and displaying warnings.
-
 ### Real-time Collaboration
 
 - [`blockly-rtc`](blockly-rtc/): Real-time collaboration environment on top of the Blockly framework.

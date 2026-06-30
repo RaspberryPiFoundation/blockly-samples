@@ -47,8 +47,8 @@ export class ObservableParameterModel
     if (name === this.variable.getName()) return this;
     const oldName = this.variable.getName();
     this.variable =
-      this.workspace.getVariable(name) ??
-      this.workspace.createVariable(name, '', id);
+      this.workspace.getVariableMap().getVariable(name) ??
+      this.workspace.getVariableMap().createVariable(name, '', id);
     triggerProceduresUpdate(this.workspace);
     if (this.shouldFireEvents) {
       Blockly.Events.fire(
@@ -89,8 +89,8 @@ export class ObservableParameterModel
    * implement your own ParameterModel.
    *
    * @param types The types to set this parameter to.
-   * @throws Throws for the ObservableParameterModel specifically because this
-   *     method is unimplemented.
+   * @throws {!Error} Throws for the ObservableParameterModel specifically
+   *     because this method is unimplemented.
    */
   setTypes(types: string[]): this {
     throw new Error(

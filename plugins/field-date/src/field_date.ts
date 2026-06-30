@@ -94,6 +94,32 @@ export class FieldDate extends Blockly.FieldTextInput {
   }
 
   /**
+   * Returns a description of the type of this field for screenreaders.
+   */
+  override getAriaTypeName() {
+    return Blockly.Msg['ARIA_TYPE_FIELD_DATE'];
+  }
+
+  /**
+   * Returns a description of the current date for use by screenreaders.
+   */
+  override getAriaValue() {
+    const stringValue = this.getValue();
+    if (!stringValue) return super.getAriaValue();
+
+    const date = new Date(stringValue);
+    // Use a localized long-form description of the date, e.g. January XX, 20XX,
+    // rather than a short-form/ISO version of the date which may be read out
+    // with slashes or the like.
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+  }
+
+  /**
    * Renders the field. If the picker is shown make sure it has the current
    * date selected.
    */

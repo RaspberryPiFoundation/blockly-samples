@@ -15,6 +15,13 @@ import * as Blockly from 'blockly/core';
  */
 export class FieldMultilineInput extends Blockly.FieldTextInput {
   /**
+   * Minimum editor width (in SVG/workspace units) when the field is open.
+   * Prevents narrow editors when the initial text is very short.
+   */
+
+  static readonly EDITOR_MIN_WIDTH = 150;
+
+  /**
    * The SVG group element that will contain a text element for each text row
    *     when initialized.
    */
@@ -30,6 +37,21 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
   /** Whether Y overflow is currently occurring. */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   protected isOverflowedY_ = false;
+
+  /** Whether pressing Enter commits the value (default) or inserts a newline. */
+  static enterCommits = true;
+
+  /** Whether to show the keyboard-shortcut hint bar in the editor. */
+  static showHint = true;
+
+  /** The hint bar DOM element while the editor is open. */
+  private hintElement: HTMLDivElement | null = null;
+
+  /**
+   * Cached natural width of the hint bar in px, keyed by scale.
+   * Invalidated when zoom changes to avoid stale measurements.
+   */
+  private cachedHintWidth: {scale: number; widthPx: number} | null = null;
 
   /**
    * @param value The initial content of the field.  Should cast to a string.
@@ -145,6 +167,9 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
       },
       this.fieldGroup_,
     );
+    if (this.fieldGroup_) {
+      Blockly.utils.dom.addClass(this.fieldGroup_, 'blocklyField');
+    }
   }
 
   /**
@@ -305,9 +330,6 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     // This can't happen, but TypeScript thinks it can and lint forbids `!.`.
     if (!constants) throw Error('Constants not found');
     const nodes = (this.textGroup as SVGElement).childNodes;
-    const fontSize = constants.FIELD_TEXT_FONTSIZE;
-    const fontWeight = constants.FIELD_TEXT_FONTWEIGHT;
-    const fontFamily = constants.FIELD_TEXT_FONTFAMILY;
     let totalWidth = 0;
     let totalHeight = 0;
     for (let i = 0; i < nodes.length; i++) {
@@ -349,6 +371,14 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
       const htmlInput = this.htmlInput_ as HTMLElement;
       const scrollbarWidth = htmlInput.offsetWidth - htmlInput.clientWidth;
       totalWidth += scrollbarWidth;
+
+      if (FieldMultilineInput.showHint) {
+        // Reserve a row at the bottom of the editor for the keyboard hint bar.
+        // The textarea's padding-bottom (set in widgetCreate_) keeps the text
+        // and caret out of this reserved strip.
+        totalHeight +=
+          constants.FIELD_TEXT_HEIGHT + constants.FIELD_BORDER_RECT_Y_PADDING;
+      }
     }
     if (this.borderRect_) {
       totalHeight += constants.FIELD_BORDER_RECT_Y_PADDING * 2;
@@ -356,6 +386,30 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
       // the rounding of the calculated value can result in the line wrapping
       // unintentionally.
       totalWidth += constants.FIELD_BORDER_RECT_X_PADDING * 2 + 1;
+    }
+    if (this.isBeingEdited_) {
+      totalWidth = Math.max(totalWidth, FieldMultilineInput.EDITOR_MIN_WIDTH);
+
+      // Measure the hint bar's natural width to make sure the editor is wide enough.
+      if (FieldMultilineInput.showHint && this.hintElement?.isConnected) {
+        const scale = (this.workspace_ as Blockly.WorkspaceSvg).getScale();
+        if (!this.cachedHintWidth || this.cachedHintWidth.scale !== scale) {
+          // Temporarily let the element size to its content to measure its
+          // natural width, unaffected by the current WidgetDiv width.
+          this.hintElement.style.width = 'max-content';
+          const widthPx = this.hintElement.offsetWidth;
+          this.hintElement.style.width = '';
+          if (widthPx > 0) this.cachedHintWidth = {scale, widthPx};
+        }
+        if (this.cachedHintWidth) {
+          totalWidth = Math.max(
+            totalWidth,
+            this.cachedHintWidth.widthPx / scale,
+          );
+        }
+      }
+    }
+    if (this.borderRect_) {
       this.borderRect_.setAttribute('width', `${totalWidth}`);
       this.borderRect_.setAttribute('height', `${totalHeight}`);
     }
@@ -404,12 +458,16 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
     htmlInput.style.borderRadius = borderRadius;
     const paddingX = constants.FIELD_BORDER_RECT_X_PADDING * scale;
     const paddingY = (constants.FIELD_BORDER_RECT_Y_PADDING * scale) / 2;
-    htmlInput.style.padding =
-      paddingY + 'px ' + paddingX + 'px ' + paddingY + 'px ' + paddingX + 'px';
     const lineHeight =
       constants.FIELD_TEXT_HEIGHT + constants.FIELD_BORDER_RECT_Y_PADDING;
+    const hintHeightPx = Math.ceil(lineHeight * scale);
+    // When the hint bar is visible it occupies one text row at the bottom;
+    // pad the textarea by that row so we don't edit text underneath it.
+    const paddingBottomPx = FieldMultilineInput.showHint
+      ? paddingY + hintHeightPx
+      : paddingY;
+    htmlInput.style.padding = `${paddingY}px ${paddingX}px ${paddingBottomPx}px ${paddingX}px`;
     htmlInput.style.lineHeight = lineHeight * scale + 'px';
-
     div.appendChild(htmlInput);
 
     htmlInput.value = htmlInput.defaultValue = this.getEditorText_(this.value_);
@@ -424,7 +482,100 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
 
     this.bindInputEvents_(htmlInput);
 
+    if (FieldMultilineInput.showHint) {
+      this.hintElement = this.createHint(hintHeightPx);
+      this.hintElement.style.fontFamily = constants.FIELD_TEXT_FONTFAMILY;
+      div.appendChild(this.hintElement);
+    }
+
     return htmlInput;
+  }
+
+  /**
+   * Creates the keyboard hint bar shown at the bottom of the editor.
+   *
+   * Keys are rendered as keycaps (bordered boxes).
+   *
+   * @param heightPx The height of the hint bar in pixels.
+   * @returns The hint bar element.
+   */
+  private createHint(heightPx: number): HTMLDivElement {
+    const shiftKey = '⇧';
+    const enterKey = '⏎';
+    const hint = document.createElement('div');
+    hint.className = 'blocklyMultilineHint';
+    hint.setAttribute('aria-hidden', 'true');
+    hint.style.height = heightPx + 'px';
+
+    // Plain Enter
+    const enterGroup = document.createElement('div');
+    enterGroup.className = 'blocklyMultilineHintGroup';
+    enterGroup.appendChild(this.createHintKeycap(enterKey));
+    enterGroup.appendChild(this.createHintColon());
+    enterGroup.appendChild(
+      this.createHintLabel(
+        FieldMultilineInput.enterCommits ? 'commit' : 'newline',
+      ),
+    );
+    hint.appendChild(enterGroup);
+
+    // Modifier+Enter
+    const modEnterGroup = document.createElement('div');
+    modEnterGroup.className = 'blocklyMultilineHintGroup';
+    modEnterGroup.appendChild(this.createHintKeycap(shiftKey));
+    modEnterGroup.appendChild(this.createHintKeycap(enterKey));
+    modEnterGroup.appendChild(this.createHintColon());
+    modEnterGroup.appendChild(
+      this.createHintLabel(
+        FieldMultilineInput.enterCommits ? 'newline' : 'commit',
+      ),
+    );
+    hint.appendChild(modEnterGroup);
+
+    return hint;
+  }
+
+  /**
+   * Creates a colon separator element used between keycaps and the action icon.
+   *
+   * @returns The colon element.
+   */
+  private createHintColon(): HTMLSpanElement {
+    const colon = document.createElement('span');
+    colon.className = 'blocklyMultilineHintColon';
+    colon.textContent = ':';
+    return colon;
+  }
+
+  /**
+   * Creates a keycap element displaying a single key label.
+   *
+   * @param label The key symbol to display.
+   * @returns The keycap element.
+   */
+  private createHintKeycap(label: string): HTMLSpanElement {
+    const key = document.createElement('span');
+    key.className = 'blocklyMultilineHintKey';
+    key.textContent = label;
+    return key;
+  }
+
+  /**
+   * Creates a text label describing the result of a key action.
+   *
+   * Uses Blockly.Msg for i18n with hardcoded English fallbacks.
+   *
+   * @param type Either 'commit' or 'newline'.
+   * @returns The label element.
+   */
+  private createHintLabel(type: 'commit' | 'newline'): HTMLSpanElement {
+    const label = document.createElement('span');
+    label.className = 'blocklyMultilineHintLabel';
+    label.textContent =
+      type === 'commit'
+        ? Blockly.Msg['FIELD_MULTILINEINPUT_FINISH_EDITING'] || 'Finish editing'
+        : Blockly.Msg['FIELD_MULTILINEINPUT_NEW_LINE'] || 'New line';
+    return label;
   }
 
   /**
@@ -454,16 +605,58 @@ export class FieldMultilineInput extends Blockly.FieldTextInput {
   }
 
   /**
-   * Handle key down to the editor.  Override the text input definition of this
-   * so as to not close the editor when enter is typed in.
+   * Handle key down to the editor.
+   *
+   * Enter commits the value and closes the editor (matching FieldTextInput).
+   * Shift+Enter inserts a newline at the cursor.
+   * All other keys are handled by the parent class (Escape reverts, Tab navigates).
    *
    * @param e Keyboard event.
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   protected override onHtmlInputKeyDown_(e: KeyboardEvent) {
-    if (e.key !== 'Enter') {
+    if (e.key === 'Enter') {
+      if (e.isComposing) {
+        // Let the IME (input method editor) finalize its composition naturally;
+        // don't commit or insert a newline ourselves.
+        return;
+      }
+      const shiftPressed = e.shiftKey;
+      const shouldCommit = FieldMultilineInput.enterCommits
+        ? !shiftPressed
+        : shiftPressed;
+      if (shouldCommit) {
+        super.onHtmlInputKeyDown_(e);
+      } else {
+        this.insertNewline();
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    } else {
       super.onHtmlInputKeyDown_(e);
     }
+  }
+
+  /**
+   * Inserts a newline character at the current cursor position in the textarea.
+   *
+   * The browser's default Enter-key behavior inserts a newline, but
+   * Shift+Enter has no default character-insertion action, so we handle it
+   * manually here.  After splicing the character we dispatch an `input` event
+   * to trigger Blockly's onHtmlInputChange handler (programmatic `.value`
+   * assignment doesn't fire `input` on its own).
+   */
+  private insertNewline() {
+    const htmlInput = this.htmlInput_;
+    if (!htmlInput) return;
+    const start = htmlInput.selectionStart ?? htmlInput.value.length;
+    const end = htmlInput.selectionEnd ?? start;
+    htmlInput.value =
+      htmlInput.value.substring(0, start) +
+      '\n' +
+      htmlInput.value.substring(end);
+    htmlInput.selectionStart = htmlInput.selectionEnd = start + 1;
+    htmlInput.dispatchEvent(new Event('input'));
   }
 
   /**
@@ -506,6 +699,53 @@ Blockly.Css.register(`
 .blocklyHtmlTextAreaInputOverflowedY {
   overflow-y: scroll;
 }
+
+.blocklyMultilineHint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 4px;
+  box-sizing: border-box;
+  font-size: 0.85em;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 4px 4px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.blocklyMultilineHintGroup {
+  display: inline-flex;
+  align-items: center;
+}
+
+.blocklyMultilineHintKey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.3em;
+  height: 1.3em;
+  padding: 0 0.25em;
+  margin: 0 0.1em;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+  background-color: #f5f5f5;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.blocklyMultilineHintColon {
+  margin: 0 0.15em;
+}
+
+.blocklyMultilineHintLabel {
+  white-space: nowrap;
+}
 `);
 
 /**
@@ -519,8 +759,7 @@ export interface FieldMultilineInputConfig
 /**
  * fromJson config options for the multiline input field.
  */
-export interface FieldMultilineInputFromJsonConfig
-  extends FieldMultilineInputConfig {
+export interface FieldMultilineInputFromJsonConfig extends FieldMultilineInputConfig {
   text?: string;
 }
 

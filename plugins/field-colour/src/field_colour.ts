@@ -15,92 +15,94 @@ import {
   FieldGridDropdownFromJsonConfig,
 } from '@blockly/field-grid-dropdown';
 
+/* eslint-disable @typescript-eslint/naming-convention */
 /**
  * An array of colour strings for the palette.
  * Copied from goog.ui.ColorPicker.SIMPLE_GRID_COLORS
  */
-const DEFAULT_COLOURS = [
-  // grays
-  '#ffffff',
-  '#cccccc',
-  '#c0c0c0',
-  '#999999',
-  '#666666',
-  '#333333',
-  '#000000',
+const DEFAULT_COLOURS: Record<string, string> = {
+  // greys
+  '#ffffff': 'White',
+  '#cccccc': 'Light Grey',
+  '#c0c0c0': 'Silver',
+  '#999999': 'Grey',
+  '#666666': 'Dark Grey',
+  '#333333': 'Charcoal',
+  '#000000': 'Black',
   // reds
-  '#ffcccc',
-  '#ff6666',
-  '#ff0000',
-  '#cc0000',
-  '#990000',
-  '#660000',
-  '#330000',
+  '#ffcccc': 'Pale Red',
+  '#ff6666': 'Light Red',
+  '#ff0000': 'Red',
+  '#cc0000': 'Dark Red',
+  '#990000': 'Darker Red',
+  '#660000': 'Maroon',
+  '#330000': 'Darkest Red',
   // oranges
-  '#ffcc99',
-  '#ff9966',
-  '#ff9900',
-  '#ff6600',
-  '#cc6600',
-  '#993300',
-  '#663300',
+  '#ffcc99': 'Peach',
+  '#ff9966': 'Light Orange',
+  '#ff9900': 'Orange',
+  '#ff6600': 'Bright Orange',
+  '#cc6600': 'Dark Orange',
+  '#993300': 'Rust',
+  '#663300': 'Brown',
   // yellows
-  '#ffff99',
-  '#ffff66',
-  '#ffcc66',
-  '#ffcc33',
-  '#cc9933',
-  '#996633',
-  '#663333',
+  '#ffff99': 'Light Yellow',
+  '#ffff66': 'Pale Yellow',
+  '#ffcc66': 'Light Gold',
+  '#ffcc33': 'Gold',
+  '#cc9933': 'Goldenrod',
+  '#996633': 'Light Brown',
+  '#663333': 'Dark Brown',
   // olives
-  '#ffffcc',
-  '#ffff33',
-  '#ffff00',
-  '#ffcc00',
-  '#999900',
-  '#666600',
-  '#333300',
+  '#ffffcc': 'Cream',
+  '#ffff33': 'Bright Yellow',
+  '#ffff00': 'Yellow',
+  '#ffcc00': 'Amber',
+  '#999900': 'Olive',
+  '#666600': 'Dark Olive',
+  '#333300': 'Darkest Olive',
   // greens
-  '#99ff99',
-  '#66ff99',
-  '#33ff33',
-  '#33cc00',
-  '#009900',
-  '#006600',
-  '#003300',
+  '#99ff99': 'Light Green',
+  '#66ff99': 'Mint',
+  '#33ff33': 'Bright Green',
+  '#33cc00': 'Green',
+  '#009900': 'Dark Green',
+  '#006600': 'Darker Green',
+  '#003300': 'Darkest Green',
   // turquoises
-  '#99ffff',
-  '#33ffff',
-  '#66cccc',
-  '#00cccc',
-  '#339999',
-  '#336666',
-  '#003333',
+  '#99ffff': 'Pale Cyan',
+  '#33ffff': 'Bright Cyan',
+  '#66cccc': 'Light Teal',
+  '#00cccc': 'Turquoise',
+  '#339999': 'Teal',
+  '#336666': 'Dark Teal',
+  '#003333': 'Darkest Teal',
   // blues
-  '#ccffff',
-  '#66ffff',
-  '#33ccff',
-  '#3366ff',
-  '#3333ff',
-  '#000099',
-  '#000066',
+  '#ccffff': 'Pale Aqua',
+  '#66ffff': 'Light Cyan',
+  '#33ccff': 'Sky Blue',
+  '#3366ff': 'Blue',
+  '#3333ff': 'Bright Blue',
+  '#000099': 'Dark Blue',
+  '#000066': 'Navy',
   // purples
-  '#ccccff',
-  '#9999ff',
-  '#6666cc',
-  '#6633ff',
-  '#6600cc',
-  '#333399',
-  '#330099',
+  '#ccccff': 'Pale Periwinkle',
+  '#9999ff': 'Periwinkle',
+  '#6666cc': 'Slate Blue',
+  '#6633ff': 'Violet',
+  '#6600cc': 'Purple',
+  '#333399': 'Indigo',
+  '#330099': 'Dark Indigo',
   // violets
-  '#ffccff',
-  '#ff99ff',
-  '#cc66cc',
-  '#cc33cc',
-  '#993399',
-  '#663366',
-  '#330033',
-];
+  '#ffccff': 'Pale Magenta',
+  '#ff99ff': 'Light Magenta',
+  '#cc66cc': 'Orchid',
+  '#cc33cc': 'Magenta',
+  '#993399': 'Dark Magenta',
+  '#663366': 'Plum',
+  '#330033': 'Darkest Purple',
+};
+/* eslint-enable @typescript-eslint/naming-convention */
 
 /**
  * Class for a colour input field.
@@ -113,6 +115,8 @@ export class FieldColour extends FieldGridDropdown {
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   protected override isDirty_ = false;
+
+  protected override ariaTypeName = Blockly.Msg['ARIA_TYPE_FIELD_COLOUR'];
 
   /**
    * @param value The initial value of the field.  Should be in '#rrggbb'
@@ -133,7 +137,10 @@ export class FieldColour extends FieldGridDropdown {
     validator?: FieldColourValidator,
     config?: FieldColourConfig,
   ) {
-    const swatches = makeSwatches(config?.colourOptions ?? DEFAULT_COLOURS);
+    const swatches = makeSwatches(
+      config?.colourOptions ?? Object.keys(DEFAULT_COLOURS),
+      config?.colourTitles,
+    );
     super(swatches, validator, {...config, columns: config?.columns ?? 7});
 
     if (value === Blockly.Field.SKIP_SETUP) return;
@@ -179,10 +186,15 @@ export class FieldColour extends FieldGridDropdown {
     );
     this.createBorderRect_();
     this.getBorderRect().style['fillOpacity'] = '1';
-    this.getBorderRect().setAttribute('stroke', '#fff');
     if (this.isFullBlockField()) {
       this.clickTarget_ = (this.sourceBlock_ as Blockly.BlockSvg).getSvgRoot();
     }
+
+    if (this.fieldGroup_) {
+      this.fieldGroup_.classList.add('blocklyField');
+    }
+
+    this.recomputeAriaContext();
   }
 
   /**
@@ -255,8 +267,8 @@ export class FieldColour extends FieldGridDropdown {
       // field control the color is unexpected, and could have performance
       // impacts.
       block.pathObject.svgPath.setAttribute('fill', this.getValue() as string);
-      block.pathObject.svgPath.setAttribute('stroke', '#fff');
     }
+    this.recomputeAriaContext();
   }
 
   /**
@@ -409,8 +421,7 @@ function makeSwatches(
     if (titles && index < titles.length) {
       swatch.title = titles[index];
     }
-
-    return [swatch, colour];
+    return [swatch, colour, titles?.[index] ?? DEFAULT_COLOURS[colour]];
   });
 }
 
@@ -470,6 +481,14 @@ Blockly.Css.register(`
   border-radius: 0;
   outline: none;
 }
+
+.blocklyKeyboardNavigation .blocklyFieldColour .blocklyFieldGrid .blocklyFieldGridItem:focus {
+  outline: var(--blockly-selection-width) solid var(--blockly-active-node-color);
+  outline-offset: -2px;
+  border: none;
+  box-shadow: none;
+  border-radius: 4px;
+}
 `);
 
 /**
@@ -483,8 +502,7 @@ export interface FieldColourConfig extends FieldGridDropdownConfig {
 /**
  * fromJson config options for the colour field.
  */
-export interface FieldColourFromJsonConfig
-  extends FieldGridDropdownFromJsonConfig {
+export interface FieldColourFromJsonConfig extends FieldGridDropdownFromJsonConfig {
   colour?: string;
 }
 

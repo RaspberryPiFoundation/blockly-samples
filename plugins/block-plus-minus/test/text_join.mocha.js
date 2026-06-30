@@ -39,7 +39,7 @@ suite('Text join block', function () {
       assert.equal(input.name, 'EMPTY');
       assert.isNull(block.getField('MINUS'));
       // Easy way to test we're displaying quotes instead of normal text.
-      assert.equal(block.toString(), '“ ”');
+      assert.equal(block.toString(), 'Add text “ ”');
       return;
     }
 
@@ -49,7 +49,7 @@ suite('Text join block', function () {
     }
     assert.isNotNull(block.getField('MINUS'));
     // Easy way to test we're displaying normal text instead of quotes.
-    assert.notEqual(block.toString(), '“ ”');
+    assert.notEqual(block.toString(), 'Add text “ ”');
   }
 
   setup(function () {

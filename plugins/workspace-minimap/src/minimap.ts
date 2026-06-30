@@ -23,6 +23,9 @@ const blockEvents = new Set<string>([
   Blockly.Events.BLOCK_MOVE,
 ]);
 
+/** Default primary-workspace pixels to pan per arrow keypress. */
+const DEFAULT_PAN_STEP = 40;
+
 /**
  * A minimap is a miniature version of your blocks that appears on
  * top of your main workspace. This gives you an overview of what
@@ -36,6 +39,10 @@ export class Minimap {
   protected onMouseDownWrapper: Blockly.browserEvents.Data | null = null;
   protected onMouseUpWrapper: Blockly.browserEvents.Data | null = null;
   protected minimapWrapper: HTMLDivElement | null = null;
+  private onKeyDownWrapper: Blockly.browserEvents.Data | null = null;
+  private onFocusWrapper: Blockly.browserEvents.Data | null = null;
+  private onBlurWrapper: Blockly.browserEvents.Data | null = null;
+  protected panStep = DEFAULT_PAN_STEP;
 
   /**
    * Constructor for a minimap.
@@ -88,6 +95,61 @@ export class Minimap {
       theme: this.primaryWorkspace.getTheme(),
       renderer: this.primaryWorkspace.options.renderer,
     });
+
+    // Remove the minimap workspace from the focus manager so keyboard focus
+    // can never land inside it.
+    // `unregisterTree` also removes the tabIndex that inject
+    // set on the minimap SVG, dropping it from the tab order.
+    const focusManager = Blockly.getFocusManager();
+    if (focusManager.isRegistered(this.minimapWorkspace)) {
+      focusManager.unregisterTree(this.minimapWorkspace);
+    }
+
+    // The focus-ring CSS variables are defined on .injectionDiv. The wrapper is
+    // a sibling of that element, not a descendant, so var() references won't
+    // resolve there. Copy the values onto the wrapper so the focus handler can
+    // use them.
+    const injectionStyle = getComputedStyle(
+      this.primaryWorkspace.getInjectionDiv(),
+    );
+    for (const prop of [
+      '--blockly-active-tree-color',
+      '--blockly-selection-width',
+    ]) {
+      const value = injectionStyle.getPropertyValue(prop).trim();
+      if (value) this.minimapWrapper.style.setProperty(prop, value);
+    }
+
+    const label =
+      Blockly.Msg['MINIMAP_ARIA_LABEL'] ||
+      'Workspace minimap. Use the arrow keys to pan the workspace.';
+    this.minimapWrapper.tabIndex = 0;
+    this.minimapWrapper.setAttribute('role', 'application');
+    this.minimapWrapper.setAttribute('aria-label', label);
+
+    // Bind arrow-key panning on the wrapper (where focus lives).
+    this.onKeyDownWrapper = Blockly.browserEvents.bind(
+      this.minimapWrapper,
+      'keydown',
+      this,
+      this.onKeyDown,
+    );
+
+    // Apply a focus ring matching the workspace when focused via keyboard.
+    // Ideally this would just be done with CSS, but our CSS management system
+    // doesn't allow us to inject CSS after workspace creation, so deal with it.
+    this.onFocusWrapper = Blockly.browserEvents.bind(
+      this.minimapWrapper,
+      'focus',
+      this,
+      this.onMinimapFocus,
+    );
+    this.onBlurWrapper = Blockly.browserEvents.bind(
+      this.minimapWrapper,
+      'blur',
+      this,
+      this.onMinimapBlur,
+    );
 
     this.minimapWorkspace.scrollbar?.setContainerVisible(false);
     this.primaryWorkspace.addChangeListener((e) => void this.mirror(e));
@@ -152,6 +214,18 @@ export class Minimap {
     if (this.onMouseUpWrapper) {
       Blockly.browserEvents.unbind(this.onMouseUpWrapper);
     }
+    if (this.onKeyDownWrapper) {
+      Blockly.browserEvents.unbind(this.onKeyDownWrapper);
+      this.onKeyDownWrapper = null;
+    }
+    if (this.onFocusWrapper) {
+      Blockly.browserEvents.unbind(this.onFocusWrapper);
+      this.onFocusWrapper = null;
+    }
+    if (this.onBlurWrapper) {
+      Blockly.browserEvents.unbind(this.onBlurWrapper);
+      this.onBlurWrapper = null;
+    }
   }
 
   /**
@@ -163,13 +237,6 @@ export class Minimap {
   private mirror(event: Blockly.Events.Abstract): void {
     if (!blockEvents.has(event.type)) {
       return; // Filter out events.
-    }
-    if (
-      event.type === Blockly.Events.BLOCK_CREATE &&
-      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-      (event as any).xml.tagName === 'shadow'
-    ) {
-      return; // Filter out shadow blocks.
     }
     // Run the event in the minimap.
     const json = event.toJson();
@@ -282,6 +349,80 @@ export class Minimap {
    */
   private onMouseMove(event: PointerEvent): void {
     this.primaryScroll(event);
+  }
+
+  private onMinimapFocus(): void {
+    if (this.minimapWrapper?.matches(':focus-visible')) {
+      this.minimapWrapper.style.setProperty(
+        'outline-width',
+        'var(--blockly-selection-width)',
+      );
+      this.minimapWrapper.style.setProperty('outline-style', 'solid');
+      this.minimapWrapper.style.setProperty(
+        'outline-color',
+        'var(--blockly-active-tree-color)',
+      );
+    }
+  }
+
+  private onMinimapBlur(): void {
+    if (this.minimapWrapper) {
+      this.minimapWrapper.style.removeProperty('outline-width');
+      this.minimapWrapper.style.removeProperty('outline-style');
+      this.minimapWrapper.style.removeProperty('outline-color');
+    }
+  }
+
+  /**
+   * Pans the primary workspace when an arrow key is pressed on the minimap
+   * wrapper.
+   *
+   * @param event The keyboard event.
+   */
+  private onKeyDown(event: KeyboardEvent): void {
+    if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey)
+      return;
+    let dx = 0;
+    let dy = 0;
+    switch (event.key) {
+      case 'ArrowUp':
+        dy = this.panStep;
+        break;
+      case 'ArrowDown':
+        dy = -this.panStep;
+        break;
+      case 'ArrowLeft':
+        dx = this.panStep;
+        break;
+      case 'ArrowRight':
+        dx = -this.panStep;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    const ws = this.primaryWorkspace;
+    ws.scroll(ws.scrollX + dx, ws.scrollY + dy);
+  }
+
+  /**
+   * Sets how far (in primary-workspace pixels) each arrow keypress pans the
+   * workspace when the minimap is focused.
+   *
+   * @param stepPixels Pixels to pan per keypress.
+   */
+  setKeyboardPanStep(stepPixels: number): void {
+    this.panStep = stepPixels;
+  }
+
+  /**
+   * Returns the current keyboard pan step in primary-workspace pixels.
+   *
+   * @returns The pan step in pixels.
+   */
+  getKeyboardPanStep(): number {
+    return this.panStep;
   }
 
   /**

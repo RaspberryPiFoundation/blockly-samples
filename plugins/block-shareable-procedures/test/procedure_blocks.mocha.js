@@ -47,12 +47,12 @@ suite('Procedures', function () {
     this.eventSpy = this.sandbox.spy();
     this.workspace.addChangeListener(this.eventSpy);
 
-    this.workspace.createVariable('preCreatedVar', '', 'preCreatedVarId');
-    this.workspace.createVariable(
-      'preCreatedTypedVar',
-      'type',
-      'preCreatedTypedVarId',
-    );
+    this.workspace
+      .getVariableMap()
+      .createVariable('preCreatedVar', '', 'preCreatedVarId');
+    this.workspace
+      .getVariableMap()
+      .createVariable('preCreatedTypedVar', 'type', 'preCreatedTypedVarId');
 
     Blockly.defineBlocksWithJsonArray([
       {
@@ -869,7 +869,7 @@ suite('Procedures', function () {
       defBlock.compose(containerBlock);
 
       assert.isNotNull(
-        this.workspace.getVariable('param1', ''),
+        this.workspace.getVariableMap().getVariable('param1', ''),
         'Expected the old variable to continue to exist',
       );
     });
@@ -890,8 +890,10 @@ suite('Procedures', function () {
           .connection.connect(paramBlock.previousConnection);
         defBlock.compose(containerBlock);
 
-        const variable = this.workspace.getVariable('param1', '');
-        this.workspace.renameVariableById(variable.getId(), 'new name');
+        const variable = this.workspace
+          .getVariableMap()
+          .getVariable('param1', '');
+        this.workspace.getVariableMap().renameVariable(variable, 'new name');
 
         assert.isNotNull(
           defBlock.getField('PARAMS'),
@@ -922,8 +924,10 @@ suite('Procedures', function () {
           .connection.connect(paramBlock.previousConnection);
         defBlock.compose(containerBlock);
 
-        const variable = this.workspace.getVariable('param1', '');
-        this.workspace.renameVariableById(variable.getId(), 'new name');
+        const variable = this.workspace
+          .getVariableMap()
+          .getVariable('param1', '');
+        this.workspace.getVariableMap().renameVariable(variable, 'new name');
 
         assert.equal(
           paramBlock.getFieldValue('NAME'),
@@ -950,8 +954,10 @@ suite('Procedures', function () {
           .connection.connect(paramBlock.previousConnection);
         defBlock.compose(containerBlock);
 
-        const variable = this.workspace.getVariable('param1', '');
-        this.workspace.renameVariableById(variable.getId(), 'new name');
+        const variable = this.workspace
+          .getVariableMap()
+          .getVariable('param1', '');
+        this.workspace.getVariableMap().renameVariable(variable, 'new name');
 
         assert.isNotNull(
           callBlock.getInput('ARG0'),
@@ -981,8 +987,12 @@ suite('Procedures', function () {
           .connection.connect(paramBlock.previousConnection);
         defBlock.compose(containerBlock);
 
-        const variable = this.workspace.getVariable('param1', '');
-        this.workspace.renameVariableById(variable.getId(), 'preCreatedVar');
+        const variable = this.workspace
+          .getVariableMap()
+          .getVariable('param1', '');
+        this.workspace
+          .getVariableMap()
+          .renameVariable(variable, 'preCreatedVar');
 
         assert.isNotNull(
           defBlock.getField('PARAMS'),
@@ -1013,8 +1023,12 @@ suite('Procedures', function () {
           .connection.connect(paramBlock.previousConnection);
         defBlock.compose(containerBlock);
 
-        const variable = this.workspace.getVariable('param1', '');
-        this.workspace.renameVariableById(variable.getId(), 'preCreatedVar');
+        const variable = this.workspace
+          .getVariableMap()
+          .getVariable('param1', '');
+        this.workspace
+          .getVariableMap()
+          .renameVariable(variable, 'preCreatedVar');
 
         assert.equal(
           paramBlock.getFieldValue('NAME'),
@@ -1041,8 +1055,12 @@ suite('Procedures', function () {
           .connection.connect(paramBlock.previousConnection);
         defBlock.compose(containerBlock);
 
-        const variable = this.workspace.getVariable('param1', '');
-        this.workspace.renameVariableById(variable.getId(), 'preCreatedVar');
+        const variable = this.workspace
+          .getVariableMap()
+          .getVariable('param1', '');
+        this.workspace
+          .getVariableMap()
+          .renameVariable(variable, 'preCreatedVar');
 
         assert.isNotNull(
           callBlock.getInput('ARG0'),

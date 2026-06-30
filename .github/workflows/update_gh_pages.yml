@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
 
       - name: NPM install
         # Use CI so that we don't update dependencies in this step.

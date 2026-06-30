@@ -257,13 +257,13 @@ const procedureDefVarMixin = function () {
      * @this {Blockly.Block}
      */
     renameVarById: function (oldId, newId) {
-      const oldVar = this.workspace.getVariableById(oldId);
+      const oldVar = this.workspace.getVariableMap().getVariableById(oldId);
       const model = this.getProcedureModel();
       const index = model
         .getParameters()
         .findIndex((p) => p.getVariableModel() === oldVar);
       if (index === -1) return; // Not found.
-      const newVar = this.workspace.getVariableById(newId);
+      const newVar = this.workspace.getVariableMap().getVariableById(newId);
       const oldParam = model.getParameter(index);
       oldParam.setName(newVar.name);
     },

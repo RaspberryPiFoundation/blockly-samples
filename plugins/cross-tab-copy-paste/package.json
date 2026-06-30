@@ -43,12 +43,9 @@
     "@blockly/dev-tools": "^9.0.9"
   },
   "peerDependencies": {
-    "blockly": "^12.1.0"
+    "blockly": "^13.1.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "engines": {
-    "node": ">=8.17.0"
   }
 }

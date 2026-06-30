@@ -25,9 +25,8 @@ export class BlockShadowStateChange extends Blockly.Events.BlockBase {
   /**
    * The name of the event type for broadcast and listening purposes.
    */
-  /* eslint-disable @typescript-eslint/naming-convention */
+
   static readonly EVENT_TYPE = 'block_shadow_state_change';
-  /* eslint-enable @typescript-eslint/naming-convention */
 
   /**
    * The index of the connection in the parent block's list of connections. If
@@ -297,7 +296,9 @@ function reifyEditedShadowBlock(
   );
 
   if (selectNewBlock) {
-    Blockly.getFocusManager().focusNode(regularBlock as Blockly.BlockSvg);
+    Blockly.renderManagement.finishQueuedRenders().then(() => {
+      Blockly.getFocusManager().focusNode(regularBlock as Blockly.BlockSvg);
+    });
   }
 
   return regularBlock;

@@ -28,7 +28,7 @@ const {copyDirectoryContents} = require('./copy-helpers');
           blocklyDir = dir;
           break;
         }
-      } catch (e) {
+      } catch {
         // not a package root here
       }
       const parent = path.dirname(dir);
@@ -71,7 +71,7 @@ const {copyDirectoryContents} = require('./copy-helpers');
               try {
                 const s = await fs.stat(srcDist);
                 distExists = s && s.isDirectory();
-              } catch (e) {
+              } catch {
                 distExists = false;
               }
               if (distExists) {
@@ -95,7 +95,7 @@ const {copyDirectoryContents} = require('./copy-helpers');
               );
             }
           }
-        } catch (e) {
+        } catch {
           // ignore directories without package.json
         }
       }
@@ -104,7 +104,7 @@ const {copyDirectoryContents} = require('./copy-helpers');
       } else {
         console.log('Copied local @blockly plugins:', copiedLocal.join(', '));
       }
-    } catch (e) {
+    } catch {
       // No plugins directory, or read failure
     }
   } catch (err) {

@@ -144,9 +144,9 @@ suite('TypedVariableModal', function () {
     });
     test('Valid name', function () {
       this.typedVarModal.getValidInput_ = sinon.fake.returns('varName');
-      this.workspace.createVariable = sinon.fake();
+      this.workspace.getVariableMap().createVariable = sinon.fake();
       this.typedVarModal.onConfirm_();
-      assert(this.workspace.createVariable.calledOnce);
+      assert(this.workspace.getVariableMap().createVariable.calledOnce);
     });
     test('Variable with different type already exists', function () {
       Blockly.Variables.nameUsedWithAnyType = sinon.fake.returns({
@@ -191,7 +191,8 @@ suite('TypedVariableModal', function () {
       this.typedVarModal.init();
     });
     test('Using rename variable name', function () {
-      this.typedVarModal.variableNameInput_.value = 'Rename variable...';
+      this.typedVarModal.variableNameInput_.value =
+        Blockly.Msg['RENAME_VARIABLE'];
       assert.equal(this.typedVarModal.getValidInput_(), null);
     });
     test('Using new variable name', function () {

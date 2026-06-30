@@ -53,7 +53,7 @@ export interface DependentDropdownOptionsChangeJson
  */
 export class DependentDropdownOptionsChange extends Blockly.Events.BlockBase {
   /** The name to register with Blockly for the type of event. */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+
   static readonly EVENT_TYPE: string = 'dropdown_options_change';
 
   /** The name of the change event type for registering with Blockly. */

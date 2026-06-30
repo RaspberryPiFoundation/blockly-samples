@@ -32,6 +32,7 @@ suite('StrictConnectionChecker', function () {
       isShadow: function () {
         return isShadow;
       },
+      id: '123',
     };
   }
   suite('Safety checks', function () {
@@ -52,7 +53,10 @@ suite('StrictConnectionChecker', function () {
     }
 
     test('Target Null', function () {
-      const connection = new Blockly.Connection({}, Blockly.INPUT_VALUE);
+      const connection = new Blockly.Connection(
+        {id: '123'},
+        Blockly.INPUT_VALUE,
+      );
       assertReasonHelper(
         this.checker,
         connection,
@@ -61,7 +65,7 @@ suite('StrictConnectionChecker', function () {
       );
     });
     test('Target Self', function () {
-      const block = {workspace: 1};
+      const block = {workspace: 1, id: '123'};
       const connection1 = new Blockly.Connection(block, Blockly.INPUT_VALUE);
       const connection2 = new Blockly.Connection(block, Blockly.OUTPUT_VALUE);
 
@@ -74,11 +78,11 @@ suite('StrictConnectionChecker', function () {
     });
     test('Different Workspaces', function () {
       const connection1 = new Blockly.Connection(
-        {workspace: 1},
+        {workspace: 1, id: '123'},
         Blockly.INPUT_VALUE,
       );
       const connection2 = new Blockly.Connection(
-        {workspace: 2},
+        {workspace: 2, id: '123'},
         Blockly.OUTPUT_VALUE,
       );
 
@@ -294,8 +298,11 @@ suite('StrictConnectionChecker', function () {
   });
   suite('Check Types', function () {
     setup(function () {
-      this.con1 = new Blockly.Connection({}, Blockly.PREVIOUS_STATEMENT);
-      this.con2 = new Blockly.Connection({}, Blockly.NEXT_STATEMENT);
+      this.con1 = new Blockly.Connection(
+        {id: '123'},
+        Blockly.PREVIOUS_STATEMENT,
+      );
+      this.con2 = new Blockly.Connection({id: '123'}, Blockly.NEXT_STATEMENT);
     });
     /**
      * Assert that the type checks pass for the given connections in either

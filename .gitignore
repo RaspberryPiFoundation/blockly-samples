@@ -12,6 +12,8 @@ node_modules/
 # Generated files
 dist/
 build/
+plugins/*/test/**/*.d.ts
+plugins/*/test/**/*.d.ts.map
 gh-pages/index.html
 gh-pages/plugins
 gh-pages/examples

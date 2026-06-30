@@ -44,6 +44,7 @@ suite('Procedure blocks', function () {
     // a new def.
     this.clock.tick(100);
     this.workspace.dispose();
+    sinon.restore();
   });
 
   const testSuites = [
@@ -604,6 +605,7 @@ suite('Procedure blocks', function () {
         setup(function () {
           this.assertVars = function (constsArray) {
             const constNames = this.workspace
+              .getVariableMap()
               .getVariablesOfType('')
               .map((model) => model.name);
             assert.sameMembers(constNames, constsArray);
@@ -696,7 +698,7 @@ suite('Procedure blocks', function () {
             this.assertVars(['x', 'y']);
           });
           test('Match Existing', function () {
-            this.workspace.createVariable('test', '');
+            this.workspace.getVariableMap().createVariable('test', '');
             this.def.plus();
             const field = this.def.inputList[1].fieldRow[2];
             field.setValue('test');
@@ -709,7 +711,7 @@ suite('Procedure blocks', function () {
             this.assertVars(['x', 'test']);
             assert.equal(
               this.def.argData_[0].model.getId(),
-              this.workspace.getVariable('test', '').getId(),
+              this.workspace.getVariableMap().getVariable('test', '').getId(),
             );
           });
         });
@@ -723,8 +725,10 @@ suite('Procedure blocks', function () {
           });
           test('Simple Rename', function () {
             this.def.plus();
-            const Variable = this.workspace.getVariable('x', '');
-            this.workspace.renameVariableById(Variable.getId(), 'test');
+            const Variable = this.workspace
+              .getVariableMap()
+              .getVariable('x', '');
+            this.workspace.getVariableMap().renameVariable(Variable, 'test');
             assertProcBlocksStructure(
               this.def,
               this.call,
@@ -737,14 +741,18 @@ suite('Procedure blocks', function () {
           test.skip('Duplicate', function () {
             this.def.plus();
             this.def.plus();
-            const Variable = this.workspace.getVariable('x', '');
-            this.workspace.renameVariableById(Variable.getId(), 'y');
+            const Variable = this.workspace
+              .getVariableMap()
+              .getVariable('x', '');
+            this.workspace.getVariableMap().renameVariable(Variable, 'y');
             // Don't know what we want to have happen.
           });
           test('Change Case', function () {
             this.def.plus();
-            const Variable = this.workspace.getVariable('x', '');
-            this.workspace.renameVariableById(Variable.getId(), 'X');
+            const Variable = this.workspace
+              .getVariableMap()
+              .getVariable('x', '');
+            this.workspace.getVariableMap().renameVariable(Variable, 'X');
             assertProcBlocksStructure(
               this.def,
               this.call,
@@ -754,9 +762,11 @@ suite('Procedure blocks', function () {
             this.assertVars(['X']);
           });
           test('Coalesce Change Case', function () {
-            const variable = this.workspace.createVariable('test');
+            const variable = this.workspace
+              .getVariableMap()
+              .createVariable('test');
             this.def.plus();
-            this.workspace.renameVariableById(variable.getId(), 'X');
+            this.workspace.getVariableMap().renameVariable(variable, 'X');
             assertProcBlocksStructure(
               this.def,
               this.call,

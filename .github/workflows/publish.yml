@@ -5,8 +5,13 @@ name: publish
 on:
   workflow_dispatch: # Manually trigger. Colon is required.
     inputs:
+      version:
+        description: 'Version to publish all (non-private) plugins as.'
+        required: true
+        type: string
+        default: '13.1.0'
       from-package:
-        description: 'Check to publish from-package instead of the default publish. This is used to publish packages that have already been version bumped and tagged by a previous workflow run, but failed to publish for some reason.'
+        description: 'Check to publish from-package instead of the default publish. This skips versioning and publishes any package whose package.json version is not yet on npm. Use this to retry a partially-failed run, or to publish a plugin that was previously held back as private (set its version + remove private first).'
         required: false
         type: boolean
         default: false
@@ -43,7 +48,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
 
       - name: NPM install
@@ -60,12 +65,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FROM_PACKAGE: ${{ github.event.inputs['from-package'] }}
+          VERSION: ${{ github.event.inputs.version }}
         run: |
           cd plugins
           if [ "${FROM_PACKAGE}" = "true" ]; then
-            npx lerna publish from-package --yes --loglevel silly
+            npx lerna publish from-package --no-private --yes --loglevel silly
           else
-            npx lerna publish --no-private --conventional-commits --create-release github --yes --loglevel silly
+            npx lerna publish "${VERSION}" --no-private --force-publish --conventional-commits --create-release github --yes --loglevel silly
           fi
 
   update-gh-pages:

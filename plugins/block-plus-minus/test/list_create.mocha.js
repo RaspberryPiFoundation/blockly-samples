@@ -39,7 +39,7 @@ suite('List create block', function () {
       assert.equal(input.name, 'EMPTY');
       assert.isNull(block.getField('MINUS'));
       // Easy way to test we're displaying empty instead of normal text.
-      assert.equal(block.toString(), 'create empty list');
+      assert.equal(block.toString(), 'Add list item create empty list');
       return;
     }
 
@@ -49,7 +49,7 @@ suite('List create block', function () {
     }
     assert.isNotNull(block.getField('MINUS'));
     // Easy way to test we're displaying normal text instead of empty.
-    assert.notEqual(block.toString(), 'create empty list');
+    assert.notEqual(block.toString(), 'Add list item create empty list');
   }
 
   setup(function () {

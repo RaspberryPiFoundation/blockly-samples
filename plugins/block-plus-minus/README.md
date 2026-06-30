@@ -34,17 +34,15 @@ import Blockly from 'blockly';
 import '@blockly/block-plus-minus';
 ```
 
-### Blockly Languages
+### Localization and text customization
 
-We do not currently support translating the text in this plugin to different
-languages. However, if you would like to support multiple languages the messages
-can be translated by assigning the following properties of Blockly.Msg
-
-- `PROCEDURE_VARIABLE` (Default: "variable:"): The label which signals the text
-  input is a variable.
+The plus and minus buttons have ARIA labels to communicate their purpose to
+screenreaders. These are localizable; additionally, if you want to customize the
+labels (for example, to use a different term that "input" for procedure blocks)
+you can do so by adjusting the messages:
 
 ```javascript
-Blockly.Msg['PROCEDURE_VARIABLE'] = 'variabele:'; // Dutch
+Blockly.Msg['ARIA_LABEL_ADD_INPUT'] = 'Add parameter';
 // Inject workspace, etc...
 ```
 

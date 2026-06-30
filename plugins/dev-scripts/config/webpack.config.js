@@ -114,6 +114,7 @@ module.exports = (env) => {
         isTypescript && {
           test: /\.tsx?$/,
           loader: require.resolve('ts-loader'),
+          options: isProduction ? {} : {compilerOptions: {rootDir: '.'}},
         },
       ].filter(Boolean),
     },
@@ -165,7 +166,8 @@ module.exports = (env) => {
             commonjs2: 'blockly/lua',
             amd: 'blockly/lua',
           },
+          'jsdom': 'commonjs jsdom',
         }
-      : {},
+      : {jsdom: 'commonjs jsdom'},
   };
 };

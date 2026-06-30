@@ -67,13 +67,19 @@ suite('WorkspaceSearch', function () {
     this.jsdomCleanup = require('jsdom-global')(
       '<!DOCTYPE html><div id="blocklyDiv"></div>',
     );
+    this.clock = sinon.useFakeTimers();
     this.workspace = Blockly.inject('blocklyDiv');
     this.workspaceSearch = new WorkspaceSearch(this.workspace);
     // See https://github.com/RaspberryPiFoundation/blockly-samples/issues/2528 for context.
     global.SVGElement = window.SVGElement;
+    global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
   });
 
   teardown(function () {
+    this.workspaceSearch.dispose();
+    this.workspace.dispose();
+    this.clock.runAll();
+    this.clock.restore();
     this.jsdomCleanup();
   });
 
@@ -459,7 +465,7 @@ suite('WorkspaceSearch', function () {
       this.workspaceSearch.init();
       // Check starting position
       this.focusManager = Blockly.FocusManager.getFocusManager();
-      this.focusManager.focusTree(this.workspace);
+      this.focusManager.focusNode(this.alphaBlock);
       const originalBlock = /** @type {Blockly.BlockSvg} */ (
         this.focusManager.getFocusedNode()
       );
@@ -483,11 +489,17 @@ suite('WorkspaceSearch', function () {
       assertFocusedNodeType('beta_block');
     });
 
-    test('close with no match restores focus', function () {
+    test('close with no match restores focus to workspace', function () {
       this.workspaceSearch.searchAndHighlight('nothingMatchesThis', false);
       this.workspaceSearch.close();
 
-      assertFocusedNodeType('alpha_block');
+      // As of Blockly v13.1.0 the workspace is focused via a dedicated focus
+      // target node (rather than the workspace itself being the focused node),
+      // so focusing the workspace as a whole lands on that target.
+      assert.equal(
+        Blockly.getFocusManager().getFocusedNode(),
+        this.workspace.getRestoredFocusableNode(),
+      );
     });
 
     test('close with match followed by non-match still focuses last found block', function () {

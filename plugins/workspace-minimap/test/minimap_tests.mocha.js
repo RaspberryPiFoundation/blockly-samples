@@ -6,6 +6,7 @@
 
 const chai = require('chai');
 const assert = chai.assert;
+const sinon = require('sinon');
 const Blockly = require('blockly');
 const {Minimap} = require('../src/minimap');
 const {PositionedMinimap} = require('../src/positioned_minimap');
@@ -431,5 +432,148 @@ suite('Positioning the minimap in the primary workspace', function () {
       'RTL Horizontal End: Incorrect top',
     );
     assert.equal(position.left, 35, 'RTL Horizontal End: Incorrect left');
+  });
+});
+
+suite('Keyboard navigation', function () {
+  setup(function () {
+    this.jsdomCleanup = require('jsdom-global')(
+      '<!DOCTYPE html><div id="blocklyDiv"></div>',
+    );
+    // jsdom does not implement SVGElement natively; expose the shim.
+    global.SVGElement = window.SVGElement;
+    this.workspace = Blockly.inject('blocklyDiv', {
+      move: {scrollbars: true},
+    });
+    this.minimap = new Minimap(this.workspace);
+    this.minimap.init();
+  });
+
+  teardown(function () {
+    this.minimap.dispose();
+    this.workspace.dispose();
+    this.jsdomCleanup();
+  });
+
+  test('minimap workspace is not registered with FocusManager after init()', function () {
+    const focusManager = Blockly.getFocusManager();
+    assert.isFalse(
+      focusManager.isRegistered(this.minimap.minimapWorkspace),
+      'Minimap workspace should not be registered with FocusManager',
+    );
+  });
+
+  test('minimap wrapper has tabIndex 0 and aria-label', function () {
+    const wrapper = this.minimap.minimapWrapper;
+    assert.equal(wrapper.tabIndex, 0, 'minimapWrapper tabIndex should be 0');
+    assert.isNotEmpty(
+      wrapper.getAttribute('aria-label'),
+      'minimapWrapper aria-label should describe keyboard usage',
+    );
+  });
+
+  suite('Arrow key panning', function () {
+    setup(function () {
+      this.scrollStub = sinon.stub(this.workspace, 'scroll');
+    });
+
+    teardown(function () {
+      this.scrollStub.restore();
+    });
+
+    /**
+     * Fires a keydown event on the given wrapper.
+     * @param {*} wrapper The element to fire the event on.
+     * @param {*} key The key to simulate.
+     * @param {*} modifiers Any modifier keys (e.g., {ctrlKey: true}).
+     * @returns {Event} The fired event.
+     */
+    function fireKey(wrapper, key, modifiers = {}) {
+      const event = new window.KeyboardEvent('keydown', {
+        key,
+        bubbles: true,
+        cancelable: true,
+        ...modifiers,
+      });
+      wrapper.dispatchEvent(event);
+      return event;
+    }
+
+    test('ArrowDown scrolls Y by -panStep', function () {
+      const step = this.minimap.getKeyboardPanStep();
+      this.workspace.scrollX = 0;
+      this.workspace.scrollY = 0;
+      fireKey(this.minimap.minimapWrapper, 'ArrowDown');
+      assert.isTrue(
+        this.scrollStub.calledOnce,
+        'scroll() should be called on ArrowDown',
+      );
+      const [, dy] = this.scrollStub.firstCall.args;
+      assert.equal(dy, -step, 'ArrowDown should pass scrollY - panStep');
+    });
+
+    test('ArrowUp scrolls Y by +panStep', function () {
+      const step = this.minimap.getKeyboardPanStep();
+      this.workspace.scrollX = 0;
+      this.workspace.scrollY = 0;
+      fireKey(this.minimap.minimapWrapper, 'ArrowUp');
+      assert.isTrue(this.scrollStub.calledOnce);
+      const [, dy] = this.scrollStub.firstCall.args;
+      assert.equal(dy, step);
+    });
+
+    test('ArrowRight scrolls X by -panStep', function () {
+      const step = this.minimap.getKeyboardPanStep();
+      this.workspace.scrollX = 0;
+      this.workspace.scrollY = 0;
+      fireKey(this.minimap.minimapWrapper, 'ArrowRight');
+      assert.isTrue(this.scrollStub.calledOnce);
+      const [dx] = this.scrollStub.firstCall.args;
+      assert.equal(dx, -step);
+    });
+
+    test('ArrowLeft scrolls X by +panStep', function () {
+      const step = this.minimap.getKeyboardPanStep();
+      this.workspace.scrollX = 0;
+      this.workspace.scrollY = 0;
+      fireKey(this.minimap.minimapWrapper, 'ArrowLeft');
+      assert.isTrue(this.scrollStub.calledOnce);
+      const [dx] = this.scrollStub.firstCall.args;
+      assert.equal(dx, step);
+    });
+
+    test('Arrow key calls preventDefault and stopPropagation', function () {
+      let propagated = false;
+      this.minimap.minimapWrapper.parentElement.addEventListener(
+        'keydown',
+        () => {
+          propagated = true;
+        },
+      );
+      const event = fireKey(this.minimap.minimapWrapper, 'ArrowUp');
+      assert.isTrue(event.defaultPrevented, 'preventDefault should be called');
+      assert.isFalse(propagated, 'stopPropagation should prevent bubbling');
+    });
+
+    test('Non-arrow keys do not scroll', function () {
+      fireKey(this.minimap.minimapWrapper, 'Enter');
+      fireKey(this.minimap.minimapWrapper, 'Tab');
+      fireKey(this.minimap.minimapWrapper, 'a');
+      assert.isFalse(
+        this.scrollStub.called,
+        'Non-arrow keys should not scroll',
+      );
+    });
+
+    test('Arrow keys with modifier keys do not scroll', function () {
+      fireKey(this.minimap.minimapWrapper, 'ArrowUp', {ctrlKey: true});
+      fireKey(this.minimap.minimapWrapper, 'ArrowDown', {metaKey: true});
+      fireKey(this.minimap.minimapWrapper, 'ArrowLeft', {altKey: true});
+      fireKey(this.minimap.minimapWrapper, 'ArrowRight', {shiftKey: true});
+      assert.isFalse(
+        this.scrollStub.called,
+        'Arrow keys with modifiers should not scroll',
+      );
+    });
   });
 });

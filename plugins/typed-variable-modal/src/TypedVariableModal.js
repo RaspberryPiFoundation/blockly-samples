@@ -176,7 +176,7 @@ export class TypedVariableModal extends Modal {
         this.workspace_,
       );
       if (existing) {
-        let msg = '';
+        let msg;
         if (existing.type === type) {
           msg = Blockly.Msg['VARIABLE_ALREADY_EXISTS'].replace(
             '%1',
@@ -191,7 +191,7 @@ export class TypedVariableModal extends Modal {
         Blockly.dialog.alert(msg);
       } else {
         // No conflict
-        this.workspace_.createVariable(text, type);
+        this.workspace_.getVariableMap().createVariable(text, type);
         this.hide();
       }
     } else {

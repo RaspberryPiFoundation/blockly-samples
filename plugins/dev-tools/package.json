@@ -43,24 +43,21 @@
     "@blockly/theme-deuteranopia": "^7.0.4",
     "@blockly/theme-highcontrast": "^7.0.4",
     "@blockly/theme-tritanopia": "^7.0.4",
-    "chai": "^4.2.0",
-    "dat.gui": "^0.7.7",
+    "chai": "^6.2.2",
+    "dat.gui": "^0.7.9",
     "lodash.assign": "^4.2.0",
     "lodash.merge": "^4.6.2",
-    "monaco-editor": "^0.20.0",
-    "sinon": "^9.0.2"
+    "monaco-editor": "^0.55.1",
+    "sinon": "^22.0.0"
   },
   "devDependencies": {
     "@blockly/dev-scripts": "^4.0.12",
-    "@types/dat.gui": "^0.7.5"
+    "@types/dat.gui": "^0.7.13"
   },
   "peerDependencies": {
-    "blockly": "^12.0.0"
+    "blockly": "^13.1.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "engines": {
-    "node": ">=8.0.0"
   }
 }
