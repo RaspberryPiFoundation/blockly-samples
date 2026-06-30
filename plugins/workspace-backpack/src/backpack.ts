@@ -239,16 +239,18 @@ export class Backpack
       Blockly.Msg['OPEN_BACKPACK'],
     );
     Blockly.utils.aria.setRole(this.svgGroup_, Blockly.utils.aria.Role.BUTTON);
+    const margin = 8;
+    const cornerRadius = 2;
     Blockly.utils.dom.createSvgElement(
       Blockly.utils.Svg.RECT,
       {
-        width: this.WIDTH_ + 8,
-        height: this.HEIGHT_ + 8,
+        width: this.WIDTH_ + margin,
+        height: this.HEIGHT_ + margin,
         class: 'blocklyFocusRing',
-        x: -4,
-        y: -4,
-        rx: 2,
-        ry: 2,
+        x: -1 * (margin / 2),
+        y: -1 * (margin / 2),
+        rx: cornerRadius,
+        ry: cornerRadius,
         fill: 'none',
       },
       this.svgGroup_,
