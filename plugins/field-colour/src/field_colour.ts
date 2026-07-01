@@ -184,10 +184,11 @@ export class FieldColour extends FieldGridDropdown {
       constants.FIELD_COLOUR_DEFAULT_WIDTH,
       constants.FIELD_COLOUR_DEFAULT_HEIGHT,
     );
-    this.createBorderRect_();
-    this.getBorderRect().style['fillOpacity'] = '1';
     if (this.isFullBlockField()) {
       this.clickTarget_ = (this.sourceBlock_ as Blockly.BlockSvg).getSvgRoot();
+    } else {
+      this.createBorderRect_();
+      this.getBorderRect().style['fillOpacity'] = '1';
     }
 
     if (this.fieldGroup_) {
@@ -254,15 +255,14 @@ export class FieldColour extends FieldGridDropdown {
     if (!this.fieldGroup_) return;
 
     const borderRect = this.borderRect_;
-    if (!borderRect) {
-      throw new Error('The border rect has not been initialized');
-    }
 
     if (!this.isFullBlockField()) {
+      if (!borderRect) {
+        throw new Error('The border rect has not been initialized');
+      }
       borderRect.style.display = 'block';
       borderRect.style.fill = this.getValue() as string;
     } else {
-      borderRect.style.display = 'none';
       // In general, do *not* let fields control the color of blocks. Having the
       // field control the color is unexpected, and could have performance
       // impacts.
@@ -502,7 +502,8 @@ export interface FieldColourConfig extends FieldGridDropdownConfig {
 /**
  * fromJson config options for the colour field.
  */
-export interface FieldColourFromJsonConfig extends FieldGridDropdownFromJsonConfig {
+export interface FieldColourFromJsonConfig
+  extends FieldGridDropdownFromJsonConfig {
   colour?: string;
 }
 
