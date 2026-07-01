@@ -131,7 +131,8 @@ export class FieldGridDropdown extends Blockly.FieldDropdown {
    * Updates the ARIA roles and label for this field.
    */
   override recomputeAriaContext(): boolean {
-    super.recomputeAriaContext();
+    const shouldCustomize = super.recomputeAriaContext();
+    if (!shouldCustomize) return false;
     Blockly.utils.aria.setState(
       this.getFocusableElement(),
       Blockly.utils.aria.State.HASPOPUP,
