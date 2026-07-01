@@ -11,7 +11,7 @@ on:
         type: string
         default: '13.1.0'
       from-package:
-        description: 'Check to publish from-package instead of the default publish. This skips versioning and publishes any package whose package.json version is not yet on npm. Use this to retry a partially-failed run, or to publish a plugin that was previously held back as private (set its version + remove private first).'
+        description: 'Check to publish from-package instead of the default publish. This skips versioning and publishes any package whose package.json version is not yet on npm. Use this to retry a partially-failed run, or to publish a plugin that was previously held back as private (remove private first).'
         required: false
         type: boolean
         default: false
@@ -69,9 +69,9 @@ jobs:
         run: |
           cd plugins
           if [ "${FROM_PACKAGE}" = "true" ]; then
-            npx lerna publish from-package --no-private --yes --loglevel silly
+            npx lerna publish from-package --yes --loglevel silly
           else
-            npx lerna publish "${VERSION}" --no-private --force-publish --conventional-commits --create-release github --yes --loglevel silly
+            npx lerna publish "${VERSION}" --force-publish --conventional-commits --create-release github --yes --loglevel silly
           fi
 
   update-gh-pages:
