@@ -12,115 +12,29 @@
   }
 }(this, function(__parent__) {
 var $=__parent__.__namespace__;
-var lists_create_empty$$module$build$src$generators$lua$lists=function(a,b){return["{}",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_create_with$$module$build$src$generators$lua$lists=function(a,b){const c=Array(a.itemCount_);for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,Order$$module$build$src$generators$lua$lua_generator.NONE)||"nil";return["{"+c.join(", ")+"}",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_repeat$$module$build$src$generators$lua$lists=
-function(a,b){const c=b.provideFunction_("create_list_repeated",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(item, count)
-  local t = {}
-  for i = 1, count do
-    table.insert(t, item)
-  end
-  return t
+var qs=function(a,b,c){return b==="FIRST"?"1":b==="FROM_END"?"#"+a+" + 1 - "+c:b==="LAST"?"#"+a:b==="RANDOM"?"math.random(#"+a+")":c},rs=function(a,b){var c=0,d="";b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));do{let e=b.valueToCode(a,"IF"+c,X.NONE)||"false",f=b.statementToCode(a,"DO"+c);b.STATEMENT_SUFFIX&&(f=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+f);d+=(c>0?"else":"")+"if "+e+" then\n"+f;c++}while(a.getInput("IF"+c));if(a.getInput("ELSE")||b.STATEMENT_SUFFIX)c=a.getInput("ELSE")?
+b.statementToCode(a,"ELSE"):"",b.STATEMENT_SUFFIX&&(c=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+c),d+="else\n"+c;return d+"end\n"},ss=function(a,b){return a.includes("goto continue\n")?a+b+"::continue::\n":a},ts=function(a,b){var c=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):b.valueToCode(a,"TIMES",X.NONE)||"0";c=$.yf(c)?parseInt(c,10):"math.floor("+c+")";var d=b.statementToCode(a,"DO");d=b.addLoopTrap(d,a);d=ss(d,b.INDENT);return"for "+b.nameDB_.getDistinctName("count",
+$.P.VARIABLE)+" = 1, "+c+" do\n"+d+"end\n"},us=function(a,b){var c=a.getFieldValue("OP");if(c==="NEG")return a=b.valueToCode(a,"NUM",X.UNARY)||"0",["-"+a,X.UNARY];if(c==="POW10")return a=b.valueToCode(a,"NUM",X.EXPONENTIATION)||"0",["10 ^ "+a,X.EXPONENTIATION];a=c==="ROUND"?b.valueToCode(a,"NUM",X.ADDITIVE)||"0":b.valueToCode(a,"NUM",X.NONE)||"0";switch(c){case "ABS":c="math.abs("+a+")";break;case "ROOT":c="math.sqrt("+a+")";break;case "LN":c="math.log("+a+")";break;case "LOG10":c="math.log("+a+", 10)";
+break;case "EXP":c="math.exp("+a+")";break;case "ROUND":c="math.floor("+a+" + .5)";break;case "ROUNDUP":c="math.ceil("+a+")";break;case "ROUNDDOWN":c="math.floor("+a+")";break;case "SIN":c="math.sin(math.rad("+a+"))";break;case "COS":c="math.cos(math.rad("+a+"))";break;case "TAN":c="math.tan(math.rad("+a+"))";break;case "ASIN":c="math.deg(math.asin("+a+"))";break;case "ACOS":c="math.deg(math.acos("+a+"))";break;case "ATAN":c="math.deg(math.atan("+a+"))";break;default:throw Error("Unknown math operator: "+
+c);}return[c,X.HIGH]},vs=function(a,b){var c=b.getProcedureName(a.getFieldValue("NAME")),d="";b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(d+=b.injectId(b.STATEMENT_SUFFIX,a));d&&(d=b.prefixLines(d,b.INDENT));var e="";b.INFINITE_LOOP_TRAP&&(e=b.prefixLines(b.injectId(b.INFINITE_LOOP_TRAP,a),b.INDENT));var f="";a.getInput("STACK")&&(f=b.statementToCode(a,"STACK"));var g="";a.getInput("RETURN")&&(g=b.valueToCode(a,"RETURN",X.NONE)||"");var h="";f&&g&&(h=d);g?g=b.INDENT+
+"return "+g+"\n":f||(f="");var m=[],z=a.getVarModels();for(let E=0;E<z.length;E++)m[E]=b.getVariableName(z[E].getId());d="function "+c+"("+m.join(", ")+")\n"+d+e+f+h+g+"end\n";d=b.scrub_(a,d);b.definitions_["%"+c]=d;return null},ws=function(a,b){var c=a.getField("TEXT")?b.quote_(a.getFieldValue("TEXT")):b.valueToCode(a,"TEXT",X.NONE)||"''";b=b.provideFunction_("text_prompt",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(msg)
+  io.write(msg)
+  io.flush()
+  return io.read()
 end
-  `),d=b.valueToCode(a,"ITEM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"nil";a=b.valueToCode(a,"NUM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0";return[c+"("+d+", "+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_length$$module$build$src$generators$lua$lists=function(a,b){return["#"+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.UNARY)||"{}"),Order$$module$build$src$generators$lua$lua_generator.UNARY]},lists_isEmpty$$module$build$src$generators$lua$lists=
-function(a,b){return["#"+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.UNARY)||"{}")+" == 0",Order$$module$build$src$generators$lua$lua_generator.RELATIONAL]},lists_indexOf$$module$build$src$generators$lua$lists=function(a,b){const c=b.valueToCode(a,"FIND",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''",d=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.NONE)||"{}";return[("FIRST"===a.getFieldValue("END")?b.provideFunction_("first_index",
-`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(t, elem)
-  for k, v in ipairs(t) do
-    if v == elem then
-      return k
-    end
-  end
-  return 0
-end
-`):b.provideFunction_("last_index",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(t, elem)
-  for i = #t, 1, -1 do
-    if t[i] == elem then
-      return i
-    end
-  end
-  return 0
-end
-`))+"("+d+", "+c+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_getIndex$$module$build$src$generators$lua$lists=function(a,b){var c=a.getFieldValue("MODE")||"GET",d=a.getFieldValue("WHERE")||"FROM_START";const e=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.HIGH)||"({})";if("LAST"!==d&&"FROM_END"!==d&&"RANDOM"!==d||e.match(/^\w+$/)){b=b.valueToCode(a,"AT","GET"===c&&"FROM_END"===d?Order$$module$build$src$generators$lua$lua_generator.ADDITIVE:Order$$module$build$src$generators$lua$lua_generator.NONE)||
-"1";b=getListIndex$$module$build$src$generators$lua$lists(e,d,b);if("GET"===c)return[e+"["+b+"]",Order$$module$build$src$generators$lua$lua_generator.HIGH];d="table.remove("+e+", "+b+")";return"GET_REMOVE"===c?[d,Order$$module$build$src$generators$lua$lua_generator.HIGH]:d+"\n"}if("REMOVE"===c)return c=b.valueToCode(a,"AT","FROM_END"===d?Order$$module$build$src$generators$lua$lua_generator.ADDITIVE:Order$$module$build$src$generators$lua$lua_generator.NONE)||"1",b=b.nameDB_.getDistinctName("tmp_list",
-$.NameType$$module$build$src$core$names.VARIABLE),c=getListIndex$$module$build$src$generators$lua$lists(b,d,c),b+" = "+e+"\ntable.remove("+b+", "+c+")\n";a=b.valueToCode(a,"AT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"1";return[("GET"===c?b.provideFunction_("list_get_"+d.toLowerCase(),["function "+b.FUNCTION_NAME_PLACEHOLDER_+"(t"+("FROM_END"===d||"FROM_START"===d?", at)":")"),"  return t["+getListIndex$$module$build$src$generators$lua$lists("t",d,"at")+"]","end"]):b.provideFunction_("list_remove_"+
-d.toLowerCase(),["function "+b.FUNCTION_NAME_PLACEHOLDER_+"(t"+("FROM_END"===d||"FROM_START"===d?", at)":")"),"  return table.remove(t, "+getListIndex$$module$build$src$generators$lua$lists("t",d,"at")+")","end"]))+"("+e+("FROM_END"===d||"FROM_START"===d?", "+a:"")+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_setIndex$$module$build$src$generators$lua$lists=function(a,b){let c=b.valueToCode(a,"LIST",Order$$module$build$src$generators$lua$lua_generator.HIGH)||"{}";const d=a.getFieldValue("MODE")||
-"SET",e=a.getFieldValue("WHERE")||"FROM_START",f=b.valueToCode(a,"AT",Order$$module$build$src$generators$lua$lua_generator.ADDITIVE)||"1";a=b.valueToCode(a,"TO",Order$$module$build$src$generators$lua$lua_generator.NONE)||"Nil";let g="";"LAST"!==e&&"FROM_END"!==e&&"RANDOM"!==e||c.match(/^\w+$/)||(b=b.nameDB_.getDistinctName("tmp_list",$.NameType$$module$build$src$core$names.VARIABLE),g=b+" = "+c+"\n",c=b);g="SET"===d?g+(c+"["+getListIndex$$module$build$src$generators$lua$lists(c,e,f)+"] = "+a):g+("table.insert("+
-c+", "+(getListIndex$$module$build$src$generators$lua$lists(c,e,f)+("LAST"===e?" + 1":""))+", "+a+")");return g+"\n"},lists_getSublist$$module$build$src$generators$lua$lists=function(a,b){const c=b.valueToCode(a,"LIST",Order$$module$build$src$generators$lua$lua_generator.NONE)||"{}",d=a.getFieldValue("WHERE1"),e=a.getFieldValue("WHERE2"),f=b.valueToCode(a,"AT1",Order$$module$build$src$generators$lua$lua_generator.NONE)||"1";a=b.valueToCode(a,"AT2",Order$$module$build$src$generators$lua$lua_generator.NONE)||
-"1";const g="FROM_END"===d||"FROM_START"===d?", at1":"",h="FROM_END"===e||"FROM_START"===e?", at2":"";return[b.provideFunction_("list_sublist_"+d.toLowerCase()+"_"+e.toLowerCase(),`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(source${g}${h})
-  local t = {}
-  local start = ${getListIndex$$module$build$src$generators$lua$lists("source",d,"at1")}
-  local finish = ${getListIndex$$module$build$src$generators$lua$lists("source",e,"at2")}
-  for i = start, finish do
-    table.insert(t, source[i])
-  end
-  return t
-end
-`)+"("+c+("FROM_END"===d||"FROM_START"===d?", "+f:"")+("FROM_END"===e||"FROM_START"===e?", "+a:"")+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_sort$$module$build$src$generators$lua$lists=function(a,b){const c=b.valueToCode(a,"LIST",Order$$module$build$src$generators$lua$lua_generator.NONE)||"{}",d="1"===a.getFieldValue("DIRECTION")?1:-1;a=a.getFieldValue("TYPE");return[b.provideFunction_("list_sort",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(list, typev, direction)
-  local t = {}
-  for n,v in pairs(list) do table.insert(t, v) end
-  local compareFuncs = {
-    NUMERIC = function(a, b)
-      return (tonumber(tostring(a)) or 0)
-          < (tonumber(tostring(b)) or 0) end,
-    TEXT = function(a, b)
-      return tostring(a) < tostring(b) end,
-    IGNORE_CASE = function(a, b)
-      return string.lower(tostring(a)) < string.lower(tostring(b)) end
-  }
-  local compareTemp = compareFuncs[typev]
-  local compare = compareTemp
-  if direction == -1
-  then compare = function(a, b) return compareTemp(b, a) end
-  end
-  table.sort(t, compare)
-  return t
-end
-`)+"("+c+',"'+a+'", '+d+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_split$$module$build$src$generators$lua$lists=function(a,b){let c=b.valueToCode(a,"INPUT",Order$$module$build$src$generators$lua$lua_generator.NONE);const d=b.valueToCode(a,"DELIM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";a=a.getFieldValue("MODE");if("SPLIT"===a)c||(c="''"),b=b.provideFunction_("list_string_split",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(input, delim)
-  local t = {}
-  local pos = 1
-  while true do
-    next_delim = string.find(input, delim, pos)
-    if next_delim == nil then
-      table.insert(t, string.sub(input, pos))
-      break
-    else
-      table.insert(t, string.sub(input, pos, next_delim-1))
-      pos = next_delim + #delim
-    end
-  end
-  return t
-end
-`);else if("JOIN"===a)c||(c="{}"),b="table.concat";else throw Error("Unknown mode: "+a);return[b+"("+c+", "+d+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},lists_reverse$$module$build$src$generators$lua$lists=function(a,b){a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$lua$lua_generator.NONE)||"{}";return[b.provideFunction_("list_reverse",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(input)
-  local reversed = {}
-  for i = #input, 1, -1 do
-    table.insert(reversed, input[i])
-  end
-  return reversed
-end
-`)+"("+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},controls_if$$module$build$src$generators$lua$logic=function(a,b){var c=0;let d="";b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));do{const e=b.valueToCode(a,"IF"+c,Order$$module$build$src$generators$lua$lua_generator.NONE)||"false";let f=b.statementToCode(a,"DO"+c);b.STATEMENT_SUFFIX&&(f=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+f);d+=(0<c?"else":"")+"if "+e+" then\n"+f;c++}while(a.getInput("IF"+c));
-if(a.getInput("ELSE")||b.STATEMENT_SUFFIX)c=a.getInput("ELSE")?b.statementToCode(a,"ELSE"):"",b.STATEMENT_SUFFIX&&(c=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+c),d+="else\n"+c;return d+"end\n"},logic_compare$$module$build$src$generators$lua$logic=function(a,b){const c={EQ:"==",NEQ:"~=",LT:"<",LTE:"<=",GT:">",GTE:">="}[a.getFieldValue("OP")],d=b.valueToCode(a,"A",Order$$module$build$src$generators$lua$lua_generator.RELATIONAL)||"0";a=b.valueToCode(a,"B",Order$$module$build$src$generators$lua$lua_generator.RELATIONAL)||
-"0";return[d+" "+c+" "+a,Order$$module$build$src$generators$lua$lua_generator.RELATIONAL]},logic_operation$$module$build$src$generators$lua$logic=function(a,b){const c="AND"===a.getFieldValue("OP")?"and":"or",d="and"===c?Order$$module$build$src$generators$lua$lua_generator.AND:Order$$module$build$src$generators$lua$lua_generator.OR;let e=b.valueToCode(a,"A",d);a=b.valueToCode(a,"B",d);e||a?(b="and"===c?"true":"false",e||(e=b),a||(a=b)):a=e="false";return[e+" "+c+" "+a,d]},logic_negate$$module$build$src$generators$lua$logic=
-function(a,b){return["not "+(b.valueToCode(a,"BOOL",Order$$module$build$src$generators$lua$lua_generator.UNARY)||"true"),Order$$module$build$src$generators$lua$lua_generator.UNARY]},logic_boolean$$module$build$src$generators$lua$logic=function(a,b){return["TRUE"===a.getFieldValue("BOOL")?"true":"false",Order$$module$build$src$generators$lua$lua_generator.ATOMIC]},logic_null$$module$build$src$generators$lua$logic=function(a,b){return["nil",Order$$module$build$src$generators$lua$lua_generator.ATOMIC]},
-logic_ternary$$module$build$src$generators$lua$logic=function(a,b){const c=b.valueToCode(a,"IF",Order$$module$build$src$generators$lua$lua_generator.AND)||"false",d=b.valueToCode(a,"THEN",Order$$module$build$src$generators$lua$lua_generator.AND)||"nil";a=b.valueToCode(a,"ELSE",Order$$module$build$src$generators$lua$lua_generator.OR)||"nil";return[c+" and "+d+" or "+a,Order$$module$build$src$generators$lua$lua_generator.OR]},addContinueLabel$$module$build$src$generators$lua$loops=function(a,b){return a.includes(CONTINUE_STATEMENT$$module$build$src$generators$lua$loops)?
-a+b+"::continue::\n":a},controls_repeat_ext$$module$build$src$generators$lua$loops=function(a,b){let c;c=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):b.valueToCode(a,"TIMES",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0";c=$.isNumber$$module$build$src$core$utils$string(c)?parseInt(c,10):"math.floor("+c+")";let d=b.statementToCode(a,"DO");d=b.addLoopTrap(d,a);d=addContinueLabel$$module$build$src$generators$lua$loops(d,b.INDENT);return"for "+b.nameDB_.getDistinctName("count",
-$.NameType$$module$build$src$core$names.VARIABLE)+" = 1, "+c+" do\n"+d+"end\n"},controls_whileUntil$$module$build$src$generators$lua$loops=function(a,b){const c="UNTIL"===a.getFieldValue("MODE");let d=b.valueToCode(a,"BOOL",c?Order$$module$build$src$generators$lua$lua_generator.UNARY:Order$$module$build$src$generators$lua$lua_generator.NONE)||"false",e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);e=addContinueLabel$$module$build$src$generators$lua$loops(e,b.INDENT);c&&(d="not "+d);return"while "+
-d+" do\n"+e+"end\n"},controls_for$$module$build$src$generators$lua$loops=function(a,b){const c=b.getVariableName(a.getFieldValue("VAR")),d=b.valueToCode(a,"FROM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0",e=b.valueToCode(a,"TO",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0",f=b.valueToCode(a,"BY",Order$$module$build$src$generators$lua$lua_generator.NONE)||"1";let g=b.statementToCode(a,"DO");g=b.addLoopTrap(g,a);g=addContinueLabel$$module$build$src$generators$lua$loops(g,
-b.INDENT);a="";let h;$.isNumber$$module$build$src$core$utils$string(d)&&$.isNumber$$module$build$src$core$utils$string(e)&&$.isNumber$$module$build$src$core$utils$string(f)?h=(Number(d)<=Number(e)?"":"-")+Math.abs(Number(f)):(a="",h=b.nameDB_.getDistinctName(c+"_inc",$.NameType$$module$build$src$core$names.VARIABLE),a+=h+" = ",a=$.isNumber$$module$build$src$core$utils$string(f)?a+(Math.abs(f)+"\n"):a+("math.abs("+f+")\n"),a=a+("if ("+d+") > ("+e+") then\n")+(b.INDENT+h+" = -"+h+"\n"),a+="end\n");
-return a+("for "+c+" = "+d+", "+e+", "+h)+(" do\n"+g+"end\n")},controls_forEach$$module$build$src$generators$lua$loops=function(a,b){const c=b.getVariableName(a.getFieldValue("VAR")),d=b.valueToCode(a,"LIST",Order$$module$build$src$generators$lua$lua_generator.NONE)||"{}";let e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);e=addContinueLabel$$module$build$src$generators$lua$loops(e,b.INDENT);return"for _, "+c+" in ipairs("+d+") do \n"+e+"end\n"},controls_flow_statements$$module$build$src$generators$lua$loops=
-function(a,b){let c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){const d=a.getSurroundLoop();d&&!d.suppressPrefixSuffix&&(c+=b.injectId(b.STATEMENT_PREFIX,d))}switch(a.getFieldValue("FLOW")){case "BREAK":return c+"break\n";case "CONTINUE":return c+CONTINUE_STATEMENT$$module$build$src$generators$lua$loops}throw Error("Unknown flow statement.");},math_number$$module$build$src$generators$lua$math=function(a,
-b){a=Number(a.getFieldValue("NUM"));return[String(a),0>a?Order$$module$build$src$generators$lua$lua_generator.UNARY:Order$$module$build$src$generators$lua$lua_generator.ATOMIC]},math_arithmetic$$module$build$src$generators$lua$math=function(a,b){var c={ADD:[" + ",Order$$module$build$src$generators$lua$lua_generator.ADDITIVE],MINUS:[" - ",Order$$module$build$src$generators$lua$lua_generator.ADDITIVE],MULTIPLY:[" * ",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE],DIVIDE:[" / ",
-Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE],POWER:[" ^ ",Order$$module$build$src$generators$lua$lua_generator.EXPONENTIATION]}[a.getFieldValue("OP")];const d=c[0];c=c[1];const e=b.valueToCode(a,"A",c)||"0";a=b.valueToCode(a,"B",c)||"0";return[e+d+a,c]},math_single$$module$build$src$generators$lua$math=function(a,b){var c=a.getFieldValue("OP");if("NEG"===c)return a=b.valueToCode(a,"NUM",Order$$module$build$src$generators$lua$lua_generator.UNARY)||"0",["-"+a,Order$$module$build$src$generators$lua$lua_generator.UNARY];
-if("POW10"===c)return a=b.valueToCode(a,"NUM",Order$$module$build$src$generators$lua$lua_generator.EXPONENTIATION)||"0",["10 ^ "+a,Order$$module$build$src$generators$lua$lua_generator.EXPONENTIATION];a="ROUND"===c?b.valueToCode(a,"NUM",Order$$module$build$src$generators$lua$lua_generator.ADDITIVE)||"0":b.valueToCode(a,"NUM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0";switch(c){case "ABS":c="math.abs("+a+")";break;case "ROOT":c="math.sqrt("+a+")";break;case "LN":c="math.log("+a+
-")";break;case "LOG10":c="math.log("+a+", 10)";break;case "EXP":c="math.exp("+a+")";break;case "ROUND":c="math.floor("+a+" + .5)";break;case "ROUNDUP":c="math.ceil("+a+")";break;case "ROUNDDOWN":c="math.floor("+a+")";break;case "SIN":c="math.sin(math.rad("+a+"))";break;case "COS":c="math.cos(math.rad("+a+"))";break;case "TAN":c="math.tan(math.rad("+a+"))";break;case "ASIN":c="math.deg(math.asin("+a+"))";break;case "ACOS":c="math.deg(math.acos("+a+"))";break;case "ATAN":c="math.deg(math.atan("+a+"))";
-break;default:throw Error("Unknown math operator: "+c);}return[c,Order$$module$build$src$generators$lua$lua_generator.HIGH]},math_constant$$module$build$src$generators$lua$math=function(a,b){return{PI:["math.pi",Order$$module$build$src$generators$lua$lua_generator.HIGH],E:["math.exp(1)",Order$$module$build$src$generators$lua$lua_generator.HIGH],GOLDEN_RATIO:["(1 + math.sqrt(5)) / 2",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE],SQRT2:["math.sqrt(2)",Order$$module$build$src$generators$lua$lua_generator.HIGH],
-SQRT1_2:["math.sqrt(1 / 2)",Order$$module$build$src$generators$lua$lua_generator.HIGH],INFINITY:["math.huge",Order$$module$build$src$generators$lua$lua_generator.HIGH]}[a.getFieldValue("CONSTANT")]},math_number_property$$module$build$src$generators$lua$math=function(a,b){var c={EVEN:[" % 2 == 0",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE,Order$$module$build$src$generators$lua$lua_generator.RELATIONAL],ODD:[" % 2 == 1",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE,
-Order$$module$build$src$generators$lua$lua_generator.RELATIONAL],WHOLE:[" % 1 == 0",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE,Order$$module$build$src$generators$lua$lua_generator.RELATIONAL],POSITIVE:[" > 0",Order$$module$build$src$generators$lua$lua_generator.RELATIONAL,Order$$module$build$src$generators$lua$lua_generator.RELATIONAL],NEGATIVE:[" < 0",Order$$module$build$src$generators$lua$lua_generator.RELATIONAL,Order$$module$build$src$generators$lua$lua_generator.RELATIONAL],
-DIVISIBLE_BY:[null,Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE,Order$$module$build$src$generators$lua$lua_generator.RELATIONAL],PRIME:[null,Order$$module$build$src$generators$lua$lua_generator.NONE,Order$$module$build$src$generators$lua$lua_generator.HIGH]};const d=a.getFieldValue("PROPERTY"),[e,f,g]=c[d];c=b.valueToCode(a,"NUMBER_TO_CHECK",f)||"0";if("PRIME"===d)a=b.provideFunction_("math_isPrime",`
+`)+"("+c+")";a.getFieldValue("TYPE")==="NUMBER"&&(b="tonumber("+b+", 10)");return[b,X.HIGH]},ys=function(a,b){return[b.getVariableName(a.getFieldValue("VAR")),X.ATOMIC]},zs=function(a,b){var c=b.valueToCode(a,"VALUE",X.NONE)||"0";return b.getVariableName(a.getFieldValue("VAR"))+" = "+c+"\n"},X,As=X||(X={});As[As.ATOMIC=0]="ATOMIC";As[As.HIGH=1]="HIGH";As[As.EXPONENTIATION=2]="EXPONENTIATION";As[As.UNARY=3]="UNARY";As[As.MULTIPLICATIVE=4]="MULTIPLICATIVE";As[As.ADDITIVE=5]="ADDITIVE";
+As[As.CONCATENATION=6]="CONCATENATION";As[As.RELATIONAL=7]="RELATIONAL";As[As.AND=8]="AND";As[As.OR=9]="OR";As[As.NONE=99]="NONE";
+var Bs=class extends $.Rp{constructor(a="Lua"){super(a);this.isInitialized=!1;for(let b in X)a=X[b],typeof a!=="string"&&(this["ORDER_"+b]=a);this.addReservedWords("_,__inext,assert,bit,colors,colours,coroutine,disk,dofile,error,fs,fetfenv,getmetatable,gps,help,io,ipairs,keys,loadfile,loadstring,math,native,next,os,paintutils,pairs,parallel,pcall,peripheral,print,printError,rawequal,rawget,rawset,read,rednet,redstone,rs,select,setfenv,setmetatable,sleep,string,table,term,textutils,tonumber,tostring,turtle,type,unpack,vector,write,xpcall,_VERSION,__indext,HTTP,and,break,do,else,elseif,end,false,for,function,if,in,local,nil,not,or,repeat,return,then,true,until,while,add,sub,mul,div,mod,pow,unm,concat,len,eq,lt,le,index,newindex,call,assert,collectgarbage,dofile,error,_G,getmetatable,inpairs,load,loadfile,next,pairs,pcall,print,rawequal,rawget,rawlen,rawset,select,setmetatable,tonumber,tostring,type,_VERSION,xpcall,require,package,string,table,math,bit32,io,file,os,debug")}init(a){super.init(a);this.nameDB_?
+this.nameDB_.reset():this.nameDB_=new $.jj(this.RESERVED_WORDS_);this.nameDB_.setVariableMap(a.getVariableMap());this.nameDB_.populateVariables(a);this.nameDB_.populateProcedures(a);this.isInitialized=!0}finish(a){var b=Object.values(this.definitions_);a=super.finish(a);this.isInitialized=!1;this.nameDB_.reset();return b.join("\n\n")+"\n\n\n"+a}scrubNakedValue(a){return"local _ = "+a+"\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/'/g,"\\'");return"'"+a+"'"}multiline_quote_(a){return a.split(/\n/g).map(this.quote_).join(" .. '\\n' ..\n")}scrub_(a,
+b,c=!1){var d="";if(!a.outputConnection||!a.outputConnection.targetConnection){var e=a.getCommentText();e&&(e=$.xf(e,this.COMMENT_WRAP-3),d+=this.prefixLines(e,"-- ")+"\n");for(let f=0;f<a.inputList.length;f++)a.inputList[f].type===$.ie.VALUE&&(e=a.inputList[f].connection.targetBlock())&&(e=this.allNestedComments(e))&&(d+=this.prefixLines(e,"-- "))}a=a.nextConnection&&a.nextConnection.targetBlock();c=c?"":this.blockToCode(a);return d+b+c}};var Cs={};Cs.controls_if=rs;Cs.controls_ifelse=rs;Cs.logic_boolean=function(a){return[a.getFieldValue("BOOL")==="TRUE"?"true":"false",X.ATOMIC]};Cs.logic_compare=function(a,b){var c={EQ:"==",NEQ:"~=",LT:"<",LTE:"<=",GT:">",GTE:">="}[a.getFieldValue("OP")],d=b.valueToCode(a,"A",X.RELATIONAL)||"0";a=b.valueToCode(a,"B",X.RELATIONAL)||"0";return[d+" "+c+" "+a,X.RELATIONAL]};Cs.logic_negate=function(a,b){return["not "+(b.valueToCode(a,"BOOL",X.UNARY)||"true"),X.UNARY]};
+Cs.logic_null=function(){return["nil",X.ATOMIC]};Cs.logic_operation=function(a,b){var c=a.getFieldValue("OP")==="AND"?"and":"or",d=c==="and"?X.AND:X.OR,e=b.valueToCode(a,"A",d);a=b.valueToCode(a,"B",d);e||a?(b=c==="and"?"true":"false",e||(e=b),a||(a=b)):a=e="false";return[e+" "+c+" "+a,d]};Cs.logic_ternary=function(a,b){var c=b.valueToCode(a,"IF",X.AND)||"false",d=b.valueToCode(a,"THEN",X.AND)||"nil";a=b.valueToCode(a,"ELSE",X.OR)||"nil";return[c+" and "+d+" or "+a,X.OR]};var Ds={controls_flow_statements:function(a,b){var c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){let d=a.getSurroundLoop();d&&!d.suppressPrefixSuffix&&(c+=b.injectId(b.STATEMENT_PREFIX,d))}switch(a.getFieldValue("FLOW")){case "BREAK":return c+"break\n";case "CONTINUE":return c+"goto continue\n"}throw Error("Unknown flow statement.");},controls_for:function(a,b){var c=b.getVariableName(a.getFieldValue("VAR")),
+d=b.valueToCode(a,"FROM",X.NONE)||"0",e=b.valueToCode(a,"TO",X.NONE)||"0",f=b.valueToCode(a,"BY",X.NONE)||"1",g=b.statementToCode(a,"DO");g=b.addLoopTrap(g,a);g=ss(g,b.INDENT);a="";if($.yf(d)&&$.yf(e)&&$.yf(f))var h=(Number(d)<=Number(e)?"":"-")+Math.abs(Number(f));else a="",h=b.nameDB_.getDistinctName(c+"_inc",$.P.VARIABLE),a+=h+" = ",a=$.yf(f)?a+(Math.abs(f)+"\n"):a+("math.abs("+f+")\n"),a=a+("if ("+d+") > ("+e+") then\n")+(b.INDENT+h+" = -"+h+"\n"),a+="end\n";return a+("for "+c+" = "+d+", "+e+
+", "+h)+(" do\n"+g+"end\n")},controls_forEach:function(a,b){var c=b.getVariableName(a.getFieldValue("VAR")),d=b.valueToCode(a,"LIST",X.NONE)||"{}",e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);e=ss(e,b.INDENT);return"for _, "+c+" in ipairs("+d+") do \n"+e+"end\n"}};Ds.controls_repeat=ts;Ds.controls_repeat_ext=ts;
+Ds.controls_whileUntil=function(a,b){var c=a.getFieldValue("MODE")==="UNTIL",d=b.valueToCode(a,"BOOL",c?X.UNARY:X.NONE)||"false",e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);e=ss(e,b.INDENT);c&&(d="not "+d);return"while "+d+" do\n"+e+"end\n"};var Es={math_arithmetic:function(a,b){var c={ADD:[" + ",X.ADDITIVE],MINUS:[" - ",X.ADDITIVE],MULTIPLY:[" * ",X.MULTIPLICATIVE],DIVIDE:[" / ",X.MULTIPLICATIVE],POWER:[" ^ ",X.EXPONENTIATION]}[a.getFieldValue("OP")],d=c[0];c=c[1];var e=b.valueToCode(a,"A",c)||"0";a=b.valueToCode(a,"B",c)||"0";return[e+d+a,c]},math_atan2:function(a,b){var c=b.valueToCode(a,"X",X.NONE)||"0";return["math.deg(math.atan2("+(b.valueToCode(a,"Y",X.NONE)||"0")+", "+c+"))",X.HIGH]},math_change:function(a,b){var c=b.valueToCode(a,
+"DELTA",X.ADDITIVE)||"0";a=b.getVariableName(a.getFieldValue("VAR"));return a+" = "+a+" + "+c+"\n"},math_constant:function(a){return{PI:["math.pi",X.HIGH],E:["math.exp(1)",X.HIGH],GOLDEN_RATIO:["(1 + math.sqrt(5)) / 2",X.MULTIPLICATIVE],SQRT2:["math.sqrt(2)",X.HIGH],SQRT1_2:["math.sqrt(1 / 2)",X.HIGH],INFINITY:["math.huge",X.HIGH]}[a.getFieldValue("CONSTANT")]},math_constrain:function(a,b){var c=b.valueToCode(a,"VALUE",X.NONE)||"0",d=b.valueToCode(a,"LOW",X.NONE)||"-math.huge";a=b.valueToCode(a,"HIGH",
+X.NONE)||"math.huge";return["math.min(math.max("+c+", "+d+"), "+a+")",X.HIGH]},math_modulo:function(a,b){var c=b.valueToCode(a,"DIVIDEND",X.MULTIPLICATIVE)||"0";a=b.valueToCode(a,"DIVISOR",X.MULTIPLICATIVE)||"0";return[c+" % "+a,X.MULTIPLICATIVE]},math_number:function(a){a=Number(a.getFieldValue("NUM"));return[String(a),a<0?X.UNARY:X.ATOMIC]},math_number_property:function(a,b){var c={EVEN:[" % 2 == 0",X.MULTIPLICATIVE,X.RELATIONAL],ODD:[" % 2 == 1",X.MULTIPLICATIVE,X.RELATIONAL],WHOLE:[" % 1 == 0",
+X.MULTIPLICATIVE,X.RELATIONAL],POSITIVE:[" > 0",X.RELATIONAL,X.RELATIONAL],NEGATIVE:[" < 0",X.RELATIONAL,X.RELATIONAL],DIVISIBLE_BY:[null,X.MULTIPLICATIVE,X.RELATIONAL],PRIME:[null,X.NONE,X.HIGH]},d=a.getFieldValue("PROPERTY"),[e,f,g]=c[d];c=b.valueToCode(a,"NUMBER_TO_CHECK",f)||"0";if(d==="PRIME")a=b.provideFunction_("math_isPrime",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}(n)
   -- https://en.wikipedia.org/wiki/Primality_test#Naive_methods
   if n == 2 or n == 3 then
@@ -139,8 +53,7 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(n)
   end
   return true
 end
-`)+"("+c+")";else if("DIVISIBLE_BY"===d){a=b.valueToCode(a,"DIVISOR",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE)||"0";if("0"===a)return["nil",Order$$module$build$src$generators$lua$lua_generator.ATOMIC];a=c+" % "+a+" == 0"}else a=c+e;return[a,g]},math_change$$module$build$src$generators$lua$math=function(a,b){const c=b.valueToCode(a,"DELTA",Order$$module$build$src$generators$lua$lua_generator.ADDITIVE)||"0";a=b.getVariableName(a.getFieldValue("VAR"));return a+" = "+a+" + "+
-c+"\n"},math_on_list$$module$build$src$generators$lua$math=function(a,b){function c(){return b.provideFunction_("math_sum",`
+`)+"("+c+")";else if(d==="DIVISIBLE_BY"){a=b.valueToCode(a,"DIVISOR",X.MULTIPLICATIVE)||"0";if(a==="0")return["nil",X.ATOMIC];a=c+" % "+a+" == 0"}else a=c+e;return[a,g]},math_on_list:function(a,b){function c(){return b.provideFunction_("math_sum",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}(t)
   local result = 0
   for _, v in ipairs(t) do
@@ -148,7 +61,7 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(t)
   end
   return result
 end
-`)}var d=a.getFieldValue("OP");a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$lua$lua_generator.NONE)||"{}";switch(d){case "SUM":d=c();break;case "MIN":d=b.provideFunction_("math_min",`
+`)}var d=a.getFieldValue("OP");a=b.valueToCode(a,"LIST",X.NONE)||"{}";switch(d){case "SUM":d=c();break;case "MIN":d=b.provideFunction_("math_min",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}(t)
   if #t == 0 then
     return 0
@@ -250,44 +163,8 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(t)
   end
   return t[math.random(#t)]
 end
-`);break;default:throw Error("Unknown operator: "+d);}return[d+"("+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},math_modulo$$module$build$src$generators$lua$math=function(a,b){const c=b.valueToCode(a,"DIVIDEND",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE)||"0";a=b.valueToCode(a,"DIVISOR",Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE)||"0";return[c+" % "+a,Order$$module$build$src$generators$lua$lua_generator.MULTIPLICATIVE]},math_constrain$$module$build$src$generators$lua$math=
-function(a,b){const c=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0",d=b.valueToCode(a,"LOW",Order$$module$build$src$generators$lua$lua_generator.NONE)||"-math.huge";a=b.valueToCode(a,"HIGH",Order$$module$build$src$generators$lua$lua_generator.NONE)||"math.huge";return["math.min(math.max("+c+", "+d+"), "+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},math_random_int$$module$build$src$generators$lua$math=function(a,b){const c=b.valueToCode(a,
-"FROM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0";a=b.valueToCode(a,"TO",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0";return["math.random("+c+", "+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},math_random_float$$module$build$src$generators$lua$math=function(a,b){return["math.random()",Order$$module$build$src$generators$lua$lua_generator.HIGH]},math_atan2$$module$build$src$generators$lua$math=function(a,b){const c=b.valueToCode(a,"X",Order$$module$build$src$generators$lua$lua_generator.NONE)||
-"0";return["math.deg(math.atan2("+(b.valueToCode(a,"Y",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0")+", "+c+"))",Order$$module$build$src$generators$lua$lua_generator.HIGH]},procedures_defreturn$$module$build$src$generators$lua$procedures=function(a,b){const c=b.getProcedureName(a.getFieldValue("NAME"));var d="";b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(d+=b.injectId(b.STATEMENT_SUFFIX,a));d&&(d=b.prefixLines(d,b.INDENT));let e="";b.INFINITE_LOOP_TRAP&&
-(e=b.prefixLines(b.injectId(b.INFINITE_LOOP_TRAP,a),b.INDENT));let f="";a.getInput("STACK")&&(f=b.statementToCode(a,"STACK"));let g="";a.getInput("RETURN")&&(g=b.valueToCode(a,"RETURN",Order$$module$build$src$generators$lua$lua_generator.NONE)||"");let h="";f&&g&&(h=d);g?g=b.INDENT+"return "+g+"\n":f||(f="");const k=[],l=a.getVars();for(let m=0;m<l.length;m++)k[m]=b.getVariableName(l[m]);d="function "+c+"("+k.join(", ")+")\n"+d+e+f+h+g+"end\n";d=b.scrub_(a,d);b.definitions_["%"+c]=d;return null},
-procedures_callreturn$$module$build$src$generators$lua$procedures=function(a,b){const c=b.getProcedureName(a.getFieldValue("NAME")),d=[],e=a.getVars();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,Order$$module$build$src$generators$lua$lua_generator.NONE)||"nil";return[c+"("+d.join(", ")+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},procedures_callnoreturn$$module$build$src$generators$lua$procedures=function(a,b){return b.forBlock.procedures_callreturn(a,b)[0]+"\n"},procedures_ifreturn$$module$build$src$generators$lua$procedures=
-function(a,b){let c="if "+(b.valueToCode(a,"CONDITION",Order$$module$build$src$generators$lua$lua_generator.NONE)||"false")+" then\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.NONE)||"nil",c+=b.INDENT+"return "+a+"\n"):c+=b.INDENT+"return\n";return c+"end\n"},text$$module$build$src$generators$lua$text=function(a,b){return[b.quote_(a.getFieldValue("TEXT")),Order$$module$build$src$generators$lua$lua_generator.ATOMIC]},
-text_join$$module$build$src$generators$lua$text=function(a,b){if(0===a.itemCount_)return["''",Order$$module$build$src$generators$lua$lua_generator.ATOMIC];if(1===a.itemCount_)return["tostring("+(b.valueToCode(a,"ADD0",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''")+")",Order$$module$build$src$generators$lua$lua_generator.HIGH];if(2===a.itemCount_){var c=b.valueToCode(a,"ADD0",Order$$module$build$src$generators$lua$lua_generator.CONCATENATION)||"''";a=b.valueToCode(a,"ADD1",Order$$module$build$src$generators$lua$lua_generator.CONCATENATION)||
-"''";return[c+" .. "+a,Order$$module$build$src$generators$lua$lua_generator.CONCATENATION]}c=[];for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";return["table.concat({"+c.join(", ")+"})",Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_append$$module$build$src$generators$lua$text=function(a,b){const c=b.getVariableName(a.getFieldValue("VAR"));a=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.CONCATENATION)||
-"''";return c+" = "+c+" .. "+a+"\n"},text_length$$module$build$src$generators$lua$text=function(a,b){return["#"+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.UNARY)||"''"),Order$$module$build$src$generators$lua$lua_generator.UNARY]},text_isEmpty$$module$build$src$generators$lua$text=function(a,b){return["#"+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.UNARY)||"''")+" == 0",Order$$module$build$src$generators$lua$lua_generator.RELATIONAL]},
-text_indexOf$$module$build$src$generators$lua$text=function(a,b){const c=b.valueToCode(a,"FIND",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''",d=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";return[("FIRST"===a.getFieldValue("END")?b.provideFunction_("firstIndexOf",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(str, substr)
-  local i = string.find(str, substr, 1, true)
-  if i == nil then
-    return 0
-  end
-  return i
-end
-`):b.provideFunction_("lastIndexOf",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(str, substr)
-  local i = string.find(string.reverse(str), string.reverse(substr), 1, true)
-  if i then
-    return #str + 2 - i - #substr
-  end
-  return 0
-end
-`))+"("+d+", "+c+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_charAt$$module$build$src$generators$lua$text=function(a,b){var c=a.getFieldValue("WHERE")||"FROM_START";const d=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";if("RANDOM"===c)b=b.provideFunction_("text_random_letter",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(str)
-  local index = math.random(string.len(str))
-  return string.sub(str, index, index)
-end
-`)+"("+d+")";else{if("FIRST"===c)c="1";else if("LAST"===c)c="-1";else if(a=b.valueToCode(a,"AT","FROM_END"===c?Order$$module$build$src$generators$lua$lua_generator.UNARY:Order$$module$build$src$generators$lua$lua_generator.NONE)||"1","FROM_START"===c)c=a;else if("FROM_END"===c)c="-"+a;else throw Error("Unhandled option (text_charAt).");b=c.match(/^-?\w*$/)?"string.sub("+d+", "+c+", "+c+")":b.provideFunction_("text_char_at",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(str, index)
-  return string.sub(str, index, index)
-end
-`)+"("+d+", "+c+")"}return[b,Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_getSubstring$$module$build$src$generators$lua$text=function(a,b){const c=b.valueToCode(a,"STRING",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";var d=a.getFieldValue("WHERE1"),e=b.valueToCode(a,"AT1","FROM_END"===d?Order$$module$build$src$generators$lua$lua_generator.UNARY:Order$$module$build$src$generators$lua$lua_generator.NONE)||"1";if("FIRST"===d)d=1;else if("FROM_START"===d)d=e;else if("FROM_END"===
-d)d="-"+e;else throw Error("Unhandled option (text_getSubstring)");e=a.getFieldValue("WHERE2");a=b.valueToCode(a,"AT2","FROM_END"===e?Order$$module$build$src$generators$lua$lua_generator.UNARY:Order$$module$build$src$generators$lua$lua_generator.NONE)||"1";if("LAST"===e)a=-1;else if("FROM_START"!==e)if("FROM_END"===e)a="-"+a;else throw Error("Unhandled option (text_getSubstring)");return["string.sub("+c+", "+d+", "+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_changeCase$$module$build$src$generators$lua$text=
-function(a,b){const c=a.getFieldValue("CASE");a=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";let d;"UPPERCASE"===c?d="string.upper":"LOWERCASE"===c?d="string.lower":"TITLECASE"===c&&(d=b.provideFunction_("text_titlecase",`
+`);break;default:throw Error("Unknown operator: "+d);}return[d+"("+a+")",X.HIGH]},math_random_float:function(){return["math.random()",X.HIGH]},math_random_int:function(a,b){var c=b.valueToCode(a,"FROM",X.NONE)||"0";a=b.valueToCode(a,"TO",X.NONE)||"0";return["math.random("+c+", "+a+")",X.HIGH]}};Es.math_round=us;Es.math_single=us;Es.math_trig=us;var Fs={procedures_callnoreturn:function(a,b){return b.forBlock.procedures_callreturn(a,b)[0]+"\n"},procedures_callreturn:function(a,b){var c=b.getProcedureName(a.getFieldValue("NAME")),d=[],e=a.getVarModels();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,X.NONE)||"nil";return[c+"("+d.join(", ")+")",X.HIGH]}};Fs.procedures_defnoreturn=vs;Fs.procedures_defreturn=vs;
+Fs.procedures_ifreturn=function(a,b){var c="if "+(b.valueToCode(a,"CONDITION",X.NONE)||"false")+" then\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",X.NONE)||"nil",c+=b.INDENT+"return "+a+"\n"):c+=b.INDENT+"return\n";return c+"end\n"};var Gs={text:function(a,b){return[b.quote_(a.getFieldValue("TEXT")),X.ATOMIC]},text_append:function(a,b){var c=b.getVariableName(a.getFieldValue("VAR"));a=b.valueToCode(a,"TEXT",X.CONCATENATION)||"''";return c+" = "+c+" .. "+a+"\n"},text_changeCase:function(a,b){var c=a.getFieldValue("CASE");a=b.valueToCode(a,"TEXT",X.NONE)||"''";var d;c==="UPPERCASE"?d="string.upper":c==="LOWERCASE"?d="string.lower":c==="TITLECASE"&&(d=b.provideFunction_("text_titlecase",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}(str)
   local buf = {}
   local inWord = false
@@ -305,14 +182,16 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(str)
   end
   return table.concat(buf)
 end
-`));return[d+"("+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_trim$$module$build$src$generators$lua$text=function(a,b){const c={LEFT:"^%s*(,-)",RIGHT:"(.-)%s*$",BOTH:"^%s*(.-)%s*$"}[a.getFieldValue("MODE")];return["string.gsub("+(b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''")+', "'+c+'", "%1")',Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_print$$module$build$src$generators$lua$text=function(a,b){return"print("+
-(b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''")+")\n"},text_prompt_ext$$module$build$src$generators$lua$text=function(a,b){let c;c=a.getField("TEXT")?b.quote_(a.getFieldValue("TEXT")):b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";b=b.provideFunction_("text_prompt",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(msg)
-  io.write(msg)
-  io.flush()
-  return io.read()
+`));return[d+"("+a+")",X.HIGH]},text_charAt:function(a,b){var c=a.getFieldValue("WHERE")||"FROM_START",d=b.valueToCode(a,"VALUE",X.NONE)||"''";if(c==="RANDOM")b=b.provideFunction_("text_random_letter",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(str)
+  local index = math.random(string.len(str))
+  return string.sub(str, index, index)
 end
-`)+"("+c+")";"NUMBER"===a.getFieldValue("TYPE")&&(b="tonumber("+b+", 10)");return[b,Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_count$$module$build$src$generators$lua$text=function(a,b){const c=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";a=b.valueToCode(a,"SUB",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";return[b.provideFunction_("text_count",`
+`)+"("+d+")";else{if(c==="FIRST")c="1";else if(c==="LAST")c="-1";else if(a=b.valueToCode(a,"AT",c==="FROM_END"?X.UNARY:X.NONE)||"1",c==="FROM_START")c=a;else if(c==="FROM_END")c="-"+a;else throw Error("Unhandled option (text_charAt).");b=c.match(/^-?\w*$/)?"string.sub("+d+", "+c+", "+c+")":b.provideFunction_("text_char_at",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(str, index)
+  return string.sub(str, index, index)
+end
+`)+"("+d+", "+c+")"}return[b,X.HIGH]},text_count:function(a,b){var c=b.valueToCode(a,"TEXT",X.NONE)||"''";a=b.valueToCode(a,"SUB",X.NONE)||"''";return[b.provideFunction_("text_count",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle)
   if #needle == 0 then
     return #haystack + 1
@@ -329,7 +208,25 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle)
   end
   return count
 end
-`)+"("+c+", "+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_replace$$module$build$src$generators$lua$text=function(a,b){const c=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''",d=b.valueToCode(a,"FROM",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";a=b.valueToCode(a,"TO",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''";return[b.provideFunction_("text_replace",`
+`)+"("+c+", "+a+")",X.HIGH]},text_getSubstring:function(a,b){var c=b.valueToCode(a,"STRING",X.NONE)||"''",d=a.getFieldValue("WHERE1"),e=b.valueToCode(a,"AT1",d==="FROM_END"?X.UNARY:X.NONE)||"1";if(d==="FIRST")d=1;else if(d==="FROM_START")d=e;else if(d==="FROM_END")d="-"+e;else throw Error("Unhandled option (text_getSubstring)");e=a.getFieldValue("WHERE2");a=b.valueToCode(a,"AT2",e==="FROM_END"?X.UNARY:X.NONE)||"1";if(e==="LAST")a=-1;else if(e!=="FROM_START")if(e==="FROM_END")a="-"+a;else throw Error("Unhandled option (text_getSubstring)");
+return["string.sub("+c+", "+d+", "+a+")",X.HIGH]},text_indexOf:function(a,b){var c=b.valueToCode(a,"FIND",X.NONE)||"''",d=b.valueToCode(a,"VALUE",X.NONE)||"''";return[(a.getFieldValue("END")==="FIRST"?b.provideFunction_("firstIndexOf",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(str, substr)
+  local i = string.find(str, substr, 1, true)
+  if i == nil then
+    return 0
+  end
+  return i
+end
+`):b.provideFunction_("lastIndexOf",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(str, substr)
+  local i = string.find(string.reverse(str), string.reverse(substr), 1, true)
+  if i then
+    return #str + 2 - i - #substr
+  end
+  return 0
+end
+`))+"("+d+", "+c+")",X.HIGH]},text_isEmpty:function(a,b){return["#"+(b.valueToCode(a,"VALUE",X.UNARY)||"''")+" == 0",X.RELATIONAL]},text_join:function(a,b){if(a.itemCount_===0)return["''",X.ATOMIC];if(a.itemCount_===1)return["tostring("+(b.valueToCode(a,"ADD0",X.NONE)||"''")+")",X.HIGH];if(a.itemCount_===2){var c=b.valueToCode(a,"ADD0",X.CONCATENATION)||"''";a=b.valueToCode(a,"ADD1",X.CONCATENATION)||"''";return[c+" .. "+a,X.CONCATENATION]}c=[];for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,
+"ADD"+d,X.NONE)||"''";return["table.concat({"+c.join(", ")+"})",X.HIGH]},text_length:function(a,b){return["#"+(b.valueToCode(a,"VALUE",X.UNARY)||"''"),X.UNARY]},text_print:function(a,b){return"print("+(b.valueToCode(a,"TEXT",X.NONE)||"''")+")\n"}};Gs.text_prompt=ws;Gs.text_prompt_ext=ws;Gs.text_replace=function(a,b){var c=b.valueToCode(a,"TEXT",X.NONE)||"''",d=b.valueToCode(a,"FROM",X.NONE)||"''";a=b.valueToCode(a,"TO",X.NONE)||"''";return[b.provideFunction_("text_replace",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle, replacement)
   local buf = {}
   local i = 1
@@ -346,27 +243,94 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle, replacement)
   end
   return table.concat(buf)
 end
-`)+"("+c+", "+d+", "+a+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},text_reverse$$module$build$src$generators$lua$text=function(a,b){return["string.reverse("+(b.valueToCode(a,"TEXT",Order$$module$build$src$generators$lua$lua_generator.NONE)||"''")+")",Order$$module$build$src$generators$lua$lua_generator.HIGH]},variables_get$$module$build$src$generators$lua$variables=function(a,b){return[b.getVariableName(a.getFieldValue("VAR")),Order$$module$build$src$generators$lua$lua_generator.ATOMIC]},
-variables_set$$module$build$src$generators$lua$variables=function(a,b){const c=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$lua$lua_generator.NONE)||"0";return b.getVariableName(a.getFieldValue("VAR"))+" = "+c+"\n"},Order$$module$build$src$generators$lua$lua_generator;
-(function(a){a[a.ATOMIC=0]="ATOMIC";a[a.HIGH=1]="HIGH";a[a.EXPONENTIATION=2]="EXPONENTIATION";a[a.UNARY=3]="UNARY";a[a.MULTIPLICATIVE=4]="MULTIPLICATIVE";a[a.ADDITIVE=5]="ADDITIVE";a[a.CONCATENATION=6]="CONCATENATION";a[a.RELATIONAL=7]="RELATIONAL";a[a.AND=8]="AND";a[a.OR=9]="OR";a[a.NONE=99]="NONE"})(Order$$module$build$src$generators$lua$lua_generator||(Order$$module$build$src$generators$lua$lua_generator={}));
-var LuaGenerator$$module$build$src$generators$lua$lua_generator=class extends $.CodeGenerator$$module$build$src$core$generator{constructor(a="Lua"){super(a);this.isInitialized=!1;for(const b in Order$$module$build$src$generators$lua$lua_generator)a=Order$$module$build$src$generators$lua$lua_generator[b],"string"!==typeof a&&(this["ORDER_"+b]=a);this.addReservedWords("_,__inext,assert,bit,colors,colours,coroutine,disk,dofile,error,fs,fetfenv,getmetatable,gps,help,io,ipairs,keys,loadfile,loadstring,math,native,next,os,paintutils,pairs,parallel,pcall,peripheral,print,printError,rawequal,rawget,rawset,read,rednet,redstone,rs,select,setfenv,setmetatable,sleep,string,table,term,textutils,tonumber,tostring,turtle,type,unpack,vector,write,xpcall,_VERSION,__indext,HTTP,and,break,do,else,elseif,end,false,for,function,if,in,local,nil,not,or,repeat,return,then,true,until,while,add,sub,mul,div,mod,pow,unm,concat,len,eq,lt,le,index,newindex,call,assert,collectgarbage,dofile,error,_G,getmetatable,inpairs,load,loadfile,next,pairs,pcall,print,rawequal,rawget,rawlen,rawset,select,setmetatable,tonumber,tostring,type,_VERSION,xpcall,require,package,string,table,math,bit32,io,file,os,debug")}init(a){super.init(a);
-this.nameDB_?this.nameDB_.reset():this.nameDB_=new $.Names$$module$build$src$core$names(this.RESERVED_WORDS_);this.nameDB_.setVariableMap(a.getVariableMap());this.nameDB_.populateVariables(a);this.nameDB_.populateProcedures(a);this.isInitialized=!0}finish(a){const b=Object.values(this.definitions_);a=super.finish(a);this.isInitialized=!1;this.nameDB_.reset();return b.join("\n\n")+"\n\n\n"+a}scrubNakedValue(a){return"local _ = "+a+"\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/'/g,
-"\\'");return"'"+a+"'"}multiline_quote_(a){return a.split(/\n/g).map(this.quote_).join(" .. '\\n' ..\n")}scrub_(a,b,c=!1){let d="";if(!a.outputConnection||!a.outputConnection.targetConnection){var e=a.getCommentText();e&&(e=$.wrap$$module$build$src$core$utils$string(e,this.COMMENT_WRAP-3),d+=this.prefixLines(e,"-- ")+"\n");for(let f=0;f<a.inputList.length;f++)a.inputList[f].type===$.inputTypes$$module$build$src$core$inputs$input_types.VALUE&&(e=a.inputList[f].connection.targetBlock())&&(e=this.allNestedComments(e))&&
-(d+=this.prefixLines(e,"-- "))}a=a.nextConnection&&a.nextConnection.targetBlock();c=c?"":this.blockToCode(a);return d+b+c}},module$build$src$generators$lua$lua_generator={};module$build$src$generators$lua$lua_generator.LuaGenerator=LuaGenerator$$module$build$src$generators$lua$lua_generator;module$build$src$generators$lua$lua_generator.Order=Order$$module$build$src$generators$lua$lua_generator;var getListIndex$$module$build$src$generators$lua$lists=function(a,b,c){return"FIRST"===b?"1":"FROM_END"===b?"#"+a+" + 1 - "+c:"LAST"===b?"#"+a:"RANDOM"===b?"math.random(#"+a+")":c},module$build$src$generators$lua$lists={};module$build$src$generators$lua$lists.lists_create_empty=lists_create_empty$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_create_with=lists_create_with$$module$build$src$generators$lua$lists;
-module$build$src$generators$lua$lists.lists_getIndex=lists_getIndex$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_getSublist=lists_getSublist$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_indexOf=lists_indexOf$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_isEmpty=lists_isEmpty$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_length=lists_length$$module$build$src$generators$lua$lists;
-module$build$src$generators$lua$lists.lists_repeat=lists_repeat$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_reverse=lists_reverse$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_setIndex=lists_setIndex$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_sort=lists_sort$$module$build$src$generators$lua$lists;module$build$src$generators$lua$lists.lists_split=lists_split$$module$build$src$generators$lua$lists;var controls_ifelse$$module$build$src$generators$lua$logic=controls_if$$module$build$src$generators$lua$logic,module$build$src$generators$lua$logic={};module$build$src$generators$lua$logic.controls_if=controls_if$$module$build$src$generators$lua$logic;module$build$src$generators$lua$logic.controls_ifelse=controls_if$$module$build$src$generators$lua$logic;module$build$src$generators$lua$logic.logic_boolean=logic_boolean$$module$build$src$generators$lua$logic;
-module$build$src$generators$lua$logic.logic_compare=logic_compare$$module$build$src$generators$lua$logic;module$build$src$generators$lua$logic.logic_negate=logic_negate$$module$build$src$generators$lua$logic;module$build$src$generators$lua$logic.logic_null=logic_null$$module$build$src$generators$lua$logic;module$build$src$generators$lua$logic.logic_operation=logic_operation$$module$build$src$generators$lua$logic;module$build$src$generators$lua$logic.logic_ternary=logic_ternary$$module$build$src$generators$lua$logic;var CONTINUE_STATEMENT$$module$build$src$generators$lua$loops="goto continue\n",controls_repeat$$module$build$src$generators$lua$loops=controls_repeat_ext$$module$build$src$generators$lua$loops,module$build$src$generators$lua$loops={};module$build$src$generators$lua$loops.controls_flow_statements=controls_flow_statements$$module$build$src$generators$lua$loops;module$build$src$generators$lua$loops.controls_for=controls_for$$module$build$src$generators$lua$loops;
-module$build$src$generators$lua$loops.controls_forEach=controls_forEach$$module$build$src$generators$lua$loops;module$build$src$generators$lua$loops.controls_repeat=controls_repeat_ext$$module$build$src$generators$lua$loops;module$build$src$generators$lua$loops.controls_repeat_ext=controls_repeat_ext$$module$build$src$generators$lua$loops;module$build$src$generators$lua$loops.controls_whileUntil=controls_whileUntil$$module$build$src$generators$lua$loops;var math_round$$module$build$src$generators$lua$math=math_single$$module$build$src$generators$lua$math,math_trig$$module$build$src$generators$lua$math=math_single$$module$build$src$generators$lua$math,module$build$src$generators$lua$math={};module$build$src$generators$lua$math.math_arithmetic=math_arithmetic$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_atan2=math_atan2$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_change=math_change$$module$build$src$generators$lua$math;
-module$build$src$generators$lua$math.math_constant=math_constant$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_constrain=math_constrain$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_modulo=math_modulo$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_number=math_number$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_number_property=math_number_property$$module$build$src$generators$lua$math;
-module$build$src$generators$lua$math.math_on_list=math_on_list$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_random_float=math_random_float$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_random_int=math_random_int$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_round=math_single$$module$build$src$generators$lua$math;module$build$src$generators$lua$math.math_single=math_single$$module$build$src$generators$lua$math;
-module$build$src$generators$lua$math.math_trig=math_single$$module$build$src$generators$lua$math;var procedures_defnoreturn$$module$build$src$generators$lua$procedures=procedures_defreturn$$module$build$src$generators$lua$procedures,module$build$src$generators$lua$procedures={};module$build$src$generators$lua$procedures.procedures_callnoreturn=procedures_callnoreturn$$module$build$src$generators$lua$procedures;module$build$src$generators$lua$procedures.procedures_callreturn=procedures_callreturn$$module$build$src$generators$lua$procedures;
-module$build$src$generators$lua$procedures.procedures_defnoreturn=procedures_defreturn$$module$build$src$generators$lua$procedures;module$build$src$generators$lua$procedures.procedures_defreturn=procedures_defreturn$$module$build$src$generators$lua$procedures;module$build$src$generators$lua$procedures.procedures_ifreturn=procedures_ifreturn$$module$build$src$generators$lua$procedures;var text_prompt$$module$build$src$generators$lua$text=text_prompt_ext$$module$build$src$generators$lua$text,module$build$src$generators$lua$text={};module$build$src$generators$lua$text.text=text$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_append=text_append$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_changeCase=text_changeCase$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_charAt=text_charAt$$module$build$src$generators$lua$text;
-module$build$src$generators$lua$text.text_count=text_count$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_getSubstring=text_getSubstring$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_indexOf=text_indexOf$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_isEmpty=text_isEmpty$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_join=text_join$$module$build$src$generators$lua$text;
-module$build$src$generators$lua$text.text_length=text_length$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_print=text_print$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_prompt=text_prompt_ext$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_prompt_ext=text_prompt_ext$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_replace=text_replace$$module$build$src$generators$lua$text;
-module$build$src$generators$lua$text.text_reverse=text_reverse$$module$build$src$generators$lua$text;module$build$src$generators$lua$text.text_trim=text_trim$$module$build$src$generators$lua$text;var module$build$src$generators$lua$variables={};module$build$src$generators$lua$variables.variables_get=variables_get$$module$build$src$generators$lua$variables;module$build$src$generators$lua$variables.variables_set=variables_set$$module$build$src$generators$lua$variables;var module$build$src$generators$lua$variables_dynamic={};module$build$src$generators$lua$variables_dynamic.variables_get_dynamic=variables_get$$module$build$src$generators$lua$variables;module$build$src$generators$lua$variables_dynamic.variables_set_dynamic=variables_set$$module$build$src$generators$lua$variables;var luaGenerator$$module$build$src$generators$lua=new LuaGenerator$$module$build$src$generators$lua$lua_generator,generators$$module$build$src$generators$lua=Object.assign({},module$build$src$generators$lua$lists,module$build$src$generators$lua$logic,module$build$src$generators$lua$loops,module$build$src$generators$lua$math,module$build$src$generators$lua$procedures,module$build$src$generators$lua$text,module$build$src$generators$lua$variables,module$build$src$generators$lua$variables_dynamic);
-for(const a in generators$$module$build$src$generators$lua)luaGenerator$$module$build$src$generators$lua.forBlock[a]=generators$$module$build$src$generators$lua[a];var module$build$src$generators$lua={};module$build$src$generators$lua.LuaGenerator=LuaGenerator$$module$build$src$generators$lua$lua_generator;module$build$src$generators$lua.Order=Order$$module$build$src$generators$lua$lua_generator;module$build$src$generators$lua.luaGenerator=luaGenerator$$module$build$src$generators$lua;
-module$build$src$generators$lua.__namespace__=$;
-return module$build$src$generators$lua;
+`)+"("+c+", "+d+", "+a+")",X.HIGH]};Gs.text_reverse=function(a,b){return["string.reverse("+(b.valueToCode(a,"TEXT",X.NONE)||"''")+")",X.HIGH]};Gs.text_trim=function(a,b){var c={LEFT:"^%s*(,-)",RIGHT:"(.-)%s*$",BOTH:"^%s*(.-)%s*$"}[a.getFieldValue("MODE")];return["string.gsub("+(b.valueToCode(a,"TEXT",X.NONE)||"''")+', "'+c+'", "%1")',X.HIGH]};var Hs={};Hs.variables_get=ys;Hs.variables_set=zs;var Is={};Is.variables_get_dynamic=ys;Is.variables_set_dynamic=zs;var Js=new Bs,Ks=Object.assign({},{lists_create_empty:function(){return["{}",X.HIGH]},lists_create_with:function(a,b){var c=Array(a.itemCount_);for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,X.NONE)||"nil";return["{"+c.join(", ")+"}",X.HIGH]},lists_getIndex:function(a,b){var c=a.getFieldValue("MODE")||"GET",d=a.getFieldValue("WHERE")||"FROM_START",e=b.valueToCode(a,"VALUE",X.HIGH)||"({})";if(d!=="LAST"&&d!=="FROM_END"&&d!=="RANDOM"||e.match(/^\w+$/)){b=b.valueToCode(a,"AT",c==="GET"&&
+d==="FROM_END"?X.ADDITIVE:X.NONE)||"1";b=qs(e,d,b);if(c==="GET")return[e+"["+b+"]",X.HIGH];d="table.remove("+e+", "+b+")";return c==="GET_REMOVE"?[d,X.HIGH]:d+"\n"}if(c==="REMOVE")return c=b.valueToCode(a,"AT",d==="FROM_END"?X.ADDITIVE:X.NONE)||"1",b=b.nameDB_.getDistinctName("tmp_list",$.P.VARIABLE),c=qs(b,d,c),b+" = "+e+"\ntable.remove("+b+", "+c+")\n";a=b.valueToCode(a,"AT",X.NONE)||"1";return[(c==="GET"?b.provideFunction_("list_get_"+d.toLowerCase(),["function "+b.FUNCTION_NAME_PLACEHOLDER_+"(t"+
+(d==="FROM_END"||d==="FROM_START"?", at)":")"),"  return t["+qs("t",d,"at")+"]","end"]):b.provideFunction_("list_remove_"+d.toLowerCase(),["function "+b.FUNCTION_NAME_PLACEHOLDER_+"(t"+(d==="FROM_END"||d==="FROM_START"?", at)":")"),"  return table.remove(t, "+qs("t",d,"at")+")","end"]))+"("+e+(d==="FROM_END"||d==="FROM_START"?", "+a:"")+")",X.HIGH]},lists_getSublist:function(a,b){var c=b.valueToCode(a,"LIST",X.NONE)||"{}",d=a.getFieldValue("WHERE1"),e=a.getFieldValue("WHERE2"),f=b.valueToCode(a,"AT1",
+X.NONE)||"1";a=b.valueToCode(a,"AT2",X.NONE)||"1";var g=d==="FROM_END"||d==="FROM_START"?", at1":"",h=e==="FROM_END"||e==="FROM_START"?", at2":"";return[b.provideFunction_("list_sublist_"+d.toLowerCase()+"_"+e.toLowerCase(),`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(source${g}${h})
+  local t = {}
+  local start = ${qs("source",d,"at1")}
+  local finish = ${qs("source",e,"at2")}
+  for i = start, finish do
+    table.insert(t, source[i])
+  end
+  return t
+end
+`)+"("+c+(d==="FROM_END"||d==="FROM_START"?", "+f:"")+(e==="FROM_END"||e==="FROM_START"?", "+a:"")+")",X.HIGH]},lists_indexOf:function(a,b){var c=b.valueToCode(a,"FIND",X.NONE)||"''",d=b.valueToCode(a,"VALUE",X.NONE)||"{}";return[(a.getFieldValue("END")==="FIRST"?b.provideFunction_("first_index",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(t, elem)
+  for k, v in ipairs(t) do
+    if v == elem then
+      return k
+    end
+  end
+  return 0
+end
+`):b.provideFunction_("last_index",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(t, elem)
+  for i = #t, 1, -1 do
+    if t[i] == elem then
+      return i
+    end
+  end
+  return 0
+end
+`))+"("+d+", "+c+")",X.HIGH]},lists_isEmpty:function(a,b){return["#"+(b.valueToCode(a,"VALUE",X.UNARY)||"{}")+" == 0",X.RELATIONAL]},lists_length:function(a,b){return["#"+(b.valueToCode(a,"VALUE",X.UNARY)||"{}"),X.UNARY]},lists_repeat:function(a,b){var c=b.provideFunction_("create_list_repeated",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(item, count)
+  local t = {}
+  for i = 1, count do
+    table.insert(t, item)
+  end
+  return t
+end
+  `),d=b.valueToCode(a,"ITEM",X.NONE)||"nil";a=b.valueToCode(a,"NUM",X.NONE)||"0";return[c+"("+d+", "+a+")",X.HIGH]},lists_reverse:function(a,b){a=b.valueToCode(a,"LIST",X.NONE)||"{}";return[b.provideFunction_("list_reverse",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(input)
+  local reversed = {}
+  for i = #input, 1, -1 do
+    table.insert(reversed, input[i])
+  end
+  return reversed
+end
+`)+"("+a+")",X.HIGH]},lists_setIndex:function(a,b){var c=b.valueToCode(a,"LIST",X.HIGH)||"{}",d=a.getFieldValue("MODE")||"SET",e=a.getFieldValue("WHERE")||"FROM_START",f=b.valueToCode(a,"AT",X.ADDITIVE)||"1";a=b.valueToCode(a,"TO",X.NONE)||"Nil";var g="";e!=="LAST"&&e!=="FROM_END"&&e!=="RANDOM"||c.match(/^\w+$/)||(b=b.nameDB_.getDistinctName("tmp_list",$.P.VARIABLE),g=b+" = "+c+"\n",c=b);g=d==="SET"?g+(c+"["+qs(c,e,f)+"] = "+a):g+("table.insert("+c+", "+(qs(c,e,f)+(e==="LAST"?" + 1":""))+", "+a+")");
+return g+"\n"},lists_sort:function(a,b){var c=b.valueToCode(a,"LIST",X.NONE)||"{}",d=a.getFieldValue("DIRECTION")==="1"?1:-1;a=a.getFieldValue("TYPE");return[b.provideFunction_("list_sort",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(list, typev, direction)
+  local t = {}
+  for n,v in pairs(list) do table.insert(t, v) end
+  local compareFuncs = {
+    NUMERIC = function(a, b)
+      return (tonumber(tostring(a)) or 0)
+          < (tonumber(tostring(b)) or 0) end,
+    TEXT = function(a, b)
+      return tostring(a) < tostring(b) end,
+    IGNORE_CASE = function(a, b)
+      return string.lower(tostring(a)) < string.lower(tostring(b)) end
+  }
+  local compareTemp = compareFuncs[typev]
+  local compare = compareTemp
+  if direction == -1
+  then compare = function(a, b) return compareTemp(b, a) end
+  end
+  table.sort(t, compare)
+  return t
+end
+`)+"("+c+',"'+a+'", '+d+")",X.HIGH]},lists_split:function(a,b){var c=b.valueToCode(a,"INPUT",X.NONE),d=b.valueToCode(a,"DELIM",X.NONE)||"''";a=a.getFieldValue("MODE");if(a==="SPLIT")c||(c="''"),b=b.provideFunction_("list_string_split",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(input, delim)
+  local t = {}
+  local pos = 1
+  while true do
+    next_delim = string.find(input, delim, pos)
+    if next_delim == nil then
+      table.insert(t, string.sub(input, pos))
+      break
+    else
+      table.insert(t, string.sub(input, pos, next_delim-1))
+      pos = next_delim + #delim
+    end
+  end
+  return t
+end
+`);else if(a==="JOIN")c||(c="{}"),b="table.concat";else throw Error("Unknown mode: "+a);return[b+"("+c+", "+d+")",X.HIGH]}},Cs,Ds,Es,Fs,Gs,Hs,Is);for(let a in Ks)Js.forBlock[a]=Ks[a];var Ls={};Ls.LuaGenerator=Bs;Ls.Order=X;Ls.luaGenerator=Js;$.__chunk_lua=Ls;
+$.__chunk_lua.__namespace__=$;
+return $.__chunk_lua;
 }));
 
 

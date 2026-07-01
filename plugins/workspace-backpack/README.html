@@ -24,7 +24,7 @@
       <div class="title">@blockly/workspace-backpack Demo</div>
       <div class="subtitle">A Blockly plugin that adds Backpack support.</div>
     </div>
-    7.0.11
+    13.1.0
 
     <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/workspace-backpack" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/workspace-backpack" class="button" target="_blank">View on npm</a>
@@ -135,23 +135,6 @@ beneficial for performance if you expect blocks stacks to be very large.</p>
 <p><img src="https://github.com/RaspberryPiFoundation/blockly-samples/raw/master/plugins/workspace-backpack/readme-media/context-menu-precondition.gif" alt="An animated picture of the &quot;Copy to Backpack&quot; context menu" /></p>
 <p>Note: Currently the empty Backpack context menu is registered globally, while
 the others are registered per workspace.</p>
-<h3 id="blockly-languages">Blockly Languages</h3>
-<p>We do not currently support translating the text in this plugin to different
-languages. However, if you would like to support multiple languages the messages
-can be translated by assigning the following properties of Blockly.Msg</p>
-<ul>
-<li><code>EMPTY_BACKPACK</code> (Default: "Empty") context menu - Empty the backpack.</li>
-<li><code>REMOVE_FROM_BACKPACK</code> (Default: "Remove from Backpack") context menu - Remove
-the selected Block from the backpack.</li>
-<li><code>COPY_TO_BACKPACK</code> (Default: "Copy to Backpack") context menu - Copy the
-selected Block to the backpack.</li>
-<li><code>COPY_ALL_TO_BACKPACK</code> (Default: "Copy All Blocks to Backpack") Context menu -
-copy all Blocks on the workspace to the backpack.</li>
-<li><code>PASTE_ALL_FROM_BACKPACK</code> (Default: "Paste All Blocks from Backpack") context
-menu - Paste all Blocks from the backpack to the workspace.</li>
-</ul>
-<pre><code class="javascript language-javascript">Blockly.Msg['EMPTY_BACKPACK'] = 'Opróżnij plecak'; // Polish
-// Inject workspace, etc...</code></pre>
 <h2 id="api">API</h2>
 <ul>
 <li><p><code>init</code>: Initializes the backpack.</p></li>

@@ -12,133 +12,27 @@
   }
 }(this, function(__parent__) {
 var $=__parent__.__namespace__;
-var lists_create_empty$$module$build$src$generators$php$lists=function(a,b){return["array()",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_create_with$$module$build$src$generators$php$lists=function(a,b){const c=Array(a.itemCount_);for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,Order$$module$build$src$generators$php$php_generator.NONE)||"null";return["array("+c.join(", ")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_repeat$$module$build$src$generators$php$lists=
-function(a,b){const c=b.provideFunction_("lists_repeat",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($value, $count) {
-  $array = array();
-  for ($index = 0; $index < $count; $index++) {
-    $array[] = $value;
-  }
-  return $array;
-}
-`),d=b.valueToCode(a,"ITEM",Order$$module$build$src$generators$php$php_generator.NONE)||"null";a=b.valueToCode(a,"NUM",Order$$module$build$src$generators$php$php_generator.NONE)||"0";return[c+"("+d+", "+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_length$$module$build$src$generators$php$lists=function(a,b){const c=b.provideFunction_("length",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($value) {
-  if (is_string($value)) {
-    return strlen($value);
-  } else {
-    return count($value);
-  }
-}
-`);a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"''";return[c+"("+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_isEmpty$$module$build$src$generators$php$lists=function(a,b){return["empty("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL)||"array()")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_indexOf$$module$build$src$generators$php$lists=function(a,
-b){const c=b.valueToCode(a,"FIND",Order$$module$build$src$generators$php$php_generator.NONE)||"''",d=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.MEMBER)||"[]";let e=" -1",f="";a.workspace.options.oneBasedIndex&&(e=" 0",f=" + 1");return[("FIRST"===a.getFieldValue("END")?b.provideFunction_("indexOf",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($haystack, $needle) {
-  for ($index = 0; $index < count($haystack); $index++) {
-    if ($haystack[$index] == $needle) return $index${f};
-  }
-  return ${e};
-}
-`):b.provideFunction_("lastIndexOf",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($haystack, $needle) {
-  $last = ${e};
-  for ($index = 0; $index < count($haystack); $index++) {
-    if ($haystack[$index] == $needle) $last = $index${f};
-  }
-  return $last;
-}
-`))+"("+d+", "+c+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_getIndex$$module$build$src$generators$php$lists=function(a,b){var c=a.getFieldValue("MODE")||"GET";switch(a.getFieldValue("WHERE")||"FROM_START"){case "FIRST":if("GET"===c)return[(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.MEMBER)||"array()")+"[0]",Order$$module$build$src$generators$php$php_generator.MEMBER];if("GET_REMOVE"===c)return["array_shift("+(b.valueToCode(a,"VALUE",
-Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("REMOVE"===c)return"array_shift("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+");\n";break;case "LAST":if("GET"===c)return["end("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("GET_REMOVE"===
-c)return["array_pop("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("REMOVE"===c)return"array_pop("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+");\n";break;case "FROM_START":var d=b.getAdjusted(a,"AT");if("GET"===c)return[(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.MEMBER)||"array()")+"["+
-d+"]",Order$$module$build$src$generators$php$php_generator.MEMBER];if("GET_REMOVE"===c)return["array_splice("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+", "+d+", 1)[0]",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("REMOVE"===c)return"array_splice("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+", "+d+", 1);\n";break;case "FROM_END":if("GET"===c)return c=b.valueToCode(a,
-"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()",b=b.getAdjusted(a,"AT",1,!0),["array_slice("+c+", "+b+", 1)[0]",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("GET_REMOVE"===c||"REMOVE"===c){d=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()";b=b.getAdjusted(a,"AT",1,!1,Order$$module$build$src$generators$php$php_generator.SUBTRACTION);b="array_splice("+d+", count("+d+") - "+b+", 1)[0]";if("GET_REMOVE"===
-c)return[b,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("REMOVE"===c)return b+";\n"}break;case "RANDOM":a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"array()";if("GET"===c)return[b.provideFunction_("lists_get_random_item",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($list) {
-  return $list[rand(0,count($list)-1)];
-}
-`)+"("+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("GET_REMOVE"===c)return[b.provideFunction_("lists_get_remove_random_item",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list) {
-  $x = rand(0,count($list)-1);
-  unset($list[$x]);
-  return array_values($list);
-}
-`)+"("+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];if("REMOVE"===c)return b.provideFunction_("lists_remove_random_item",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list) {
-  unset($list[rand(0,count($list)-1)]);
-}
-`)+"("+a+");\n"}throw Error("Unhandled combination (lists_getIndex).");},lists_setIndex$$module$build$src$generators$php$lists=function(a,b){const c=a.getFieldValue("MODE")||"GET";var d=a.getFieldValue("WHERE")||"FROM_START";const e=b.valueToCode(a,"TO",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"null";switch(d){case "FIRST":if("SET"===c)return(b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.MEMBER)||"array()")+"[0] = "+e+";\n";if("INSERT"===c)return"array_unshift("+
-(b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+", "+e+");\n";break;case "LAST":a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"array()";if("SET"===c)return b.provideFunction_("lists_set_last_item",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list, $value) {
-  $list[count($list) - 1] = $value;
-}
-`)+"("+a+", "+e+");\n";if("INSERT"===c)return"array_push("+a+", "+e+");\n";break;case "FROM_START":d=b.getAdjusted(a,"AT");if("SET"===c)return(b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.MEMBER)||"array()")+"["+d+"] = "+e+";\n";if("INSERT"===c)return"array_splice("+(b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"array()")+", "+d+", 0, "+e+");\n";break;case "FROM_END":d=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||
-"array()";a=b.getAdjusted(a,"AT",1);if("SET"===c)return b.provideFunction_("lists_set_from_end",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list, $at, $value) {
-  $list[count($list) - $at] = $value;
-}
-`)+"("+d+", "+a+", "+e+");\n";if("INSERT"===c)return b.provideFunction_("lists_insert_from_end",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list, $at, $value) {
-  return array_splice($list, count($list) - $at, 0, $value);
-}
-`)+"("+d+", "+a+", "+e+");\n";break;case "RANDOM":a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.REFERENCE)||"array()";if(a.match(/^\$\w+$/))d="";else{d=b.nameDB_.getDistinctName("tmp_list",$.NameType$$module$build$src$core$names.VARIABLE);var f=d+" = &"+a+";\n";a=d;d=f}b=b.nameDB_.getDistinctName("tmp_x",$.NameType$$module$build$src$core$names.VARIABLE);d+=b+" = rand(0, count("+a+")-1);\n";if("SET"===c)return d+(a+"["+b+"] = "+e+";\n");if("INSERT"===c)return d+("array_splice("+
-a+", "+b+", 0, "+e+");\n")}throw Error("Unhandled combination (lists_setIndex).");},lists_getSublist$$module$build$src$generators$php$lists=function(a,b){var c=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"array()",d=a.getFieldValue("WHERE1");const e=a.getFieldValue("WHERE2");if("FIRST"!==d||"LAST"!==e)if(c.match(/^\$\w+$/)||"FROM_END"!==d&&"FROM_START"===e){switch(d){case "FROM_START":d=b.getAdjusted(a,"AT1");break;case "FROM_END":d=b.getAdjusted(a,"AT1",1,!1,
-Order$$module$build$src$generators$php$php_generator.SUBTRACTION);d="count("+c+") - "+d;break;case "FIRST":d="0";break;default:throw Error("Unhandled option (lists_getSublist).");}switch(e){case "FROM_START":b=b.getAdjusted(a,"AT2",0,!1,Order$$module$build$src$generators$php$php_generator.SUBTRACTION);b+=" - ";b=$.isNumber$$module$build$src$core$utils$string(String(d))||String(d).match(/^\(.+\)$/)?b+d:b+("("+d+")");b+=" + 1";break;case "FROM_END":b=b.getAdjusted(a,"AT2",0,!1,Order$$module$build$src$generators$php$php_generator.SUBTRACTION);
-b="count("+c+") - "+b+" - ";b=$.isNumber$$module$build$src$core$utils$string(String(d))||String(d).match(/^\(.+\)$/)?b+d:b+("("+d+")");break;case "LAST":b="count("+c+") - ";b=$.isNumber$$module$build$src$core$utils$string(String(d))||String(d).match(/^\(.+\)$/)?b+d:b+("("+d+")");break;default:throw Error("Unhandled option (lists_getSublist).");}c="array_slice("+c+", "+d+", "+b+")"}else{const f=b.getAdjusted(a,"AT1");a=b.getAdjusted(a,"AT2");c=b.provideFunction_("lists_get_sublist",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($list, $where1, $at1, $where2, $at2) {
-  if ($where1 == 'FROM_END') {
-    $at1 = count($list) - 1 - $at1;
-  } else if ($where1 == 'FIRST') {
-    $at1 = 0;
-  } else if ($where1 != 'FROM_START') {
-    throw new Exception('Unhandled option (lists_get_sublist).');
-  }
-  $length = 0;
-  if ($where2 == 'FROM_START') {
-    $length = $at2 - $at1 + 1;
-  } else if ($where2 == 'FROM_END') {
-    $length = count($list) - $at1 - $at2;
-  } else if ($where2 == 'LAST') {
-    $length = count($list) - $at1;
-  } else {
-    throw new Exception('Unhandled option (lists_get_sublist).');
-  }
-  return array_slice($list, $at1, $length);
-}
-`)+"("+c+", '"+d+"', "+f+", '"+e+"', "+a+")"}return[c,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_sort$$module$build$src$generators$php$lists=function(a,b){const c=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"array()",d="1"===a.getFieldValue("DIRECTION")?1:-1;a=a.getFieldValue("TYPE");return[b.provideFunction_("lists_sort",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($list, $type, $direction) {
-  $sortCmpFuncs = array(
-    'NUMERIC' => 'strnatcasecmp',
-    'TEXT' => 'strcmp',
-    'IGNORE_CASE' => 'strcasecmp'
-  );
-  $sortCmp = $sortCmpFuncs[$type];
-  $list2 = $list;
-  usort($list2, $sortCmp);
-  if ($direction == -1) {
-    $list2 = array_reverse($list2);
-  }
-  return $list2;
-}
-`)+"("+c+', "'+a+'", '+d+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_split$$module$build$src$generators$php$lists=function(a,b){let c=b.valueToCode(a,"INPUT",Order$$module$build$src$generators$php$php_generator.NONE);b=b.valueToCode(a,"DELIM",Order$$module$build$src$generators$php$php_generator.NONE)||"''";a=a.getFieldValue("MODE");if("SPLIT"===a)c||(c="''"),a="explode";else if("JOIN"===a)c||(c="array()"),a="implode";else throw Error("Unknown mode: "+a);return[a+
-"("+b+", "+c+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},lists_reverse$$module$build$src$generators$php$lists=function(a,b){return["array_reverse("+(b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"[]")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},controls_if$$module$build$src$generators$php$logic=function(a,b){let c=0,d="",e,f;b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));do f=b.valueToCode(a,
-"IF"+c,Order$$module$build$src$generators$php$php_generator.NONE)||"false",e=b.statementToCode(a,"DO"+c),b.STATEMENT_SUFFIX&&(e=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+e),d+=(0<c?" else ":"")+"if ("+f+") {\n"+e+"}",c++;while(a.getInput("IF"+c));if(a.getInput("ELSE")||b.STATEMENT_SUFFIX)e=a.getInput("ELSE")?b.statementToCode(a,"ELSE"):"",b.STATEMENT_SUFFIX&&(e=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+e),d+=" else {\n"+e+"}";return d+"\n"},logic_compare$$module$build$src$generators$php$logic=
-function(a,b){const c={EQ:"==",NEQ:"!=",LT:"<",LTE:"<=",GT:">",GTE:">="}[a.getFieldValue("OP")],d="=="===c||"!="===c?Order$$module$build$src$generators$php$php_generator.EQUALITY:Order$$module$build$src$generators$php$php_generator.RELATIONAL,e=b.valueToCode(a,"A",d)||"0";a=b.valueToCode(a,"B",d)||"0";return[e+" "+c+" "+a,d]},logic_operation$$module$build$src$generators$php$logic=function(a,b){const c="AND"===a.getFieldValue("OP")?"&&":"||",d="&&"===c?Order$$module$build$src$generators$php$php_generator.LOGICAL_AND:
-Order$$module$build$src$generators$php$php_generator.LOGICAL_OR;let e=b.valueToCode(a,"A",d);a=b.valueToCode(a,"B",d);e||a?(b="&&"===c?"true":"false",e||(e=b),a||(a=b)):a=e="false";return[e+" "+c+" "+a,d]},logic_negate$$module$build$src$generators$php$logic=function(a,b){const c=Order$$module$build$src$generators$php$php_generator.LOGICAL_NOT;return["!"+(b.valueToCode(a,"BOOL",c)||"true"),c]},logic_boolean$$module$build$src$generators$php$logic=function(a,b){return["TRUE"===a.getFieldValue("BOOL")?
-"true":"false",Order$$module$build$src$generators$php$php_generator.ATOMIC]},logic_null$$module$build$src$generators$php$logic=function(a,b){return["null",Order$$module$build$src$generators$php$php_generator.ATOMIC]},logic_ternary$$module$build$src$generators$php$logic=function(a,b){const c=b.valueToCode(a,"IF",Order$$module$build$src$generators$php$php_generator.CONDITIONAL)||"false",d=b.valueToCode(a,"THEN",Order$$module$build$src$generators$php$php_generator.CONDITIONAL)||"null";a=b.valueToCode(a,
-"ELSE",Order$$module$build$src$generators$php$php_generator.CONDITIONAL)||"null";return[c+" ? "+d+" : "+a,Order$$module$build$src$generators$php$php_generator.CONDITIONAL]},controls_repeat_ext$$module$build$src$generators$php$loops=function(a,b){let c;c=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):b.valueToCode(a,"TIMES",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"0";let d=b.statementToCode(a,"DO");d=b.addLoopTrap(d,a);a="";const e=b.nameDB_.getDistinctName("count",
-$.NameType$$module$build$src$core$names.VARIABLE);let f=c;c.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(c)||(f=b.nameDB_.getDistinctName("repeat_end",$.NameType$$module$build$src$core$names.VARIABLE),a+=f+" = "+c+";\n");return a+("for ("+e+" = 0; "+e+" < "+f+"; "+e+"++) {\n"+d+"}\n")},controls_whileUntil$$module$build$src$generators$php$loops=function(a,b){const c="UNTIL"===a.getFieldValue("MODE");let d=b.valueToCode(a,"BOOL",c?Order$$module$build$src$generators$php$php_generator.LOGICAL_NOT:
-Order$$module$build$src$generators$php$php_generator.NONE)||"false",e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);c&&(d="!"+d);return"while ("+d+") {\n"+e+"}\n"},controls_for$$module$build$src$generators$php$loops=function(a,b){var c=b.getVariableName(a.getFieldValue("VAR")),d=b.valueToCode(a,"FROM",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"0",e=b.valueToCode(a,"TO",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"0";const f=b.valueToCode(a,"BY",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||
-"1";let g=b.statementToCode(a,"DO");g=b.addLoopTrap(g,a);if($.isNumber$$module$build$src$core$utils$string(d)&&$.isNumber$$module$build$src$core$utils$string(e)&&$.isNumber$$module$build$src$core$utils$string(f))b=Number(d)<=Number(e),a="for ("+c+" = "+d+"; "+c+(b?" <= ":" >= ")+e+"; "+c,c=Math.abs(Number(f)),a=1===c?a+(b?"++":"--"):a+((b?" += ":" -= ")+c),a+=") {\n"+g+"}\n";else{a="";let h=d;d.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(d)||(h=b.nameDB_.getDistinctName(c+"_start",
-$.NameType$$module$build$src$core$names.VARIABLE),a+=h+" = "+d+";\n");d=e;e.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(e)||(d=b.nameDB_.getDistinctName(c+"_end",$.NameType$$module$build$src$core$names.VARIABLE),a+=d+" = "+e+";\n");e=b.nameDB_.getDistinctName(c+"_inc",$.NameType$$module$build$src$core$names.VARIABLE);a+=e+" = ";a=$.isNumber$$module$build$src$core$utils$string(f)?a+(Math.abs(Number(f))+";\n"):a+("abs("+f+");\n");a+="if ("+h+" > "+d+") {\n";a+=b.INDENT+e+" = -"+e+
-";\n";a=a+"}\nfor ("+(c+" = "+h+"; "+e+" >= 0 ? "+c+" <= "+d+" : "+c+" >= "+d+"; "+c+" += "+e+") {\n"+g+"}\n")}return a},controls_forEach$$module$build$src$generators$php$loops=function(a,b){const c=b.getVariableName(a.getFieldValue("VAR")),d=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"[]";let e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);return"foreach ("+d+" as "+c+") {\n"+e+"}\n"},controls_flow_statements$$module$build$src$generators$php$loops=function(a,
-b){let c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){const d=a.getSurroundLoop();d&&!d.suppressPrefixSuffix&&(c+=b.injectId(b.STATEMENT_PREFIX,d))}switch(a.getFieldValue("FLOW")){case "BREAK":return c+"break;\n";case "CONTINUE":return c+"continue;\n"}throw Error("Unknown flow statement.");},math_number$$module$build$src$generators$php$math=function(a,b){a=Number(a.getFieldValue("NUM"));return Infinity===
-a?["INF",Order$$module$build$src$generators$php$php_generator.ATOMIC]:-Infinity===a?["-INF",Order$$module$build$src$generators$php$php_generator.UNARY_NEGATION]:[String(a),0<=a?Order$$module$build$src$generators$php$php_generator.ATOMIC:Order$$module$build$src$generators$php$php_generator.UNARY_NEGATION]},math_arithmetic$$module$build$src$generators$php$math=function(a,b){var c={ADD:[" + ",Order$$module$build$src$generators$php$php_generator.ADDITION],MINUS:[" - ",Order$$module$build$src$generators$php$php_generator.SUBTRACTION],
-MULTIPLY:[" * ",Order$$module$build$src$generators$php$php_generator.MULTIPLICATION],DIVIDE:[" / ",Order$$module$build$src$generators$php$php_generator.DIVISION],POWER:[" ** ",Order$$module$build$src$generators$php$php_generator.POWER]}[a.getFieldValue("OP")];const d=c[0];c=c[1];const e=b.valueToCode(a,"A",c)||"0";a=b.valueToCode(a,"B",c)||"0";return[e+d+a,c]},math_single$$module$build$src$generators$php$math=function(a,b){const c=a.getFieldValue("OP");let d;if("NEG"===c)return a=b.valueToCode(a,
-"NUM",Order$$module$build$src$generators$php$php_generator.UNARY_NEGATION)||"0","-"===a[0]&&(a=" "+a),["-"+a,Order$$module$build$src$generators$php$php_generator.UNARY_NEGATION];a="SIN"===c||"COS"===c||"TAN"===c?b.valueToCode(a,"NUM",Order$$module$build$src$generators$php$php_generator.DIVISION)||"0":b.valueToCode(a,"NUM",Order$$module$build$src$generators$php$php_generator.NONE)||"0";switch(c){case "ABS":d="abs("+a+")";break;case "ROOT":d="sqrt("+a+")";break;case "LN":d="log("+a+")";break;case "EXP":d=
-"exp("+a+")";break;case "POW10":d="pow(10,"+a+")";break;case "ROUND":d="round("+a+")";break;case "ROUNDUP":d="ceil("+a+")";break;case "ROUNDDOWN":d="floor("+a+")";break;case "SIN":d="sin("+a+" / 180 * pi())";break;case "COS":d="cos("+a+" / 180 * pi())";break;case "TAN":d="tan("+a+" / 180 * pi())"}if(d)return[d,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];switch(c){case "LOG10":d="log("+a+") / log(10)";break;case "ASIN":d="asin("+a+") / pi() * 180";break;case "ACOS":d="acos("+
-a+") / pi() * 180";break;case "ATAN":d="atan("+a+") / pi() * 180";break;default:throw Error("Unknown math operator: "+c);}return[d,Order$$module$build$src$generators$php$php_generator.DIVISION]},math_constant$$module$build$src$generators$php$math=function(a,b){return{PI:["M_PI",Order$$module$build$src$generators$php$php_generator.ATOMIC],E:["M_E",Order$$module$build$src$generators$php$php_generator.ATOMIC],GOLDEN_RATIO:["(1 + sqrt(5)) / 2",Order$$module$build$src$generators$php$php_generator.DIVISION],
-SQRT2:["M_SQRT2",Order$$module$build$src$generators$php$php_generator.ATOMIC],SQRT1_2:["M_SQRT1_2",Order$$module$build$src$generators$php$php_generator.ATOMIC],INFINITY:["INF",Order$$module$build$src$generators$php$php_generator.ATOMIC]}[a.getFieldValue("CONSTANT")]},math_number_property$$module$build$src$generators$php$math=function(a,b){var c={EVEN:[""," % 2 == 0",Order$$module$build$src$generators$php$php_generator.MODULUS,Order$$module$build$src$generators$php$php_generator.EQUALITY],ODD:["",
-" % 2 == 1",Order$$module$build$src$generators$php$php_generator.MODULUS,Order$$module$build$src$generators$php$php_generator.EQUALITY],WHOLE:["is_int(",")",Order$$module$build$src$generators$php$php_generator.NONE,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL],POSITIVE:[""," > 0",Order$$module$build$src$generators$php$php_generator.RELATIONAL,Order$$module$build$src$generators$php$php_generator.RELATIONAL],NEGATIVE:[""," < 0",Order$$module$build$src$generators$php$php_generator.RELATIONAL,
-Order$$module$build$src$generators$php$php_generator.RELATIONAL],DIVISIBLE_BY:[null,null,Order$$module$build$src$generators$php$php_generator.MODULUS,Order$$module$build$src$generators$php$php_generator.EQUALITY],PRIME:[null,null,Order$$module$build$src$generators$php$php_generator.NONE,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]};const d=a.getFieldValue("PROPERTY"),[e,f,g,h]=c[d];c=b.valueToCode(a,"NUMBER_TO_CHECK",g)||"0";if("PRIME"===d)a=b.provideFunction_("math_isPrime",
-`
+var Zr=function(a,b){var c=0,d="";b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));do{var e=b.valueToCode(a,"IF"+c,V.NONE)||"false";var f=b.statementToCode(a,"DO"+c);b.STATEMENT_SUFFIX&&(f=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+f);d+=(c>0?" else ":"")+"if ("+e+") {\n"+f+"}";c++}while(a.getInput("IF"+c));if(a.getInput("ELSE")||b.STATEMENT_SUFFIX)f=a.getInput("ELSE")?b.statementToCode(a,"ELSE"):"",b.STATEMENT_SUFFIX&&(f=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT)+
+f),d+=" else {\n"+f+"}";return d+"\n"},$r=function(a,b){var c=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):b.valueToCode(a,"TIMES",V.ASSIGNMENT)||"0";var d=b.statementToCode(a,"DO");d=b.addLoopTrap(d,a);a="";var e=b.nameDB_.getDistinctName("count",$.P.VARIABLE),f=c;c.match(/^\w+$/)||$.yf(c)||(f=b.nameDB_.getDistinctName("repeat_end",$.P.VARIABLE),a+=f+" = "+c+";\n");return a+("for ("+e+" = 0; "+e+" < "+f+"; "+e+"++) {\n"+d+"}\n")},as=function(a,b){var c=a.getFieldValue("OP");if(c===
+"NEG")return a=b.valueToCode(a,"NUM",V.UNARY_NEGATION)||"0",a[0]==="-"&&(a=" "+a),["-"+a,V.UNARY_NEGATION];a=c==="SIN"||c==="COS"||c==="TAN"?b.valueToCode(a,"NUM",V.DIVISION)||"0":b.valueToCode(a,"NUM",V.NONE)||"0";switch(c){case "ABS":var d="abs("+a+")";break;case "ROOT":d="sqrt("+a+")";break;case "LN":d="log("+a+")";break;case "EXP":d="exp("+a+")";break;case "POW10":d="pow(10,"+a+")";break;case "ROUND":d="round("+a+")";break;case "ROUNDUP":d="ceil("+a+")";break;case "ROUNDDOWN":d="floor("+a+")";
+break;case "SIN":d="sin("+a+" / 180 * pi())";break;case "COS":d="cos("+a+" / 180 * pi())";break;case "TAN":d="tan("+a+" / 180 * pi())"}if(d)return[d,V.FUNCTION_CALL];switch(c){case "LOG10":d="log("+a+") / log(10)";break;case "ASIN":d="asin("+a+") / pi() * 180";break;case "ACOS":d="acos("+a+") / pi() * 180";break;case "ATAN":d="atan("+a+") / pi() * 180";break;default:throw Error("Unknown math operator: "+c);}return[d,V.DIVISION]},bs=function(a,b){var c=[],d=a.workspace,e=$.Bd(d)||[];for(var f of e)e=
+f.getName(),a.getVarModels().includes(f)||c.push(b.getVariableName(e));d=$.Cd(d);for(f=0;f<d.length;f++)c.push(b.nameDB_.getName(d[f],$.P.DEVELOPER_VARIABLE));d=c.length?b.INDENT+"global "+c.join(", ")+";\n":"";c=b.getProcedureName(a.getFieldValue("NAME"));f="";b.STATEMENT_PREFIX&&(f+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(f+=b.injectId(b.STATEMENT_SUFFIX,a));f&&(f=b.prefixLines(f,b.INDENT));e="";b.INFINITE_LOOP_TRAP&&(e=b.prefixLines(b.injectId(b.INFINITE_LOOP_TRAP,a),b.INDENT));
+var g="";a.getInput("STACK")&&(g=b.statementToCode(a,"STACK"));var h="";a.getInput("RETURN")&&(h=b.valueToCode(a,"RETURN",V.NONE)||"");var m="";g&&h&&(m=f);h&&(h=b.INDENT+"return "+h+";\n");var z=[],E=a.getVarModels();for(let H=0;H<E.length;H++)z[H]=b.getVariableName(E[H].getId());d="function "+c+"("+z.join(", ")+") {\n"+d+f+e+g+m+h+"}";d=b.scrub_(a,d);b.definitions_["%"+c]=d;return null},cs=function(a,b){b="readline("+(a.getField("TEXT")?b.quote_(a.getFieldValue("TEXT")):b.valueToCode(a,"TEXT",V.NONE)||
+"''")+")";a.getFieldValue("TYPE")==="NUMBER"&&(b="floatval("+b+")");return[b,V.FUNCTION_CALL]},ds=function(a,b){return[b.getVariableName(a.getFieldValue("VAR")),V.ATOMIC]},es=function(a,b){var c=b.valueToCode(a,"VALUE",V.ASSIGNMENT)||"0";return b.getVariableName(a.getFieldValue("VAR"))+" = "+c+";\n"},V,W=V||(V={});W[W.ATOMIC=0]="ATOMIC";W[W.CLONE=1]="CLONE";W[W.NEW=1]="NEW";W[W.MEMBER=2.1]="MEMBER";W[W.FUNCTION_CALL=2.2]="FUNCTION_CALL";W[W.POWER=3]="POWER";W[W.INCREMENT=4]="INCREMENT";
+W[W.DECREMENT=4]="DECREMENT";W[W.BITWISE_NOT=4]="BITWISE_NOT";W[W.CAST=4]="CAST";W[W.SUPPRESS_ERROR=4]="SUPPRESS_ERROR";W[W.INSTANCEOF=5]="INSTANCEOF";W[W.LOGICAL_NOT=6]="LOGICAL_NOT";W[W.UNARY_PLUS=7.1]="UNARY_PLUS";W[W.UNARY_NEGATION=7.2]="UNARY_NEGATION";W[W.MULTIPLICATION=8.1]="MULTIPLICATION";W[W.DIVISION=8.2]="DIVISION";W[W.MODULUS=8.3]="MODULUS";W[W.ADDITION=9.1]="ADDITION";W[W.SUBTRACTION=9.2]="SUBTRACTION";W[W.STRING_CONCAT=9.3]="STRING_CONCAT";W[W.BITWISE_SHIFT=10]="BITWISE_SHIFT";
+W[W.RELATIONAL=11]="RELATIONAL";W[W.EQUALITY=12]="EQUALITY";W[W.REFERENCE=13]="REFERENCE";W[W.BITWISE_AND=13]="BITWISE_AND";W[W.BITWISE_XOR=14]="BITWISE_XOR";W[W.BITWISE_OR=15]="BITWISE_OR";W[W.LOGICAL_AND=16]="LOGICAL_AND";W[W.LOGICAL_OR=17]="LOGICAL_OR";W[W.IF_NULL=18]="IF_NULL";W[W.CONDITIONAL=19]="CONDITIONAL";W[W.ASSIGNMENT=20]="ASSIGNMENT";W[W.LOGICAL_AND_WEAK=21]="LOGICAL_AND_WEAK";W[W.LOGICAL_XOR=22]="LOGICAL_XOR";W[W.LOGICAL_OR_WEAK=23]="LOGICAL_OR_WEAK";W[W.NONE=99]="NONE";
+var fs=class extends $.Rp{constructor(a="PHP"){super(a);this.ORDER_OVERRIDES=[[V.MEMBER,V.FUNCTION_CALL],[V.MEMBER,V.MEMBER],[V.LOGICAL_NOT,V.LOGICAL_NOT],[V.MULTIPLICATION,V.MULTIPLICATION],[V.ADDITION,V.ADDITION],[V.LOGICAL_AND,V.LOGICAL_AND],[V.LOGICAL_OR,V.LOGICAL_OR]];this.isInitialized=!1;for(let b in V)a=V[b],typeof a!=="string"&&(this["ORDER_"+b]=a);this.addReservedWords("__halt_compiler,abstract,and,array,as,break,callable,case,catch,class,clone,const,continue,declare,default,die,do,echo,else,elseif,empty,enddeclare,endfor,endforeach,endif,endswitch,endwhile,eval,exit,extends,final,for,foreach,function,global,goto,if,implements,include,include_once,instanceof,insteadof,interface,isset,list,namespace,new,or,print,private,protected,public,require,require_once,return,static,switch,throw,trait,try,unset,use,var,while,xor,PHP_VERSION,PHP_MAJOR_VERSION,PHP_MINOR_VERSION,PHP_RELEASE_VERSION,PHP_VERSION_ID,PHP_EXTRA_VERSION,PHP_ZTS,PHP_DEBUG,PHP_MAXPATHLEN,PHP_OS,PHP_SAPI,PHP_EOL,PHP_INT_MAX,PHP_INT_SIZE,DEFAULT_INCLUDE_PATH,PEAR_INSTALL_DIR,PEAR_EXTENSION_DIR,PHP_EXTENSION_DIR,PHP_PREFIX,PHP_BINDIR,PHP_BINARY,PHP_MANDIR,PHP_LIBDIR,PHP_DATADIR,PHP_SYSCONFDIR,PHP_LOCALSTATEDIR,PHP_CONFIG_FILE_PATH,PHP_CONFIG_FILE_SCAN_DIR,PHP_SHLIB_SUFFIX,E_ERROR,E_WARNING,E_PARSE,E_NOTICE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_USER_NOTICE,E_DEPRECATED,E_USER_DEPRECATED,E_ALL,E_STRICT,__COMPILER_HALT_OFFSET__,TRUE,FALSE,NULL,__CLASS__,__DIR__,__FILE__,__FUNCTION__,__LINE__,__METHOD__,__NAMESPACE__,__TRAIT__")}init(a){super.init(a);
+this.nameDB_?this.nameDB_.reset():this.nameDB_=new $.jj(this.RESERVED_WORDS_,"$");this.nameDB_.setVariableMap(a.getVariableMap());this.nameDB_.populateVariables(a);this.nameDB_.populateProcedures(a);this.isInitialized=!0}finish(a){var b=Object.values(this.definitions_);a=super.finish(a);this.isInitialized=!1;this.nameDB_.reset();return b.join("\n\n")+"\n\n\n"+a}scrubNakedValue(a){return a+";\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/'/g,"\\'");return"'"+a+"'"}multiline_quote_(a){return a.split(/\n/g).map(this.quote_).join(' . "\\n" .\n')}scrub_(a,
+b,c=!1){var d="";if(!a.outputConnection||!a.outputConnection.targetConnection){var e=a.getCommentText();e&&(e=$.xf(e,this.COMMENT_WRAP-3),d+=this.prefixLines(e,"// ")+"\n");for(let f=0;f<a.inputList.length;f++)a.inputList[f].type===$.ie.VALUE&&(e=a.inputList[f].connection.targetBlock())&&(e=this.allNestedComments(e))&&(d+=this.prefixLines(e,"// "))}a=a.nextConnection&&a.nextConnection.targetBlock();c=c?"":this.blockToCode(a);return d+b+c}getAdjusted(a,b,c=0,d=!1,e=V.NONE){a.workspace.options.oneBasedIndex&&
+c--;var f=a.workspace.options.oneBasedIndex?"1":"0",g=e;c>0?g=V.ADDITION:c<0?g=V.SUBTRACTION:d&&(g=V.UNARY_NEGATION);a=this.valueToCode(a,b,g)||f;if(c===0&&!d)return a;if($.yf(a))return a=String(Number(a)+c),d&&(a=String(-Number(a))),a;c>0?a=`${a} + ${c}`:c<0&&(a=`${a} - ${-c}`);d&&(a=c?`-(${a})`:`-${a}`);Math.floor(e)>=Math.floor(g)&&(a=`(${a})`);return a}};var gs={};gs.controls_if=Zr;gs.controls_ifelse=Zr;gs.logic_boolean=function(a){return[a.getFieldValue("BOOL")==="TRUE"?"true":"false",V.ATOMIC]};gs.logic_compare=function(a,b){var c={EQ:"==",NEQ:"!=",LT:"<",LTE:"<=",GT:">",GTE:">="}[a.getFieldValue("OP")],d=c==="=="||c==="!="?V.EQUALITY:V.RELATIONAL,e=b.valueToCode(a,"A",d)||"0";a=b.valueToCode(a,"B",d)||"0";return[e+" "+c+" "+a,d]};gs.logic_negate=function(a,b){var c=V.LOGICAL_NOT;return["!"+(b.valueToCode(a,"BOOL",c)||"true"),c]};
+gs.logic_null=function(){return["null",V.ATOMIC]};gs.logic_operation=function(a,b){var c=a.getFieldValue("OP")==="AND"?"&&":"||",d=c==="&&"?V.LOGICAL_AND:V.LOGICAL_OR,e=b.valueToCode(a,"A",d);a=b.valueToCode(a,"B",d);e||a?(b=c==="&&"?"true":"false",e||(e=b),a||(a=b)):a=e="false";return[e+" "+c+" "+a,d]};
+gs.logic_ternary=function(a,b){var c=b.valueToCode(a,"IF",V.CONDITIONAL)||"false",d=b.valueToCode(a,"THEN",V.CONDITIONAL)||"null";a=b.valueToCode(a,"ELSE",V.CONDITIONAL)||"null";return[c+" ? "+d+" : "+a,V.CONDITIONAL]};var hs={controls_flow_statements:function(a,b){var c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){let d=a.getSurroundLoop();d&&!d.suppressPrefixSuffix&&(c+=b.injectId(b.STATEMENT_PREFIX,d))}switch(a.getFieldValue("FLOW")){case "BREAK":return c+"break;\n";case "CONTINUE":return c+"continue;\n"}throw Error("Unknown flow statement.");},controls_for:function(a,b){var c=b.getVariableName(a.getFieldValue("VAR")),
+d=b.valueToCode(a,"FROM",V.ASSIGNMENT)||"0",e=b.valueToCode(a,"TO",V.ASSIGNMENT)||"0",f=b.valueToCode(a,"BY",V.ASSIGNMENT)||"1",g=b.statementToCode(a,"DO");g=b.addLoopTrap(g,a);if($.yf(d)&&$.yf(e)&&$.yf(f))b=Number(d)<=Number(e),a="for ("+c+" = "+d+"; "+c+(b?" <= ":" >= ")+e+"; "+c,c=Math.abs(Number(f)),a=c===1?a+(b?"++":"--"):a+((b?" += ":" -= ")+c),a+=") {\n"+g+"}\n";else{a="";let h=d;d.match(/^\w+$/)||$.yf(d)||(h=b.nameDB_.getDistinctName(c+"_start",$.P.VARIABLE),a+=h+" = "+d+";\n");d=e;e.match(/^\w+$/)||
+$.yf(e)||(d=b.nameDB_.getDistinctName(c+"_end",$.P.VARIABLE),a+=d+" = "+e+";\n");e=b.nameDB_.getDistinctName(c+"_inc",$.P.VARIABLE);a+=e+" = ";a=$.yf(f)?a+(Math.abs(Number(f))+";\n"):a+("abs("+f+");\n");a+="if ("+h+" > "+d+") {\n";a+=b.INDENT+e+" = -"+e+";\n";a=a+"}\nfor ("+(c+" = "+h+"; "+e+" >= 0 ? "+c+" <= "+d+" : "+c+" >= "+d+"; "+c+" += "+e+") {\n"+g+"}\n")}return a},controls_forEach:function(a,b){var c=b.getVariableName(a.getFieldValue("VAR")),d=b.valueToCode(a,"LIST",V.ASSIGNMENT)||"[]",e=
+b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);return"foreach ("+d+" as "+c+") {\n"+e+"}\n"}};hs.controls_repeat=$r;hs.controls_repeat_ext=$r;hs.controls_whileUntil=function(a,b){var c=a.getFieldValue("MODE")==="UNTIL",d=b.valueToCode(a,"BOOL",c?V.LOGICAL_NOT:V.NONE)||"false",e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);c&&(d="!"+d);return"while ("+d+") {\n"+e+"}\n"};var is={math_arithmetic:function(a,b){var c={ADD:[" + ",V.ADDITION],MINUS:[" - ",V.SUBTRACTION],MULTIPLY:[" * ",V.MULTIPLICATION],DIVIDE:[" / ",V.DIVISION],POWER:[" ** ",V.POWER]}[a.getFieldValue("OP")],d=c[0];c=c[1];var e=b.valueToCode(a,"A",c)||"0";a=b.valueToCode(a,"B",c)||"0";return[e+d+a,c]},math_atan2:function(a,b){var c=b.valueToCode(a,"X",V.NONE)||"0";return["atan2("+(b.valueToCode(a,"Y",V.NONE)||"0")+", "+c+") / pi() * 180",V.DIVISION]},math_change:function(a,b){var c=b.valueToCode(a,"DELTA",
+V.ADDITION)||"0";return b.getVariableName(a.getFieldValue("VAR"))+" += "+c+";\n"},math_constant:function(a){return{PI:["M_PI",V.ATOMIC],E:["M_E",V.ATOMIC],GOLDEN_RATIO:["(1 + sqrt(5)) / 2",V.DIVISION],SQRT2:["M_SQRT2",V.ATOMIC],SQRT1_2:["M_SQRT1_2",V.ATOMIC],INFINITY:["INF",V.ATOMIC]}[a.getFieldValue("CONSTANT")]},math_constrain:function(a,b){var c=b.valueToCode(a,"VALUE",V.NONE)||"0",d=b.valueToCode(a,"LOW",V.NONE)||"0";a=b.valueToCode(a,"HIGH",V.NONE)||"Infinity";return["min(max("+c+", "+d+"), "+
+a+")",V.FUNCTION_CALL]},math_modulo:function(a,b){var c=b.valueToCode(a,"DIVIDEND",V.MODULUS)||"0";a=b.valueToCode(a,"DIVISOR",V.MODULUS)||"0";return[c+" % "+a,V.MODULUS]},math_number:function(a){a=Number(a.getFieldValue("NUM"));return a===Infinity?["INF",V.ATOMIC]:a===-Infinity?["-INF",V.UNARY_NEGATION]:[String(a),a>=0?V.ATOMIC:V.UNARY_NEGATION]},math_number_property:function(a,b){var c={EVEN:[""," % 2 == 0",V.MODULUS,V.EQUALITY],ODD:[""," % 2 == 1",V.MODULUS,V.EQUALITY],WHOLE:["is_int(",")",V.NONE,
+V.FUNCTION_CALL],POSITIVE:[""," > 0",V.RELATIONAL,V.RELATIONAL],NEGATIVE:[""," < 0",V.RELATIONAL,V.RELATIONAL],DIVISIBLE_BY:[null,null,V.MODULUS,V.EQUALITY],PRIME:[null,null,V.NONE,V.FUNCTION_CALL]},d=a.getFieldValue("PROPERTY"),[e,f,g,h]=c[d];c=b.valueToCode(a,"NUMBER_TO_CHECK",g)||"0";if(d==="PRIME")a=b.provideFunction_("math_isPrime",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($n) {
   // https://en.wikipedia.org/wiki/Primality_test#Naive_methods
   if ($n == 2 || $n == 3) {
@@ -157,19 +51,18 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}($n) {
   }
   return true;
 }
-`)+"("+c+")";else if("DIVISIBLE_BY"===d){a=b.valueToCode(a,"DIVISOR",Order$$module$build$src$generators$php$php_generator.MODULUS)||"0";if("0"===a)return["false",Order$$module$build$src$generators$php$php_generator.ATOMIC];a=c+" % "+a+" == 0"}else a=e+c+f;return[a,h]},math_change$$module$build$src$generators$php$math=function(a,b){const c=b.valueToCode(a,"DELTA",Order$$module$build$src$generators$php$php_generator.ADDITION)||"0";return b.getVariableName(a.getFieldValue("VAR"))+" += "+c+";\n"},math_on_list$$module$build$src$generators$php$math=
-function(a,b){var c=a.getFieldValue("OP");switch(c){case "SUM":a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL)||"array()";a="array_sum("+a+")";break;case "MIN":a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL)||"array()";a="min("+a+")";break;case "MAX":a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL)||"array()";a="max("+a+")";break;case "AVERAGE":c=b.provideFunction_("math_mean",
-`
+`)+"("+c+")";else if(d==="DIVISIBLE_BY"){a=b.valueToCode(a,"DIVISOR",V.MODULUS)||"0";if(a==="0")return["false",V.ATOMIC];a=c+" % "+a+" == 0"}else a=e+c+f;return[a,h]},math_on_list:function(a,b){var c=a.getFieldValue("OP");switch(c){case "SUM":a=b.valueToCode(a,"LIST",V.FUNCTION_CALL)||"array()";a="array_sum("+a+")";break;case "MIN":a=b.valueToCode(a,"LIST",V.FUNCTION_CALL)||"array()";a="min("+a+")";break;case "MAX":a=b.valueToCode(a,"LIST",V.FUNCTION_CALL)||"array()";a="max("+a+")";break;case "AVERAGE":c=
+b.provideFunction_("math_mean",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($myList) {
   return array_sum($myList) / count($myList);
 }
-`);a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"array()";a=c+"("+a+")";break;case "MEDIAN":c=b.provideFunction_("math_median",`
+`);a=b.valueToCode(a,"LIST",V.NONE)||"array()";a=c+"("+a+")";break;case "MEDIAN":c=b.provideFunction_("math_median",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($arr) {
   sort($arr,SORT_NUMERIC);
   return (count($arr) % 2) ? $arr[floor(count($arr) / 2)] :
       ($arr[floor(count($arr) / 2)] + $arr[floor(count($arr) / 2) - 1]) / 2;
 }
-`);a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"[]";a=c+"("+a+")";break;case "MODE":c=b.provideFunction_("math_modes",`
+`);a=b.valueToCode(a,"LIST",V.NONE)||"[]";a=c+"("+a+")";break;case "MODE":c=b.provideFunction_("math_modes",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($values) {
   if (empty($values)) return array();
   $counts = array_count_values($values);
@@ -177,7 +70,7 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}($values) {
   $modes = array_keys($counts, current($counts), true);
   return $modes;
 }
-`);a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"[]";a=c+"("+a+")";break;case "STD_DEV":c=b.provideFunction_("math_standard_deviation",`
+`);a=b.valueToCode(a,"LIST",V.NONE)||"[]";a=c+"("+a+")";break;case "STD_DEV":c=b.provideFunction_("math_standard_deviation",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($numbers) {
   $n = count($numbers);
   if (!$n) return null;
@@ -185,48 +78,26 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}($numbers) {
   foreach($numbers as $key => $num) $devs[$key] = pow($num - $mean, 2);
   return sqrt(array_sum($devs) / (count($devs) - 1));
 }
-`);a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"[]";a=c+"("+a+")";break;case "RANDOM":c=b.provideFunction_("math_random_list",`
+`);a=b.valueToCode(a,"LIST",V.NONE)||"[]";a=c+"("+a+")";break;case "RANDOM":c=b.provideFunction_("math_random_list",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($list) {
   $x = rand(0, count($list)-1);
   return $list[$x];
 }
-`);a=b.valueToCode(a,"LIST",Order$$module$build$src$generators$php$php_generator.NONE)||"[]";a=c+"("+a+")";break;default:throw Error("Unknown operator: "+c);}return[a,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},math_modulo$$module$build$src$generators$php$math=function(a,b){const c=b.valueToCode(a,"DIVIDEND",Order$$module$build$src$generators$php$php_generator.MODULUS)||"0";a=b.valueToCode(a,"DIVISOR",Order$$module$build$src$generators$php$php_generator.MODULUS)||"0";return[c+
-" % "+a,Order$$module$build$src$generators$php$php_generator.MODULUS]},math_constrain$$module$build$src$generators$php$math=function(a,b){const c=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"0",d=b.valueToCode(a,"LOW",Order$$module$build$src$generators$php$php_generator.NONE)||"0";a=b.valueToCode(a,"HIGH",Order$$module$build$src$generators$php$php_generator.NONE)||"Infinity";return["min(max("+c+", "+d+"), "+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},
-math_random_int$$module$build$src$generators$php$math=function(a,b){const c=b.valueToCode(a,"FROM",Order$$module$build$src$generators$php$php_generator.NONE)||"0";a=b.valueToCode(a,"TO",Order$$module$build$src$generators$php$php_generator.NONE)||"0";return[b.provideFunction_("math_random_int",`
+`);a=b.valueToCode(a,"LIST",V.NONE)||"[]";a=c+"("+a+")";break;default:throw Error("Unknown operator: "+c);}return[a,V.FUNCTION_CALL]},math_random_float:function(){return["(float)rand()/(float)getrandmax()",V.FUNCTION_CALL]},math_random_int:function(a,b){var c=b.valueToCode(a,"FROM",V.NONE)||"0";a=b.valueToCode(a,"TO",V.NONE)||"0";return[b.provideFunction_("math_random_int",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($a, $b) {
   if ($a > $b) {
     return rand($b, $a);
   }
   return rand($a, $b);
 }
-`)+"("+c+", "+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},math_random_float$$module$build$src$generators$php$math=function(a,b){return["(float)rand()/(float)getrandmax()",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},math_atan2$$module$build$src$generators$php$math=function(a,b){const c=b.valueToCode(a,"X",Order$$module$build$src$generators$php$php_generator.NONE)||"0";return["atan2("+(b.valueToCode(a,"Y",Order$$module$build$src$generators$php$php_generator.NONE)||
-"0")+", "+c+") / pi() * 180",Order$$module$build$src$generators$php$php_generator.DIVISION]},procedures_defreturn$$module$build$src$generators$php$procedures=function(a,b){var c=[],d=a.workspace,e=$.allUsedVarModels$$module$build$src$core$variables(d)||[];for(var f of e)e=f.getName(),a.getVars().includes(e)||c.push(b.getVariableName(e));d=$.allDeveloperVariables$$module$build$src$core$variables(d);for(f=0;f<d.length;f++)c.push(b.nameDB_.getName(d[f],$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE));
-d=c.length?b.INDENT+"global "+c.join(", ")+";\n":"";c=b.getProcedureName(a.getFieldValue("NAME"));f="";b.STATEMENT_PREFIX&&(f+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(f+=b.injectId(b.STATEMENT_SUFFIX,a));f&&(f=b.prefixLines(f,b.INDENT));e="";b.INFINITE_LOOP_TRAP&&(e=b.prefixLines(b.injectId(b.INFINITE_LOOP_TRAP,a),b.INDENT));let g="";a.getInput("STACK")&&(g=b.statementToCode(a,"STACK"));let h="";a.getInput("RETURN")&&(h=b.valueToCode(a,"RETURN",Order$$module$build$src$generators$php$php_generator.NONE)||
-"");let k="";g&&h&&(k=f);h&&(h=b.INDENT+"return "+h+";\n");const l=[],m=a.getVars();for(let n=0;n<m.length;n++)l[n]=b.getVariableName(m[n]);d="function "+c+"("+l.join(", ")+") {\n"+d+f+e+g+k+h+"}";d=b.scrub_(a,d);b.definitions_["%"+c]=d;return null},procedures_callreturn$$module$build$src$generators$php$procedures=function(a,b){const c=b.getProcedureName(a.getFieldValue("NAME")),d=[],e=a.getVars();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,Order$$module$build$src$generators$php$php_generator.NONE)||
-"null";return[c+"("+d.join(", ")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},procedures_callnoreturn$$module$build$src$generators$php$procedures=function(a,b){return b.forBlock.procedures_callreturn(a,b)[0]+";\n"},procedures_ifreturn$$module$build$src$generators$php$procedures=function(a,b){let c="if ("+(b.valueToCode(a,"CONDITION",Order$$module$build$src$generators$php$php_generator.NONE)||"false")+") {\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,
-a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"null",c+=b.INDENT+"return "+a+";\n"):c+=b.INDENT+"return;\n";return c+"}\n"},text$$module$build$src$generators$php$text=function(a,b){return[b.quote_(a.getFieldValue("TEXT")),Order$$module$build$src$generators$php$php_generator.ATOMIC]},text_join$$module$build$src$generators$php$text=function(a,b){if(0===a.itemCount_)return["''",Order$$module$build$src$generators$php$php_generator.ATOMIC];
-if(1===a.itemCount_)return[b.valueToCode(a,"ADD0",Order$$module$build$src$generators$php$php_generator.NONE)||"''",Order$$module$build$src$generators$php$php_generator.NONE];if(2===a.itemCount_){var c=b.valueToCode(a,"ADD0",Order$$module$build$src$generators$php$php_generator.STRING_CONCAT)||"''";a=b.valueToCode(a,"ADD1",Order$$module$build$src$generators$php$php_generator.STRING_CONCAT)||"''";return[c+" . "+a,Order$$module$build$src$generators$php$php_generator.STRING_CONCAT]}c=Array(a.itemCount_);
-for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,Order$$module$build$src$generators$php$php_generator.NONE)||"''";return["implode('', array("+c.join(",")+"))",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_append$$module$build$src$generators$php$text=function(a,b){const c=b.getVariableName(a.getFieldValue("VAR"));a=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"''";return c+" .= "+a+";\n"},text_length$$module$build$src$generators$php$text=
-function(a,b){const c=b.provideFunction_("length",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($value) {
-  if (is_string($value)) {
-    return strlen($value);
-  }
-  return count($value);
-}
-`);a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"''";return[c+"("+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_isEmpty$$module$build$src$generators$php$text=function(a,b){return["empty("+(b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"''")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_indexOf$$module$build$src$generators$php$text=function(a,b){const c="FIRST"===
-a.getFieldValue("END")?"strpos":"strrpos",d=b.valueToCode(a,"FIND",Order$$module$build$src$generators$php$php_generator.NONE)||"''",e=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"''";let f=" -1",g="";a.workspace.options.oneBasedIndex&&(f=" 0",g=" + 1");return[b.provideFunction_("FIRST"===a.getFieldValue("END")?"text_indexOf":"text_lastIndexOf",`
-function ${b.FUNCTION_NAME_PLACEHOLDER_}($text, $search) {
-  $pos = ${c}($text, $search);
-  return $pos === false ? ${f} : $pos${g};
-}
-`)+"("+e+", "+d+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_charAt$$module$build$src$generators$php$text=function(a,b){const c=a.getFieldValue("WHERE")||"FROM_START",d=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.NONE)||"''";switch(c){case "FIRST":return["substr("+d+", 0, 1)",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];case "LAST":return["substr("+d+", -1)",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];
-case "FROM_START":return a=b.getAdjusted(a,"AT"),["substr("+d+", "+a+", 1)",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];case "FROM_END":return a=b.getAdjusted(a,"AT",1,!0),["substr("+d+", "+a+", 1)",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL];case "RANDOM":return[b.provideFunction_("text_random_letter",`
+`)+"("+c+", "+a+")",V.FUNCTION_CALL]}};is.math_round=as;is.math_single=as;is.math_trig=as;var js={procedures_callnoreturn:function(a,b){return b.forBlock.procedures_callreturn(a,b)[0]+";\n"},procedures_callreturn:function(a,b){var c=b.getProcedureName(a.getFieldValue("NAME")),d=[],e=a.getVarModels();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,V.NONE)||"null";return[c+"("+d.join(", ")+")",V.FUNCTION_CALL]}};js.procedures_defnoreturn=bs;js.procedures_defreturn=bs;
+js.procedures_ifreturn=function(a,b){var c="if ("+(b.valueToCode(a,"CONDITION",V.NONE)||"false")+") {\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",V.NONE)||"null",c+=b.INDENT+"return "+a+";\n"):c+=b.INDENT+"return;\n";return c+"}\n"};var ks={text:function(a,b){return[b.quote_(a.getFieldValue("TEXT")),V.ATOMIC]},text_append:function(a,b){var c=b.getVariableName(a.getFieldValue("VAR"));a=b.valueToCode(a,"TEXT",V.ASSIGNMENT)||"''";return c+" .= "+a+";\n"},text_changeCase:function(a,b){b=b.valueToCode(a,"TEXT",V.NONE)||"''";var c;a.getFieldValue("CASE")==="UPPERCASE"?c="strtoupper("+b+")":a.getFieldValue("CASE")==="LOWERCASE"?c="strtolower("+b+")":a.getFieldValue("CASE")==="TITLECASE"&&(c="ucwords(strtolower("+b+"))");return[c,V.FUNCTION_CALL]},
+text_charAt:function(a,b){var c=a.getFieldValue("WHERE")||"FROM_START",d=b.valueToCode(a,"VALUE",V.NONE)||"''";switch(c){case "FIRST":return["substr("+d+", 0, 1)",V.FUNCTION_CALL];case "LAST":return["substr("+d+", -1)",V.FUNCTION_CALL];case "FROM_START":return a=b.getAdjusted(a,"AT"),["substr("+d+", "+a+", 1)",V.FUNCTION_CALL];case "FROM_END":return a=b.getAdjusted(a,"AT",1,!0),["substr("+d+", "+a+", 1)",V.FUNCTION_CALL];case "RANDOM":return[b.provideFunction_("text_random_letter",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($text) {
   return $text[rand(0, strlen($text) - 1)];
 }
-`)+"("+d+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]}throw Error("Unhandled option (text_charAt).");},text_getSubstring$$module$build$src$generators$php$text=function(a,b){const c=a.getFieldValue("WHERE1"),d=a.getFieldValue("WHERE2"),e=b.valueToCode(a,"STRING",Order$$module$build$src$generators$php$php_generator.NONE)||"''";if("FIRST"===c&&"LAST"===d)return[e,Order$$module$build$src$generators$php$php_generator.NONE];const f=b.getAdjusted(a,"AT1");a=b.getAdjusted(a,"AT2");
-return[b.provideFunction_("text_get_substring",`
+`)+"("+d+")",V.FUNCTION_CALL]}throw Error("Unhandled option (text_charAt).");},text_count:function(a,b){var c=b.valueToCode(a,"TEXT",V.NONE)||"''";a=b.valueToCode(a,"SUB",V.NONE)||"''";return["strlen("+a+") === 0 ? strlen("+c+") + 1 : substr_count("+c+", "+a+")",V.CONDITIONAL]},text_getSubstring:function(a,b){var c=a.getFieldValue("WHERE1"),d=a.getFieldValue("WHERE2"),e=b.valueToCode(a,"STRING",V.NONE)||"''";if(c==="FIRST"&&d==="LAST")return[e,V.NONE];var f=b.getAdjusted(a,"AT1");a=b.getAdjusted(a,
+"AT2");return[b.provideFunction_("text_get_substring",`
 function ${b.FUNCTION_NAME_PLACEHOLDER_}($text, $where1, $at1, $where2, $at2) {
   if ($where1 == 'FROM_END') {
     $at1 = strlen($text) - 1 - $at1;
@@ -247,36 +118,123 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}($text, $where1, $at1, $where2, $at2) {
   }
   return substr($text, $at1, $length);
 }
-`)+"("+e+", '"+c+"', "+f+", '"+d+"', "+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_changeCase$$module$build$src$generators$php$text=function(a,b){b=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''";let c;"UPPERCASE"===a.getFieldValue("CASE")?c="strtoupper("+b+")":"LOWERCASE"===a.getFieldValue("CASE")?c="strtolower("+b+")":"TITLECASE"===a.getFieldValue("CASE")&&(c="ucwords(strtolower("+b+"))");return[c,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},
-text_trim$$module$build$src$generators$php$text=function(a,b){const c={LEFT:"ltrim",RIGHT:"rtrim",BOTH:"trim"}[a.getFieldValue("MODE")];a=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''";return[c+"("+a+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_print$$module$build$src$generators$php$text=function(a,b){return"print("+(b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''")+");\n"},text_prompt_ext$$module$build$src$generators$php$text=
-function(a,b){b="readline("+(a.getField("TEXT")?b.quote_(a.getFieldValue("TEXT")):b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''")+")";"NUMBER"===a.getFieldValue("TYPE")&&(b="floatval("+b+")");return[b,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_count$$module$build$src$generators$php$text=function(a,b){const c=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''";a=b.valueToCode(a,"SUB",Order$$module$build$src$generators$php$php_generator.NONE)||
-"''";return["strlen("+a+") === 0 ? strlen("+c+") + 1 : substr_count("+c+", "+a+")",Order$$module$build$src$generators$php$php_generator.CONDITIONAL]},text_replace$$module$build$src$generators$php$text=function(a,b){const c=b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''",d=b.valueToCode(a,"FROM",Order$$module$build$src$generators$php$php_generator.NONE)||"''";a=b.valueToCode(a,"TO",Order$$module$build$src$generators$php$php_generator.NONE)||"''";return["str_replace("+
-d+", "+a+", "+c+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},text_reverse$$module$build$src$generators$php$text=function(a,b){return["strrev("+(b.valueToCode(a,"TEXT",Order$$module$build$src$generators$php$php_generator.NONE)||"''")+")",Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL]},variables_get$$module$build$src$generators$php$variables=function(a,b){return[b.getVariableName(a.getFieldValue("VAR")),Order$$module$build$src$generators$php$php_generator.ATOMIC]},
-variables_set$$module$build$src$generators$php$variables=function(a,b){const c=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$php$php_generator.ASSIGNMENT)||"0";return b.getVariableName(a.getFieldValue("VAR"))+" = "+c+";\n"},Order$$module$build$src$generators$php$php_generator;
-(function(a){a[a.ATOMIC=0]="ATOMIC";a[a.CLONE=1]="CLONE";a[a.NEW=1]="NEW";a[a.MEMBER=2.1]="MEMBER";a[a.FUNCTION_CALL=2.2]="FUNCTION_CALL";a[a.POWER=3]="POWER";a[a.INCREMENT=4]="INCREMENT";a[a.DECREMENT=4]="DECREMENT";a[a.BITWISE_NOT=4]="BITWISE_NOT";a[a.CAST=4]="CAST";a[a.SUPPRESS_ERROR=4]="SUPPRESS_ERROR";a[a.INSTANCEOF=5]="INSTANCEOF";a[a.LOGICAL_NOT=6]="LOGICAL_NOT";a[a.UNARY_PLUS=7.1]="UNARY_PLUS";a[a.UNARY_NEGATION=7.2]="UNARY_NEGATION";a[a.MULTIPLICATION=8.1]="MULTIPLICATION";a[a.DIVISION=8.2]=
-"DIVISION";a[a.MODULUS=8.3]="MODULUS";a[a.ADDITION=9.1]="ADDITION";a[a.SUBTRACTION=9.2]="SUBTRACTION";a[a.STRING_CONCAT=9.3]="STRING_CONCAT";a[a.BITWISE_SHIFT=10]="BITWISE_SHIFT";a[a.RELATIONAL=11]="RELATIONAL";a[a.EQUALITY=12]="EQUALITY";a[a.REFERENCE=13]="REFERENCE";a[a.BITWISE_AND=13]="BITWISE_AND";a[a.BITWISE_XOR=14]="BITWISE_XOR";a[a.BITWISE_OR=15]="BITWISE_OR";a[a.LOGICAL_AND=16]="LOGICAL_AND";a[a.LOGICAL_OR=17]="LOGICAL_OR";a[a.IF_NULL=18]="IF_NULL";a[a.CONDITIONAL=19]="CONDITIONAL";a[a.ASSIGNMENT=
-20]="ASSIGNMENT";a[a.LOGICAL_AND_WEAK=21]="LOGICAL_AND_WEAK";a[a.LOGICAL_XOR=22]="LOGICAL_XOR";a[a.LOGICAL_OR_WEAK=23]="LOGICAL_OR_WEAK";a[a.NONE=99]="NONE"})(Order$$module$build$src$generators$php$php_generator||(Order$$module$build$src$generators$php$php_generator={}));
-var PhpGenerator$$module$build$src$generators$php$php_generator=class extends $.CodeGenerator$$module$build$src$core$generator{constructor(a="PHP"){super(a);this.ORDER_OVERRIDES=[[Order$$module$build$src$generators$php$php_generator.MEMBER,Order$$module$build$src$generators$php$php_generator.FUNCTION_CALL],[Order$$module$build$src$generators$php$php_generator.MEMBER,Order$$module$build$src$generators$php$php_generator.MEMBER],[Order$$module$build$src$generators$php$php_generator.LOGICAL_NOT,Order$$module$build$src$generators$php$php_generator.LOGICAL_NOT],
-[Order$$module$build$src$generators$php$php_generator.MULTIPLICATION,Order$$module$build$src$generators$php$php_generator.MULTIPLICATION],[Order$$module$build$src$generators$php$php_generator.ADDITION,Order$$module$build$src$generators$php$php_generator.ADDITION],[Order$$module$build$src$generators$php$php_generator.LOGICAL_AND,Order$$module$build$src$generators$php$php_generator.LOGICAL_AND],[Order$$module$build$src$generators$php$php_generator.LOGICAL_OR,Order$$module$build$src$generators$php$php_generator.LOGICAL_OR]];
-this.isInitialized=!1;for(const b in Order$$module$build$src$generators$php$php_generator)a=Order$$module$build$src$generators$php$php_generator[b],"string"!==typeof a&&(this["ORDER_"+b]=a);this.addReservedWords("__halt_compiler,abstract,and,array,as,break,callable,case,catch,class,clone,const,continue,declare,default,die,do,echo,else,elseif,empty,enddeclare,endfor,endforeach,endif,endswitch,endwhile,eval,exit,extends,final,for,foreach,function,global,goto,if,implements,include,include_once,instanceof,insteadof,interface,isset,list,namespace,new,or,print,private,protected,public,require,require_once,return,static,switch,throw,trait,try,unset,use,var,while,xor,PHP_VERSION,PHP_MAJOR_VERSION,PHP_MINOR_VERSION,PHP_RELEASE_VERSION,PHP_VERSION_ID,PHP_EXTRA_VERSION,PHP_ZTS,PHP_DEBUG,PHP_MAXPATHLEN,PHP_OS,PHP_SAPI,PHP_EOL,PHP_INT_MAX,PHP_INT_SIZE,DEFAULT_INCLUDE_PATH,PEAR_INSTALL_DIR,PEAR_EXTENSION_DIR,PHP_EXTENSION_DIR,PHP_PREFIX,PHP_BINDIR,PHP_BINARY,PHP_MANDIR,PHP_LIBDIR,PHP_DATADIR,PHP_SYSCONFDIR,PHP_LOCALSTATEDIR,PHP_CONFIG_FILE_PATH,PHP_CONFIG_FILE_SCAN_DIR,PHP_SHLIB_SUFFIX,E_ERROR,E_WARNING,E_PARSE,E_NOTICE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_USER_NOTICE,E_DEPRECATED,E_USER_DEPRECATED,E_ALL,E_STRICT,__COMPILER_HALT_OFFSET__,TRUE,FALSE,NULL,__CLASS__,__DIR__,__FILE__,__FUNCTION__,__LINE__,__METHOD__,__NAMESPACE__,__TRAIT__")}init(a){super.init(a);
-this.nameDB_?this.nameDB_.reset():this.nameDB_=new $.Names$$module$build$src$core$names(this.RESERVED_WORDS_,"$");this.nameDB_.setVariableMap(a.getVariableMap());this.nameDB_.populateVariables(a);this.nameDB_.populateProcedures(a);this.isInitialized=!0}finish(a){const b=Object.values(this.definitions_);a=super.finish(a);this.isInitialized=!1;this.nameDB_.reset();return b.join("\n\n")+"\n\n\n"+a}scrubNakedValue(a){return a+";\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/'/g,
-"\\'");return"'"+a+"'"}multiline_quote_(a){return a.split(/\n/g).map(this.quote_).join(' . "\\n" .\n')}scrub_(a,b,c=!1){let d="";if(!a.outputConnection||!a.outputConnection.targetConnection){var e=a.getCommentText();e&&(e=$.wrap$$module$build$src$core$utils$string(e,this.COMMENT_WRAP-3),d+=this.prefixLines(e,"// ")+"\n");for(let f=0;f<a.inputList.length;f++)a.inputList[f].type===$.inputTypes$$module$build$src$core$inputs$input_types.VALUE&&(e=a.inputList[f].connection.targetBlock())&&(e=this.allNestedComments(e))&&
-(d+=this.prefixLines(e,"// "))}a=a.nextConnection&&a.nextConnection.targetBlock();c=c?"":this.blockToCode(a);return d+b+c}getAdjusted(a,b,c=0,d=!1,e=Order$$module$build$src$generators$php$php_generator.NONE){a.workspace.options.oneBasedIndex&&c--;let f=a.workspace.options.oneBasedIndex?"1":"0",g=e;0<c?g=Order$$module$build$src$generators$php$php_generator.ADDITION:0>c?g=Order$$module$build$src$generators$php$php_generator.SUBTRACTION:d&&(g=Order$$module$build$src$generators$php$php_generator.UNARY_NEGATION);
-a=this.valueToCode(a,b,g)||f;if(0===c&&!d)return a;if($.isNumber$$module$build$src$core$utils$string(a))return a=String(Number(a)+c),d&&(a=String(-Number(a))),a;0<c?a=`${a} + ${c}`:0>c&&(a=`${a} - ${-c}`);d&&(a=c?`-(${a})`:`-${a}`);Math.floor(e)>=Math.floor(g)&&(a=`(${a})`);return a}},module$build$src$generators$php$php_generator={};module$build$src$generators$php$php_generator.Order=Order$$module$build$src$generators$php$php_generator;module$build$src$generators$php$php_generator.PhpGenerator=PhpGenerator$$module$build$src$generators$php$php_generator;var module$build$src$generators$php$lists={};module$build$src$generators$php$lists.lists_create_empty=lists_create_empty$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_create_with=lists_create_with$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_getIndex=lists_getIndex$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_getSublist=lists_getSublist$$module$build$src$generators$php$lists;
-module$build$src$generators$php$lists.lists_indexOf=lists_indexOf$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_isEmpty=lists_isEmpty$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_length=lists_length$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_repeat=lists_repeat$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_reverse=lists_reverse$$module$build$src$generators$php$lists;
-module$build$src$generators$php$lists.lists_setIndex=lists_setIndex$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_sort=lists_sort$$module$build$src$generators$php$lists;module$build$src$generators$php$lists.lists_split=lists_split$$module$build$src$generators$php$lists;var controls_ifelse$$module$build$src$generators$php$logic=controls_if$$module$build$src$generators$php$logic,module$build$src$generators$php$logic={};module$build$src$generators$php$logic.controls_if=controls_if$$module$build$src$generators$php$logic;module$build$src$generators$php$logic.controls_ifelse=controls_if$$module$build$src$generators$php$logic;module$build$src$generators$php$logic.logic_boolean=logic_boolean$$module$build$src$generators$php$logic;
-module$build$src$generators$php$logic.logic_compare=logic_compare$$module$build$src$generators$php$logic;module$build$src$generators$php$logic.logic_negate=logic_negate$$module$build$src$generators$php$logic;module$build$src$generators$php$logic.logic_null=logic_null$$module$build$src$generators$php$logic;module$build$src$generators$php$logic.logic_operation=logic_operation$$module$build$src$generators$php$logic;module$build$src$generators$php$logic.logic_ternary=logic_ternary$$module$build$src$generators$php$logic;var controls_repeat$$module$build$src$generators$php$loops=controls_repeat_ext$$module$build$src$generators$php$loops,module$build$src$generators$php$loops={};module$build$src$generators$php$loops.controls_flow_statements=controls_flow_statements$$module$build$src$generators$php$loops;module$build$src$generators$php$loops.controls_for=controls_for$$module$build$src$generators$php$loops;module$build$src$generators$php$loops.controls_forEach=controls_forEach$$module$build$src$generators$php$loops;
-module$build$src$generators$php$loops.controls_repeat=controls_repeat_ext$$module$build$src$generators$php$loops;module$build$src$generators$php$loops.controls_repeat_ext=controls_repeat_ext$$module$build$src$generators$php$loops;module$build$src$generators$php$loops.controls_whileUntil=controls_whileUntil$$module$build$src$generators$php$loops;var math_round$$module$build$src$generators$php$math=math_single$$module$build$src$generators$php$math,math_trig$$module$build$src$generators$php$math=math_single$$module$build$src$generators$php$math,module$build$src$generators$php$math={};module$build$src$generators$php$math.math_arithmetic=math_arithmetic$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_atan2=math_atan2$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_change=math_change$$module$build$src$generators$php$math;
-module$build$src$generators$php$math.math_constant=math_constant$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_constrain=math_constrain$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_modulo=math_modulo$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_number=math_number$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_number_property=math_number_property$$module$build$src$generators$php$math;
-module$build$src$generators$php$math.math_on_list=math_on_list$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_random_float=math_random_float$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_random_int=math_random_int$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_round=math_single$$module$build$src$generators$php$math;module$build$src$generators$php$math.math_single=math_single$$module$build$src$generators$php$math;
-module$build$src$generators$php$math.math_trig=math_single$$module$build$src$generators$php$math;var procedures_defnoreturn$$module$build$src$generators$php$procedures=procedures_defreturn$$module$build$src$generators$php$procedures,module$build$src$generators$php$procedures={};module$build$src$generators$php$procedures.procedures_callnoreturn=procedures_callnoreturn$$module$build$src$generators$php$procedures;module$build$src$generators$php$procedures.procedures_callreturn=procedures_callreturn$$module$build$src$generators$php$procedures;
-module$build$src$generators$php$procedures.procedures_defnoreturn=procedures_defreturn$$module$build$src$generators$php$procedures;module$build$src$generators$php$procedures.procedures_defreturn=procedures_defreturn$$module$build$src$generators$php$procedures;module$build$src$generators$php$procedures.procedures_ifreturn=procedures_ifreturn$$module$build$src$generators$php$procedures;var text_prompt$$module$build$src$generators$php$text=text_prompt_ext$$module$build$src$generators$php$text,module$build$src$generators$php$text={};module$build$src$generators$php$text.text=text$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_append=text_append$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_changeCase=text_changeCase$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_charAt=text_charAt$$module$build$src$generators$php$text;
-module$build$src$generators$php$text.text_count=text_count$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_getSubstring=text_getSubstring$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_indexOf=text_indexOf$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_isEmpty=text_isEmpty$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_join=text_join$$module$build$src$generators$php$text;
-module$build$src$generators$php$text.text_length=text_length$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_print=text_print$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_prompt=text_prompt_ext$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_prompt_ext=text_prompt_ext$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_replace=text_replace$$module$build$src$generators$php$text;
-module$build$src$generators$php$text.text_reverse=text_reverse$$module$build$src$generators$php$text;module$build$src$generators$php$text.text_trim=text_trim$$module$build$src$generators$php$text;var module$build$src$generators$php$variables={};module$build$src$generators$php$variables.variables_get=variables_get$$module$build$src$generators$php$variables;module$build$src$generators$php$variables.variables_set=variables_set$$module$build$src$generators$php$variables;var module$build$src$generators$php$variables_dynamic={};module$build$src$generators$php$variables_dynamic.variables_get_dynamic=variables_get$$module$build$src$generators$php$variables;module$build$src$generators$php$variables_dynamic.variables_set_dynamic=variables_set$$module$build$src$generators$php$variables;var phpGenerator$$module$build$src$generators$php=new PhpGenerator$$module$build$src$generators$php$php_generator,generators$$module$build$src$generators$php=Object.assign({},module$build$src$generators$php$lists,module$build$src$generators$php$logic,module$build$src$generators$php$loops,module$build$src$generators$php$math,module$build$src$generators$php$procedures,module$build$src$generators$php$text,module$build$src$generators$php$variables,module$build$src$generators$php$variables_dynamic);
-for(const a in generators$$module$build$src$generators$php)phpGenerator$$module$build$src$generators$php.forBlock[a]=generators$$module$build$src$generators$php[a];var module$build$src$generators$php={};module$build$src$generators$php.Order=Order$$module$build$src$generators$php$php_generator;module$build$src$generators$php.PhpGenerator=PhpGenerator$$module$build$src$generators$php$php_generator;module$build$src$generators$php.phpGenerator=phpGenerator$$module$build$src$generators$php;
-module$build$src$generators$php.__namespace__=$;
-return module$build$src$generators$php;
+`)+"("+e+", '"+c+"', "+f+", '"+d+"', "+a+")",V.FUNCTION_CALL]},text_indexOf:function(a,b){var c=a.getFieldValue("END")==="FIRST"?"strpos":"strrpos",d=b.valueToCode(a,"FIND",V.NONE)||"''",e=b.valueToCode(a,"VALUE",V.NONE)||"''",f=" -1",g="";a.workspace.options.oneBasedIndex&&(f=" 0",g=" + 1");return[b.provideFunction_(a.getFieldValue("END")==="FIRST"?"text_indexOf":"text_lastIndexOf",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($text, $search) {
+  $pos = ${c}($text, $search);
+  return $pos === false ? ${f} : $pos${g};
+}
+`)+"("+e+", "+d+")",V.FUNCTION_CALL]},text_isEmpty:function(a,b){return["empty("+(b.valueToCode(a,"VALUE",V.NONE)||"''")+")",V.FUNCTION_CALL]},text_join:function(a,b){if(a.itemCount_===0)return["''",V.ATOMIC];if(a.itemCount_===1)return[b.valueToCode(a,"ADD0",V.NONE)||"''",V.NONE];if(a.itemCount_===2){var c=b.valueToCode(a,"ADD0",V.STRING_CONCAT)||"''";a=b.valueToCode(a,"ADD1",V.STRING_CONCAT)||"''";return[c+" . "+a,V.STRING_CONCAT]}c=Array(a.itemCount_);for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,
+"ADD"+d,V.NONE)||"''";return["implode('', array("+c.join(",")+"))",V.FUNCTION_CALL]},text_length:function(a,b){var c=b.provideFunction_("length",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($value) {
+  if (is_string($value)) {
+    return strlen($value);
+  }
+  return count($value);
+}
+`);a=b.valueToCode(a,"VALUE",V.NONE)||"''";return[c+"("+a+")",V.FUNCTION_CALL]},text_print:function(a,b){return"print("+(b.valueToCode(a,"TEXT",V.NONE)||"''")+");\n"}};ks.text_prompt=cs;ks.text_prompt_ext=cs;ks.text_replace=function(a,b){var c=b.valueToCode(a,"TEXT",V.NONE)||"''",d=b.valueToCode(a,"FROM",V.NONE)||"''";a=b.valueToCode(a,"TO",V.NONE)||"''";return["str_replace("+d+", "+a+", "+c+")",V.FUNCTION_CALL]};
+ks.text_reverse=function(a,b){return["strrev("+(b.valueToCode(a,"TEXT",V.NONE)||"''")+")",V.FUNCTION_CALL]};ks.text_trim=function(a,b){var c={LEFT:"ltrim",RIGHT:"rtrim",BOTH:"trim"}[a.getFieldValue("MODE")];a=b.valueToCode(a,"TEXT",V.NONE)||"''";return[c+"("+a+")",V.FUNCTION_CALL]};var ls={};ls.variables_get=ds;ls.variables_set=es;var ms={};ms.variables_get_dynamic=ds;ms.variables_set_dynamic=es;var ns=new fs,os=Object.assign({},{lists_create_empty:function(){return["array()",V.FUNCTION_CALL]},lists_create_with:function(a,b){var c=Array(a.itemCount_);for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,V.NONE)||"null";return["array("+c.join(", ")+")",V.FUNCTION_CALL]},lists_getIndex:function(a,b){var c=a.getFieldValue("MODE")||"GET";switch(a.getFieldValue("WHERE")||"FROM_START"){case "FIRST":if(c==="GET")return[(b.valueToCode(a,"VALUE",V.MEMBER)||"array()")+"[0]",V.MEMBER];if(c===
+"GET_REMOVE")return["array_shift("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+")",V.FUNCTION_CALL];if(c==="REMOVE")return"array_shift("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+");\n";break;case "LAST":if(c==="GET")return["end("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+")",V.FUNCTION_CALL];if(c==="GET_REMOVE")return["array_pop("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+")",V.FUNCTION_CALL];if(c==="REMOVE")return"array_pop("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+");\n";break;case "FROM_START":var d=
+b.getAdjusted(a,"AT");if(c==="GET")return[(b.valueToCode(a,"VALUE",V.MEMBER)||"array()")+"["+d+"]",V.MEMBER];if(c==="GET_REMOVE")return["array_splice("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+", "+d+", 1)[0]",V.FUNCTION_CALL];if(c==="REMOVE")return"array_splice("+(b.valueToCode(a,"VALUE",V.NONE)||"array()")+", "+d+", 1);\n";break;case "FROM_END":if(c==="GET")return c=b.valueToCode(a,"VALUE",V.NONE)||"array()",b=b.getAdjusted(a,"AT",1,!0),["array_slice("+c+", "+b+", 1)[0]",V.FUNCTION_CALL];if(c===
+"GET_REMOVE"||c==="REMOVE"){d=b.valueToCode(a,"VALUE",V.NONE)||"array()";b=b.getAdjusted(a,"AT",1,!1,V.SUBTRACTION);b="array_splice("+d+", count("+d+") - "+b+", 1)[0]";if(c==="GET_REMOVE")return[b,V.FUNCTION_CALL];if(c==="REMOVE")return b+";\n"}break;case "RANDOM":a=b.valueToCode(a,"VALUE",V.NONE)||"array()";if(c==="GET")return[b.provideFunction_("lists_get_random_item",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($list) {
+  return $list[rand(0,count($list)-1)];
+}
+`)+"("+a+")",V.FUNCTION_CALL];if(c==="GET_REMOVE")return[b.provideFunction_("lists_get_remove_random_item",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list) {
+  $x = rand(0,count($list)-1);
+  unset($list[$x]);
+  return array_values($list);
+}
+`)+"("+a+")",V.FUNCTION_CALL];if(c==="REMOVE")return b.provideFunction_("lists_remove_random_item",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list) {
+  unset($list[rand(0,count($list)-1)]);
+}
+`)+"("+a+");\n"}throw Error("Unhandled combination (lists_getIndex).");},lists_getSublist:function(a,b){var c=b.valueToCode(a,"LIST",V.NONE)||"array()",d=a.getFieldValue("WHERE1"),e=a.getFieldValue("WHERE2");if(d!=="FIRST"||e!=="LAST")if(c.match(/^\$\w+$/)||d!=="FROM_END"&&e==="FROM_START"){switch(d){case "FROM_START":d=b.getAdjusted(a,"AT1");break;case "FROM_END":d=b.getAdjusted(a,"AT1",1,!1,V.SUBTRACTION);d="count("+c+") - "+d;break;case "FIRST":d="0";break;default:throw Error("Unhandled option (lists_getSublist).");
+}switch(e){case "FROM_START":b=b.getAdjusted(a,"AT2",0,!1,V.SUBTRACTION);b+=" - ";b=$.yf(String(d))||String(d).match(/^\(.+\)$/)?b+d:b+("("+d+")");b+=" + 1";break;case "FROM_END":b=b.getAdjusted(a,"AT2",0,!1,V.SUBTRACTION);b="count("+c+") - "+b+" - ";b=$.yf(String(d))||String(d).match(/^\(.+\)$/)?b+d:b+("("+d+")");break;case "LAST":b="count("+c+") - ";b=$.yf(String(d))||String(d).match(/^\(.+\)$/)?b+d:b+("("+d+")");break;default:throw Error("Unhandled option (lists_getSublist).");}c="array_slice("+
+c+", "+d+", "+b+")"}else{let f=b.getAdjusted(a,"AT1");a=b.getAdjusted(a,"AT2");c=b.provideFunction_("lists_get_sublist",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($list, $where1, $at1, $where2, $at2) {
+  if ($where1 == 'FROM_END') {
+    $at1 = count($list) - 1 - $at1;
+  } else if ($where1 == 'FIRST') {
+    $at1 = 0;
+  } else if ($where1 != 'FROM_START') {
+    throw new Exception('Unhandled option (lists_get_sublist).');
+  }
+  $length = 0;
+  if ($where2 == 'FROM_START') {
+    $length = $at2 - $at1 + 1;
+  } else if ($where2 == 'FROM_END') {
+    $length = count($list) - $at1 - $at2;
+  } else if ($where2 == 'LAST') {
+    $length = count($list) - $at1;
+  } else {
+    throw new Exception('Unhandled option (lists_get_sublist).');
+  }
+  return array_slice($list, $at1, $length);
+}
+`)+"("+c+", '"+d+"', "+f+", '"+e+"', "+a+")"}return[c,V.FUNCTION_CALL]},lists_indexOf:function(a,b){var c=b.valueToCode(a,"FIND",V.NONE)||"''",d=b.valueToCode(a,"VALUE",V.MEMBER)||"[]",e=" -1",f="";a.workspace.options.oneBasedIndex&&(e=" 0",f=" + 1");return[(a.getFieldValue("END")==="FIRST"?b.provideFunction_("indexOf",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($haystack, $needle) {
+  for ($index = 0; $index < count($haystack); $index++) {
+    if ($haystack[$index] == $needle) return $index${f};
+  }
+  return ${e};
+}
+`):b.provideFunction_("lastIndexOf",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($haystack, $needle) {
+  $last = ${e};
+  for ($index = 0; $index < count($haystack); $index++) {
+    if ($haystack[$index] == $needle) $last = $index${f};
+  }
+  return $last;
+}
+`))+"("+d+", "+c+")",V.FUNCTION_CALL]},lists_isEmpty:function(a,b){return["empty("+(b.valueToCode(a,"VALUE",V.FUNCTION_CALL)||"array()")+")",V.FUNCTION_CALL]},lists_length:function(a,b){var c=b.provideFunction_("length",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($value) {
+  if (is_string($value)) {
+    return strlen($value);
+  } else {
+    return count($value);
+  }
+}
+`);a=b.valueToCode(a,"VALUE",V.NONE)||"''";return[c+"("+a+")",V.FUNCTION_CALL]},lists_repeat:function(a,b){var c=b.provideFunction_("lists_repeat",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($value, $count) {
+  $array = array();
+  for ($index = 0; $index < $count; $index++) {
+    $array[] = $value;
+  }
+  return $array;
+}
+`),d=b.valueToCode(a,"ITEM",V.NONE)||"null";a=b.valueToCode(a,"NUM",V.NONE)||"0";return[c+"("+d+", "+a+")",V.FUNCTION_CALL]},lists_reverse:function(a,b){return["array_reverse("+(b.valueToCode(a,"LIST",V.NONE)||"[]")+")",V.FUNCTION_CALL]},lists_setIndex:function(a,b){var c=a.getFieldValue("MODE")||"GET",d=a.getFieldValue("WHERE")||"FROM_START",e=b.valueToCode(a,"TO",V.ASSIGNMENT)||"null";switch(d){case "FIRST":if(c==="SET")return(b.valueToCode(a,"LIST",V.MEMBER)||"array()")+"[0] = "+e+";\n";if(c===
+"INSERT")return"array_unshift("+(b.valueToCode(a,"LIST",V.NONE)||"array()")+", "+e+");\n";break;case "LAST":a=b.valueToCode(a,"LIST",V.NONE)||"array()";if(c==="SET")return b.provideFunction_("lists_set_last_item",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list, $value) {
+  $list[count($list) - 1] = $value;
+}
+`)+"("+a+", "+e+");\n";if(c==="INSERT")return"array_push("+a+", "+e+");\n";break;case "FROM_START":d=b.getAdjusted(a,"AT");if(c==="SET")return(b.valueToCode(a,"LIST",V.MEMBER)||"array()")+"["+d+"] = "+e+";\n";if(c==="INSERT")return"array_splice("+(b.valueToCode(a,"LIST",V.NONE)||"array()")+", "+d+", 0, "+e+");\n";break;case "FROM_END":d=b.valueToCode(a,"LIST",V.NONE)||"array()";a=b.getAdjusted(a,"AT",1);if(c==="SET")return b.provideFunction_("lists_set_from_end",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list, $at, $value) {
+  $list[count($list) - $at] = $value;
+}
+`)+"("+d+", "+a+", "+e+");\n";if(c==="INSERT")return b.provideFunction_("lists_insert_from_end",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}(&$list, $at, $value) {
+  return array_splice($list, count($list) - $at, 0, $value);
+}
+`)+"("+d+", "+a+", "+e+");\n";break;case "RANDOM":a=b.valueToCode(a,"LIST",V.REFERENCE)||"array()";if(a.match(/^\$\w+$/))d="";else{d=b.nameDB_.getDistinctName("tmp_list",$.P.VARIABLE);var f=d+" = &"+a+";\n";a=d;d=f}b=b.nameDB_.getDistinctName("tmp_x",$.P.VARIABLE);d+=b+" = rand(0, count("+a+")-1);\n";if(c==="SET")return d+(a+"["+b+"] = "+e+";\n");if(c==="INSERT")return d+("array_splice("+a+", "+b+", 0, "+e+");\n")}throw Error("Unhandled combination (lists_setIndex).");},lists_sort:function(a,b){var c=
+b.valueToCode(a,"LIST",V.NONE)||"array()",d=a.getFieldValue("DIRECTION")==="1"?1:-1;a=a.getFieldValue("TYPE");return[b.provideFunction_("lists_sort",`
+function ${b.FUNCTION_NAME_PLACEHOLDER_}($list, $type, $direction) {
+  $sortCmpFuncs = array(
+    'NUMERIC' => 'strnatcasecmp',
+    'TEXT' => 'strcmp',
+    'IGNORE_CASE' => 'strcasecmp'
+  );
+  $sortCmp = $sortCmpFuncs[$type];
+  $list2 = $list;
+  usort($list2, $sortCmp);
+  if ($direction == -1) {
+    $list2 = array_reverse($list2);
+  }
+  return $list2;
+}
+`)+"("+c+', "'+a+'", '+d+")",V.FUNCTION_CALL]},lists_split:function(a,b){var c=b.valueToCode(a,"INPUT",V.NONE);b=b.valueToCode(a,"DELIM",V.NONE)||"''";a=a.getFieldValue("MODE");if(a==="SPLIT")c||(c="''"),a="explode";else if(a==="JOIN")c||(c="array()"),a="implode";else throw Error("Unknown mode: "+a);return[a+"("+b+", "+c+")",V.FUNCTION_CALL]}},gs,hs,is,js,ks,ls,ms);for(let a in os)ns.forBlock[a]=os[a];var ps={};ps.Order=V;ps.PhpGenerator=fs;ps.phpGenerator=ns;$.__chunk_php=ps;
+$.__chunk_php.__namespace__=$;
+return $.__chunk_php;
 }));
 
 

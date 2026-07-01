@@ -24,7 +24,7 @@
       <div class="title">@blockly/block-plus-minus Demo</div>
       <div class="subtitle">A group of blocks that replace the built-in mutator UI with a +/- based UI.</div>
     </div>
-    9.0.10
+    13.1.0
 
     <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/block-plus-minus" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/block-plus-minus" class="button" target="_blank">View on npm</a>
@@ -67,15 +67,12 @@ in the future.</p>
 <h3 id="import">Import</h3>
 <pre><code class="js language-js">import Blockly from 'blockly';
 import '@blockly/block-plus-minus';</code></pre>
-<h3 id="blockly-languages">Blockly Languages</h3>
-<p>We do not currently support translating the text in this plugin to different
-languages. However, if you would like to support multiple languages the messages
-can be translated by assigning the following properties of Blockly.Msg</p>
-<ul>
-<li><code>PROCEDURE_VARIABLE</code> (Default: "variable:"): The label which signals the text
-input is a variable.</li>
-</ul>
-<pre><code class="javascript language-javascript">Blockly.Msg['PROCEDURE_VARIABLE'] = 'variabele:'; // Dutch
+<h3 id="localization-and-text-customization">Localization and text customization</h3>
+<p>The plus and minus buttons have ARIA labels to communicate their purpose to
+screenreaders. These are localizable; additionally, if you want to customize the
+labels (for example, to use a different term that "input" for procedure blocks)
+you can do so by adjusting the messages:</p>
+<pre><code class="javascript language-javascript">Blockly.Msg['ARIA_LABEL_ADD_INPUT'] = 'Add parameter';
 // Inject workspace, etc...</code></pre>
 <h3 id="xml">XML</h3>
 <p>Blocks will automatically use the +/- UI when loaded from XML. But here is some example XML incase you are trying to

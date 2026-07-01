@@ -24,7 +24,7 @@
       <div class="title">@blockly/field-multilineinput Demo</div>
       <div class="subtitle">A Blockly multilineinput field.</div>
     </div>
-    6.0.9
+    13.1.0
 
     <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/field-multilineinput" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/field-multilineinput" class="button" target="_blank">View on npm</a>
@@ -73,11 +73,64 @@ the name <code>'field_multilinetext'</code>. It is a subclass of <code>Blockly.F
 always a valid string, while its text could be any string entered into its
 editor. Unlike a text input field, this field also supports newline characters
 entered in the editor.</p>
+<h4 id="editor-keyboard-shortcuts">Editor keyboard shortcuts</h4>
+<p>The default keyboard mapping is:</p>
+<table>
+<thead>
+<tr>
+<th id="key">Key</th>
+<th id="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enter</td>
+<td>Commit the value and close the editor</td>
+</tr>
+<tr>
+<td>Shift+Enter</td>
+<td>Insert a newline at the cursor</td>
+</tr>
+<tr>
+<td>Escape</td>
+<td>Revert to the original value and close the editor</td>
+</tr>
+</tbody>
+</table>
+<p>With <code>FieldMultilineInput.enterCommits = false</code> the mapping is swapped:</p>
+<table>
+<thead>
+<tr>
+<th id="key">Key</th>
+<th id="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enter</td>
+<td>Insert a newline at the cursor</td>
+</tr>
+<tr>
+<td>Shift+Enter</td>
+<td>Commit the value and close the editor</td>
+</tr>
+<tr>
+<td>Escape</td>
+<td>Revert to the original value and close the editor</td>
+</tr>
+</tbody>
+</table>
+<p><code>enterCommits</code> and <code>showHint</code> are global (static) settings that apply to all
+fields. Set them once before creating your blocks:</p>
+<pre><code class="js language-js">import {FieldMultilineInput} from '@blockly/field-multilineinput';
+
+FieldMultilineInput.enterCommits = false; // default: true
+FieldMultilineInput.showHint = false; // default: true</code></pre>
 <p>The constructor for this field accepts three optional parameters:</p>
 <ul>
 <li><code>value</code>: The default text. Defaults to <code>""</code>.</li>
 <li><code>validator</code>: A function that is called to validate what the user entered.</li>
-<li><code>config</code>: An object with three optional properties:<ul>
+<li><code>config</code>: An object with optional properties:<ul>
 <li><code>maxLines</code>: The maximum number of lines displayed before scrolling
 functionality is enabled. Defaults to <code>Infinity</code>.</li>
 <li><code>spellcheck</code>: Whether spell checking is enabled. Defaults to <code>true</code>.</li>
@@ -177,6 +230,7 @@ textMultiline.installBlock({
   php: phpGenerator,
 });</code></pre>
 <h3 id="api-reference">API reference</h3>
+<p>Instance methods:</p>
 <ul>
 <li><code>setMaxLines</code>: Sets the maximum number of displayed lines before
 scrolling functionality is enabled.</li>
@@ -184,6 +238,15 @@ scrolling functionality is enabled.</li>
 scrolling functionality is enabled.</li>
 <li><code>setSpellcheck</code>: Sets whether spell checking is enabled.</li>
 <li><code>getSpellcheck</code>: Returns whether spell checking is enabled.</li>
+</ul>
+<p>Static (global) properties:</p>
+<ul>
+<li><code>FieldMultilineInput.enterCommits</code>: Whether pressing Enter commits the
+value (<code>true</code>, default) or inserts a newline (<code>false</code>). Applies to all
+fields.</li>
+<li><code>FieldMultilineInput.showHint</code>: Whether the keyboard-shortcut hint bar is
+shown in the editor. When <code>false</code>, no space is reserved for the hint bar.
+Applies to all fields.</li>
 </ul>
 <h2 id="license">License</h2>
 <p>Apache 2.0</p>

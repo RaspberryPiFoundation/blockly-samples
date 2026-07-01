@@ -24,7 +24,7 @@
       <div class="title">@blockly/workspace-minimap Demo</div>
       <div class="subtitle">A Blockly plugin.</div>
     </div>
-    0.3.9
+    13.1.0
 
     <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/workspace-minimap" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/workspace-minimap" class="button" target="_blank">View on npm</a>
@@ -97,6 +97,40 @@ minimap.init();</code></pre>
 <h3 id="configuration">Configuration</h3>
 <p>The minimap takes a workspace as input and it inherits its RTL and theme properties (so that they don't need to be configured manually).
 Additional styling of the minimap is possible with CSS. Use the <code>blockly-minimap</code> class for the minimap (box-shadow, etc.) and <code>blockly-focus-region</code> for the focus region (fill color, etc.).</p>
+<h2 id="keyboard-accessibility">Keyboard accessibility</h2>
+<p>The minimap is a single tab stop in the page tab order. When focused, the arrow
+keys pan the main workspace:</p>
+<table>
+<thead>
+<tr>
+<th id="key">Key</th>
+<th id="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArrowUp</code></td>
+<td>Pan the workspace up</td>
+</tr>
+<tr>
+<td><code>ArrowDown</code></td>
+<td>Pan the workspace down</td>
+</tr>
+<tr>
+<td><code>ArrowLeft</code></td>
+<td>Pan the workspace left</td>
+</tr>
+<tr>
+<td><code>ArrowRight</code></td>
+<td>Pan the workspace right</td>
+</tr>
+</tbody>
+</table>
+<p>Modifier key combinations (Ctrl, Alt, Shift, Meta) are passed through without
+panning.</p>
+<p>The default pan distance is 40 workspace pixels per keypress and is
+configurable:</p>
+<pre><code class="js language-js">minimap.setKeyboardPanStep(80); // pan 80px per arrow press</code></pre>
 <h2 id="api">API</h2>
 <ul>
 <li><p><code>init</code>: Initializes the minimap.</p></li>
@@ -104,6 +138,10 @@ Additional styling of the minimap is possible with CSS. Use the <code>blockly-mi
 <li><p><code>isFocusEnabled</code>: Returns whether the focus region is enabled.</p></li>
 <li><p><code>enableFocusRegion</code>: Turns on the focus region in the minimap.</p></li>
 <li><p><code>disableFocusRegion</code>: Turns off the focus region in the minimap.</p></li>
+<li><p><code>setKeyboardPanStep(stepPixels)</code>: Sets how far (in primary-workspace pixels)
+each arrow keypress pans the workspace when the minimap is focused.</p></li>
+<li><p><code>getKeyboardPanStep()</code>: Returns the current keyboard pan step in
+primary-workspace pixels.</p></li>
 </ul>
 <p>The following methods are also accessible with PositionedMinimap instances.</p>
 <ul>

@@ -24,7 +24,7 @@
       <div class="title">@blockly/field-angle Demo</div>
       <div class="subtitle">A Blockly angle field.</div>
     </div>
-    6.0.9
+    13.1.0
 
     <a href="https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/field-angle" class="button" target="_blank">View code</a>
     <a href="https://www.npmjs.com/package/@blockly/field-angle" class="button" target="_blank">View on npm</a>
@@ -99,7 +99,10 @@ picker. The majorTick is in units from your displayMin-displayMax. The ticks
 start at your "min" rounded up to a multiple of your "majorTick". The
 ticks end at you "max" rounded down to a multiple of your "majorTick".
 Defaults to 45.</li>
-<li>"symbol" to specify the unit symbol to append to your number. Defaults to °.</li>
+<li>"symbol" to specify the unit symbol to append to your number. Defaults to °.
+If this is used to specify "radians" or similar,
+<code>Blockly.Msg['ARIA_LABEL_FIELD_ANGLE']</code> should be overridden accordingly to
+ensure that the screenreader description remains consistent.</li>
 </ul>
 <h3 id="javascript">JavaScript</h3>
 <pre><code class="js language-js">import * as Blockly from 'blockly';
