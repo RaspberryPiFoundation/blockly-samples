@@ -265,7 +265,9 @@ export class FieldColourHsvSliders extends FieldColour {
     this.valueWhenEditorWasOpened = this.value_;
 
     // Focus so we can start receiving keyboard events.
-    this.hueSlider.focus({preventScroll: true});
+    setTimeout(() => {
+      this.hueSlider?.focus({preventScroll: true});
+    }, 250);
   }
 
   /**
@@ -299,7 +301,7 @@ export class FieldColourHsvSliders extends FieldColour {
    * @param container Where the row slider be inserted.
    * @returns The slider.
    */
-  private static createSliderInContainer(
+  private createSliderInContainer(
     max: number,
     step: number,
     container: HTMLElement,
@@ -310,6 +312,14 @@ export class FieldColourHsvSliders extends FieldColour {
     slider.min = String(0);
     slider.max = String(max);
     slider.step = String(step);
+    slider.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        Blockly.DropDownDiv.hideIfOwner(this);
+        Blockly.getFocusManager().focusNode(this);
+      } else if (e.key === 'Escape') {
+        this.setValue(this.valueWhenEditorWasOpened);
+      }
+    });
     container.appendChild(slider);
     return slider;
   }
@@ -323,28 +333,43 @@ export class FieldColourHsvSliders extends FieldColour {
       'Hue',
       container,
     );
-    this.hueSlider = FieldColourHsvSliders.createSliderInContainer(
+    this.hueSlider = this.createSliderInContainer(
       FieldColourHsvSliders.HUE_SLIDER_MAX,
       2,
       container,
+    );
+    Blockly.utils.aria.setState(
+      this.hueSlider,
+      Blockly.utils.aria.State.LABEL,
+      'Hue',
     );
     this.saturationReadout = FieldColourHsvSliders.createLabelInContainer(
       'Saturation',
       container,
     );
-    this.saturationSlider = FieldColourHsvSliders.createSliderInContainer(
+    this.saturationSlider = this.createSliderInContainer(
       FieldColourHsvSliders.SATURATION_SLIDER_MAX,
       1,
       container,
+    );
+    Blockly.utils.aria.setState(
+      this.saturationSlider,
+      Blockly.utils.aria.State.LABEL,
+      'Saturation',
     );
     this.brightnessReadout = FieldColourHsvSliders.createLabelInContainer(
       'Brightness',
       container,
     );
-    this.brightnessSlider = FieldColourHsvSliders.createSliderInContainer(
+    this.brightnessSlider = this.createSliderInContainer(
       FieldColourHsvSliders.BRIGHTNESS_SLIDER_MAX,
       1,
       container,
+    );
+    Blockly.utils.aria.setState(
+      this.brightnessSlider,
+      Blockly.utils.aria.State.LABEL,
+      'Brightness',
     );
 
     this.hsvBoundEvents.push(
@@ -376,6 +401,11 @@ export class FieldColourHsvSliders extends FieldColour {
       // If the browser supports the eyedropper API, create a button for it.
       const button: HTMLButtonElement = document.createElement('button');
       button.classList.add('fieldColourEyedropper');
+      button.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.setValue(this.valueWhenEditorWasOpened);
+        }
+      });
       container.appendChild(document.createElement('hr'));
       container.appendChild(button);
       this.hsvBoundEvents.push(
@@ -391,6 +421,20 @@ export class FieldColourHsvSliders extends FieldColour {
     this.dropdownContainer = container;
 
     this.updateSliderValues();
+  }
+
+  /**
+   * Updates the ARIA roles and label for this field.
+   */
+  override recomputeAriaContext(): boolean {
+    const shouldCustomize = super.recomputeAriaContext();
+    if (!shouldCustomize) return false;
+    Blockly.utils.aria.setState(
+      this.getFocusableElement(),
+      Blockly.utils.aria.State.HASPOPUP,
+      'menu',
+    );
+    return true;
   }
 
   /** Disposes of events and DOM-references belonging to the colour editor. */
@@ -484,10 +528,14 @@ export class FieldColourHsvSliders extends FieldColour {
   private onEyedropperEvent(event?: Event): void {
     if (window.EyeDropper) {
       const eyeDropper: EyeDropper = new window.EyeDropper();
-      eyeDropper.open().then((result) => {
-        this.setIntermediateValue(result.sRGBHex);
-        this.updateSliderValues();
-      });
+      eyeDropper.open().then(
+        (result) => {
+          this.setIntermediateValue(result.sRGBHex);
+          this.updateSliderValues();
+        },
+        // Prevent throwing by handling promise rejection and doing nothing.
+        () => {},
+      );
     }
   }
 
@@ -605,6 +653,56 @@ export class FieldColourHsvSliders extends FieldColour {
 
     this.renderSliders();
   }
+
+  override getAriaValue() {
+    const hsv: HsvColour = FieldColourHsvSliders.helperHsv.loadFromRgb(
+      FieldColourHsvSliders.helperRgb.loadFromHex(this.getValue() ?? ''),
+    );
+
+    const components = [];
+    const brightness = hsv.v * 100;
+    if (brightness === 0) {
+      return 'black';
+    } else if (brightness <= 25) {
+      components.push('very dark');
+    } else if (brightness < 75) {
+      components.push('dark');
+    }
+
+    const saturation = hsv.s * 100;
+    if (saturation === 0) {
+      if (brightness === 100) {
+        return 'white';
+      }
+      components.push('grey');
+      return components.join(' ');
+    } else if (saturation <= 30) {
+      components.push(brightness <= 60 ? 'greyish' : 'pale');
+    } else if (saturation >= 75) {
+      components.push('vibrant');
+    }
+
+    const hue = hsv.h * 360;
+    if (hue >= 330 || hue <= 10) {
+      components.push('red');
+    } else if (hue <= 45) {
+      components.push('orange');
+    } else if (hue <= 65) {
+      components.push('yellow');
+    } else if (hue <= 160) {
+      components.push('green');
+    } else if (hue <= 190) {
+      components.push('cyan');
+    } else if (hue <= 260) {
+      components.push('blue');
+    } else if (hue <= 290) {
+      components.push('purple');
+    } else {
+      components.push('fuchsia');
+    }
+
+    return components.join(' ');
+  }
 }
 
 Blockly.fieldRegistry.register(
@@ -681,6 +779,11 @@ Blockly.Css.register(`
                 Q 25 4 19 8 Q 18 9 19 10 Q 20 11 19 12 Q 18 13 17 12"/> \
     </svg>');
 }
+.blocklyKeyboardNavigation .fieldColourEyedropper:focus {
+  outline: none;
+  border: var(--blockly-selection-width) solid var(--blockly-active-node-color);
+  border-radius: 4px;
+}
 .fieldColourSlider {
   -webkit-appearance: none;
   width: 150px;
@@ -752,5 +855,10 @@ Blockly.Css.register(`
   cursor: pointer;
   width: ${FieldColourHsvSliders.THUMB_RADIUS * 2}px;
   height: ${FieldColourHsvSliders.THUMB_RADIUS * 2}px;
+}
+.blocklyKeyboardNavigation .fieldColourSlider:focus {
+  border: var(--blockly-selection-width) solid var(--blockly-active-node-color);
+  border-radius: 16px;
+  padding: 1px;
 }
 `);
