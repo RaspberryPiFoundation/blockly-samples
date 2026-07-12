@@ -101,6 +101,24 @@ suite('WorkspaceSearch', function () {
     });
   });
 
+  suite('createBtn()', function () {
+    test('Buttons have type button', function () {
+      this.workspaceSearch.init();
+      const nextBtn = document.querySelector(
+        'button.blockly-ws-search-next-btn',
+      );
+      const previousBtn = document.querySelector(
+        'button.blockly-ws-search-previous-btn',
+      );
+      const closeBtn = document.querySelector(
+        'button.blockly-ws-search-close-btn',
+      );
+      assert.equal(nextBtn.type, 'button');
+      assert.equal(previousBtn.type, 'button');
+      assert.equal(closeBtn.type, 'button');
+    });
+  });
+
   suite('dispose()', function () {
     test('DOM is disposed', function () {
       this.workspaceSearch.init();
