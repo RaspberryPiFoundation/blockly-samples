@@ -240,7 +240,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
         const pixel = this.getPixel(r, c);
         display[r][c].style.fill = pixel
           ? this.pixelColours.filled
-          : this.pixelColours.empty;  
+          : this.pixelColours.empty;
       });
     }
     if (this.editorPixels) {
@@ -267,9 +267,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       }
     }
 
-    return (
-      Blockly.Msg['FIELD_BITMAP_ARIA_VALUE'] ?? '%1 by %2, %3 pixels on'
-    )
+    return (Blockly.Msg['FIELD_BITMAP_ARIA_VALUE'] ?? '%1 by %2, %3 pixels on')
       .replace('%1', String(width))
       .replace('%2', String(height))
       .replace('%3', String(onCount));
@@ -593,7 +591,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
   private updateEditorPixelDisplay(r: number, c: number, pixelValue: number) {
     const button = this.editorPixels?.[r]?.[c];
     if (!button) return;
-    button.style.background = !!pixelValue
+    button.style.background = pixelValue
       ? this.pixelColours.filled
       : this.pixelColours.empty;
     button.setAttribute('aria-pressed', String(!!pixelValue));
