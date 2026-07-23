@@ -6,9 +6,6 @@
 
 import * as Blockly from 'blockly/core';
 
-Blockly.Msg['BUTTON_LABEL_RANDOMIZE'] = 'Randomize';
-Blockly.Msg['BUTTON_LABEL_CLEAR'] = 'Clear';
-
 export const DEFAULT_HEIGHT = 5;
 export const DEFAULT_WIDTH = 5;
 const DEFAULT_PIXEL_SIZE = 15;
@@ -20,6 +17,7 @@ const DEFAULT_BUTTONS: Buttons = {
   randomize: true,
   clear: true,
 };
+
 /**
  * Field for inputting a small bitmap image.
  * Includes a grid of clickable pixels that's exported as a bitmap.
@@ -34,8 +32,11 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
    */
   private boundEvents: Blockly.browserEvents.Data[] = [];
   /** References to UI elements */
-  private editorPixels: HTMLElement[][] | null = null;
+  private pixelGrid: HTMLDivElement | null = null;
+  private editorPixels: HTMLButtonElement[][] | null = null;
   private blockDisplayPixels: SVGElement[][] | null = null;
+  /** Index of the keyboard-focused pixel in row-major order, or -1. */
+  private focusedPixelIndex = -1;
   /** Stateful variables */
   private pointerIsDown = false;
   private valToPaintWith?: number;
@@ -43,6 +44,8 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
   pixelSize: number;
   pixelColours: {empty: string; filled: string};
   fieldHeight?: number;
+
+  protected override ariaTypeName = Blockly.Msg['ARIA_TYPE_FIELD_BITMAP'];
 
   /**
    * Constructor for the bitmap field.
@@ -112,6 +115,20 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
    */
   getImageHeight() {
     return this.imgHeight;
+  }
+
+  /**
+   * Updates the ARIA roles and label for this field.
+   */
+  override recomputeAriaContext(): boolean {
+    const shouldCustomize = super.recomputeAriaContext();
+    if (!shouldCustomize) return false;
+    Blockly.utils.aria.setState(
+      this.getFocusableElement(),
+      Blockly.utils.aria.State.HASPOPUP,
+      'grid',
+    );
+    return true;
   }
 
   /**
@@ -186,6 +203,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
         this.pixelSize = DEFAULT_PIXEL_SIZE;
       }
     }
+    this.recomputeAriaContext();
   }
 
   /**
@@ -202,6 +220,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       this,
       this.dropdownDispose.bind(this),
     );
+    this.focusPixelAt(0);
   }
 
   /**
@@ -216,21 +235,44 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     }
 
     if (this.blockDisplayPixels) {
+      const display = this.blockDisplayPixels;
       this.forAllCells((r, c) => {
         const pixel = this.getPixel(r, c);
-
-        if (this.blockDisplayPixels) {
-          this.blockDisplayPixels[r][c].style.fill = pixel
-            ? this.pixelColours.filled
-            : this.pixelColours.empty;
-        }
-        if (this.editorPixels) {
-          this.editorPixels[r][c].style.background = pixel
-            ? this.pixelColours.filled
-            : this.pixelColours.empty;
-        }
+        display[r][c].style.fill = pixel
+          ? this.pixelColours.filled
+          : this.pixelColours.empty;  
       });
     }
+    if (this.editorPixels) {
+      this.forAllCells((r, c) => {
+        this.updateEditorPixelDisplay(r, c, this.getPixel(r, c));
+      });
+    }
+  }
+
+  override getAriaValue(): string | null {
+    // Get a label for the bitmap's dimensions and the number of pixels that are on.
+    const value = this.getValue();
+    if (!value) {
+      return null;
+    }
+    const height = value.length;
+    const width = value[0].length;
+    let onCount = 0;
+    for (const row of value) {
+      for (const cell of row) {
+        if (cell === 1) {
+          onCount++;
+        }
+      }
+    }
+
+    return (
+      Blockly.Msg['FIELD_BITMAP_ARIA_VALUE'] ?? '%1 by %2, %3 pixels on'
+    )
+      .replace('%1', String(width))
+      .replace('%2', String(height))
+      .replace('%3', String(onCount));
   }
 
   /**
@@ -282,11 +324,6 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     if (this.buttonOptions.randomize || this.buttonOptions.clear) {
       dropdownEditor.classList.add('has-buttons');
     }
-    const pixelContainer = this.createElementWithClassname(
-      'div',
-      'pixelContainer',
-    );
-    dropdownEditor.appendChild(pixelContainer);
 
     // This prevents the normal max-height from adding a scroll bar for large images.
     Blockly.DropDownDiv.getContentDiv().classList.add('contains-bitmap-editor');
@@ -301,54 +338,28 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       e.preventDefault();
     });
 
-    this.editorPixels = [];
-    for (let r = 0; r < this.imgHeight; r++) {
-      this.editorPixels.push([]);
-      const rowDiv = this.createElementWithClassname('div', 'pixelRow');
-      for (let c = 0; c < this.imgWidth; c++) {
-        // Add the button to the UI and save a reference to it
-        const button = this.createElementWithClassname('div', 'pixelButton');
-        this.editorPixels[r].push(button);
-        rowDiv.appendChild(button);
-
-        // Load the current pixel colour
-        const isOn = this.getPixel(r, c);
-        button.style.background = isOn
-          ? this.pixelColours.filled
-          : this.pixelColours.empty;
-
-        // Set the custom data attributes for row and column indices
-        button.setAttribute('data-row', r.toString());
-        button.setAttribute('data-col', c.toString());
-      }
-      pixelContainer.appendChild(rowDiv);
-    }
+    const rtl = !!this.getSourceBlock()?.workspace.RTL;
+    this.pixelGrid = this.createPixelGrid(rtl);
+    dropdownEditor.appendChild(this.pixelGrid);
 
     // Add control buttons below the pixel grid
     if (this.buttonOptions.randomize) {
       this.addControlButton(
         dropdownEditor,
-        Blockly.Msg['BUTTON_LABEL_RANDOMIZE'],
+        // For backwards compatibility, use the old message if it exists, otherwise use the new message.
+        Blockly.Msg['BUTTON_LABEL_RANDOMIZE'] ??
+          Blockly.Msg['FIELD_BITMAP_BUTTON_LABEL_RANDOMIZE'],
         this.randomizePixels,
       );
     }
     if (this.buttonOptions.clear) {
       this.addControlButton(
         dropdownEditor,
-        Blockly.Msg['BUTTON_LABEL_CLEAR'],
+        // For backwards compatibility, use the old message if it exists, otherwise use the new message.
+        Blockly.Msg['BUTTON_LABEL_CLEAR'] ??
+          Blockly.Msg['FIELD_BITMAP_BUTTON_LABEL_CLEAR'],
         this.clearPixels,
       );
-    }
-
-    if (this.blockDisplayPixels) {
-      this.forAllCells((r, c) => {
-        const pixel = this.getPixel(r, c);
-        if (this.editorPixels) {
-          this.editorPixels[r][c].style.background = pixel
-            ? this.pixelColours.filled
-            : this.pixelColours.empty;
-        }
-      });
     }
 
     // Store the initial value at the start of the edit.
@@ -358,9 +369,248 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
   }
 
   /**
+   * Builds the accessible pixel grid DOM.
+   *
+   * @param rtl Whether the workspace is RTL.
+   * @returns The grid root element.
+   */
+  private createPixelGrid(rtl: boolean): HTMLDivElement {
+    const grid = document.createElement('div');
+    grid.className = 'bitmapPixelGrid';
+    grid.tabIndex = 0;
+    Blockly.utils.aria.setRole(grid, Blockly.utils.aria.Role.GRID);
+    grid.style.setProperty('--bitmap-columns', `${this.imgWidth}`);
+
+    this.boundEvents.push(
+      Blockly.browserEvents.bind(grid, 'keydown', this, (e: KeyboardEvent) => {
+        this.onPixelGridKeyDown(e, rtl);
+      }),
+    );
+
+    this.editorPixels = [];
+    for (let r = 0; r < this.imgHeight; r++) {
+      const row = document.createElement('div');
+      row.className = 'bitmapPixelRow';
+      Blockly.utils.aria.setRole(row, Blockly.utils.aria.Role.ROW);
+      grid.appendChild(row);
+
+      this.editorPixels.push([]);
+      for (let c = 0; c < this.imgWidth; c++) {
+        const cell = document.createElement('div');
+        Blockly.utils.aria.setRole(cell, Blockly.utils.aria.Role.GRIDCELL);
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = Blockly.utils.idGenerator.getNextUniqueId();
+        button.className = 'pixelButton';
+        button.setAttribute('data-row', r.toString());
+        button.setAttribute('data-col', c.toString());
+        // Keyboard activation is handled on the grid; avoid a second toggle
+        // from the native button click after pointer paint.
+        button.addEventListener('click', (e) => e.preventDefault());
+
+        cell.appendChild(button);
+        row.appendChild(cell);
+        this.editorPixels[r].push(button);
+        this.updateEditorPixelDisplay(r, c, this.getPixel(r, c));
+      }
+    }
+    return grid;
+  }
+
+  /**
+   * Handles keyboard navigation and activation inside the pixel grid.
+   *
+   * @param e The keydown event.
+   * @param rtl Whether the workspace is RTL.
+   */
+  private onPixelGridKeyDown(e: KeyboardEvent, rtl: boolean) {
+    if (
+      !this.editorPixels ||
+      e.shiftKey ||
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey
+    ) {
+      return;
+    }
+
+    const length = this.imgWidth * this.imgHeight;
+    if (!length) return;
+
+    if (this.focusedPixelIndex < 0) {
+      this.focusedPixelIndex = 0;
+    }
+
+    switch (e.key) {
+      case 'ArrowUp':
+      case 'ArrowDown':
+      case 'ArrowLeft':
+      case 'ArrowRight': {
+        const next = this.getNextPixelIndex(this.focusedPixelIndex, e.key, rtl);
+        if (next === null) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        this.focusPixelAt(next);
+        break;
+      }
+      case 'PageUp':
+      case 'Home':
+        this.focusPixelAt(0);
+        break;
+      case 'PageDown':
+      case 'End':
+        this.focusPixelAt(length - 1);
+        break;
+      case 'Enter':
+      case ' ':
+      case 'Space': {
+        const [r, c] = this.indexToCoords(this.focusedPixelIndex);
+        this.togglePixel(r, c);
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      default:
+        return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  /**
+   * Returns the next pixel index for an arrow key, or null at hard edges.
+   *
+   * @param current Current focused index.
+   * @param key Arrow key.
+   * @param rtl Whether the workspace is RTL.
+   * @returns Next index, or null if navigation should no-op.
+   */
+  private getNextPixelIndex(
+    current: number,
+    key: string,
+    rtl: boolean,
+  ): number | null {
+    const col = current % this.imgWidth;
+    const row = Math.floor(current / this.imgWidth);
+    const length = this.imgWidth * this.imgHeight;
+
+    let effectiveKey = key;
+    if (rtl) {
+      if (key === 'ArrowLeft') effectiveKey = 'ArrowRight';
+      else if (key === 'ArrowRight') effectiveKey = 'ArrowLeft';
+    }
+
+    switch (effectiveKey) {
+      case 'ArrowLeft':
+        return col > 0 ? current - 1 : null;
+      case 'ArrowRight':
+        return col < this.imgWidth - 1 && current + 1 < length
+          ? current + 1
+          : null;
+      case 'ArrowUp':
+        return row > 0 ? current - this.imgWidth : null;
+      case 'ArrowDown':
+        return current + this.imgWidth < length
+          ? current + this.imgWidth
+          : null;
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Focuses the pixel button at the given row-major index.
+   *
+   * @param index Pixel index.
+   */
+  private focusPixelAt(index: number) {
+    if (!this.editorPixels || !this.pixelGrid) return;
+    const length = this.imgWidth * this.imgHeight;
+    if (index < 0 || index >= length) return;
+
+    this.focusedPixelIndex = index;
+    const [r, c] = this.indexToCoords(index);
+    const button = this.editorPixels[r][c];
+    button.focus({preventScroll: true});
+    Blockly.utils.aria.setState(
+      this.pixelGrid,
+      Blockly.utils.aria.State.ACTIVEDESCENDANT,
+      button.id,
+    );
+  }
+
+  /**
+   * Converts a pixel index to coordinates.
+   *
+   * @param index Pixel index.
+   * @returns Row and column.
+   */
+  private indexToCoords(index: number): [number, number] {
+    return [Math.floor(index / this.imgWidth), index % this.imgWidth];
+  }
+
+  /**
+   * Builds an accessible label for a pixel cell.
+   *
+   * @param r Row index (0-based).
+   * @param c Column index (0-based).
+   * @param pixelValue Pixel value (0 or 1).
+   * @returns Localized aria label.
+   */
+  private getPixelAriaLabel(r: number, c: number, pixelValue: number): string {
+    const state = pixelValue
+      ? (Blockly.Msg['FIELD_BITMAP_PIXEL_ON'] ?? 'on')
+      : (Blockly.Msg['FIELD_BITMAP_PIXEL_OFF'] ?? 'off');
+    return (Blockly.Msg['FIELD_BITMAP_PIXEL_LABEL'] ?? '%1, row %2, column %3')
+      .replace('%1', state)
+      .replace('%2', String(r + 1))
+      .replace('%3', String(c + 1));
+  }
+
+  /**
+   * Toggles a pixel and updates the editor presentation.
+   *
+   * @param r Row index.
+   * @param c Column index.
+   * @returns The new pixel value.
+   */
+  private togglePixel(r: number, c: number): number {
+    const newPixelValue = 1 - this.getPixel(r, c);
+    this.setPixel(r, c, newPixelValue);
+    return newPixelValue;
+  }
+
+  /**
+   * Syncs one editor pixel's colour, pressed state, and aria label.
+   *
+   * @param r Row index.
+   * @param c Column index.
+   * @param pixelValue Pixel value (0 or 1).
+   */
+  private updateEditorPixelDisplay(r: number, c: number, pixelValue: number) {
+    const button = this.editorPixels?.[r]?.[c];
+    if (!button) return;
+    button.style.background = !!pixelValue
+      ? this.pixelColours.filled
+      : this.pixelColours.empty;
+    button.setAttribute('aria-pressed', String(!!pixelValue));
+    Blockly.utils.aria.setState(
+      button,
+      Blockly.utils.aria.State.LABEL,
+      this.getPixelAriaLabel(r, c, pixelValue),
+    );
+  }
+
+  /**
    * Initializes the on-block display.
    */
   override initView() {
+    if (this.fieldGroup_) {
+      Blockly.utils.dom.addClass(this.fieldGroup_, 'blocklyField');
+    }
     this.blockDisplayPixels = [];
     for (let r = 0; r < this.imgHeight; r++) {
       const row = [];
@@ -381,6 +631,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       }
       this.blockDisplayPixels.push(row);
     }
+    this.recomputeAriaContext();
   }
 
   /**
@@ -443,7 +694,11 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       Blockly.browserEvents.unbind(event);
     }
     this.boundEvents.length = 0;
+    this.pixelGrid = null;
     this.editorPixels = null;
+    this.focusedPixelIndex = -1;
+    this.pointerIsDown = false;
+    this.valToPaintWith = undefined;
     // Set this.initialValue back to null.
     this.initialValue = null;
 
@@ -469,54 +724,65 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
   }
 
   /**
-   * Checks if a down event is on a pixel in this editor and if it is starts an
-   * edit gesture.
+   * Toggles the pixel under the pointer and starts a drag-paint gesture.
    *
    * @param e The down event.
    */
   private onPointerStart(e: PointerEvent) {
-    const currentElement = document.elementFromPoint(e.clientX, e.clientY);
-    const rowIndex = currentElement?.getAttribute('data-row');
-    const colIndex = currentElement?.getAttribute('data-col');
-    if (rowIndex && colIndex) {
-      this.onPointerDownInPixel(parseInt(rowIndex), parseInt(colIndex));
+    if (e.button !== 0) return;
+    const pixelCoords = this.getPixelCoordsFromElement(e.target as Element);
+    if (pixelCoords) {
+      const newPixelValue = this.togglePixel(pixelCoords.r, pixelCoords.c);
       this.pointerIsDown = true;
+      this.valToPaintWith = newPixelValue;
+      this.focusPixelAt(pixelCoords.r * this.imgWidth + pixelCoords.c);
+      // Keep receiving move/up outside the editor so drag-paint can continue
+      // (and pointerleave does not end the gesture).
+      (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
       e.preventDefault();
     }
   }
 
   /**
-   * Updates the editor if we're in an edit gesture and the pointer is over a
-   * pixel.
+   * Moves focus (and paints when dragging) as the pointer moves over pixels.
    *
    * @param e The move event.
    */
   private onPointerMove(e: PointerEvent) {
-    if (!this.pointerIsDown) {
+    // Same guard as field-grid-dropdown: ignore moves with no pointer delta
+    // (e.g. content scrolled under a still pointer).
+    if (!(e.movementX || e.movementY)) {
       return;
     }
     const currentElement = document.elementFromPoint(e.clientX, e.clientY);
-    const rowIndex = currentElement?.getAttribute('data-row');
-    const colIndex = currentElement?.getAttribute('data-col');
-    if (rowIndex && colIndex) {
-      this.updatePixelValue(parseInt(rowIndex), parseInt(colIndex));
+    const pixelCoords = this.getPixelCoordsFromElement(currentElement);
+    if (pixelCoords) {
+      this.focusPixelAt(pixelCoords.r * this.imgWidth + pixelCoords.c);
+      if (this.pointerIsDown) {
+        this.updatePixelValue(pixelCoords.r, pixelCoords.c);
+      }
     }
-    e.preventDefault();
+    if (this.pointerIsDown) {
+      e.preventDefault();
+    }
   }
 
   /**
-   * Starts an interaction with the bitmap dropdown when there's a pointerdown
-   * within one of the pixels in the editor.
+   * Reads row/column indices from a pixel button or a descendant.
    *
-   * @param r Row number of grid.
-   * @param c Column number of grid.
+   * @param element Element under the pointer.
+   * @returns Row and column, or null if not a pixel.
    */
-  private onPointerDownInPixel(r: number, c: number) {
-    // Toggle that pixel to the opposite of its value
-    const newPixelValue = 1 - this.getPixel(r, c);
-    this.setPixel(r, c, newPixelValue);
-    this.pointerIsDown = true;
-    this.valToPaintWith = newPixelValue;
+  private getPixelCoordsFromElement(
+    element: Element | null,
+  ): {r: number; c: number} | null {
+    const pixelButton = element?.closest('.pixelButton');
+    const rowIndex = pixelButton?.getAttribute('data-row');
+    const colIndex = pixelButton?.getAttribute('data-col');
+    if (rowIndex == null || colIndex == null) {
+      return null;
+    }
+    return {r: parseInt(rowIndex), c: parseInt(colIndex)};
   }
 
   /**
@@ -537,8 +803,17 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
   /**
    * Resets pointer state (e.g. After either a pointerup event or if the
    * gesture is canceled).
+   *
+   * @param e The pointer event that ended the gesture, when available.
    */
-  private onPointerEnd() {
+  private onPointerEnd(e?: PointerEvent) {
+    if (
+      e &&
+      e.currentTarget instanceof HTMLElement &&
+      e.currentTarget.hasPointerCapture?.(e.pointerId)
+    ) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
     this.pointerIsDown = false;
     this.valToPaintWith = undefined;
   }
@@ -560,6 +835,9 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     const cleared = this.getEmptyArray();
     this.fireIntermediateChangeEvent(cleared);
     this.setValue(cleared, false);
+    this.forAllCells((r, c) => {
+      this.updateEditorPixelDisplay(r, c, 0);
+    });
   }
 
   /**
@@ -574,6 +852,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     newGrid[r][c] = newValue;
     this.fireIntermediateChangeEvent(newGrid);
     this.setValue(newGrid, false);
+    this.updateEditorPixelDisplay(r, c, newValue);
   }
 
   private getPixel(row: number, column: number): number {
@@ -675,23 +954,31 @@ Blockly.Css.register(`
 .dropdownEditor.has-buttons {
   margin-bottom: 20px;
 }
-.pixelContainer {
+.bitmapPixelGrid {
+  display: grid;
   margin: 20px;
+  grid-template-columns: repeat(var(--bitmap-columns), min-content);
 }
-.pixelRow {
-  display: flex;
-  flex-direction: row;
+.bitmapPixelRow {
+  display: contents;
+}
+.bitmapPixelGrid [role="gridcell"] {
   padding: 0;
   margin: 0;
-  height: ${DEFAULT_PIXEL_SIZE}
+  line-height: 0;
 }
 .pixelButton {
   width: ${DEFAULT_PIXEL_SIZE}px;
   height: ${DEFAULT_PIXEL_SIZE}px;
   border: 1px solid #000;
+  cursor: pointer;
 }
-.pixelDisplay {
-  white-space:pre-wrap;
+.pixelButton:focus {
+  outline: var(--blockly-selection-width) solid var(--blockly-active-node-color);
+  outline-offset: -2px;
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
 }
 .controlButton {
   margin: 5px 0;
