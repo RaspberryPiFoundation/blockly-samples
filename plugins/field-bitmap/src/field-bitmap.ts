@@ -447,6 +447,9 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       case 'ArrowRight': {
         const next = this.getNextPixelIndex(this.focusedPixelIndex, e.key, rtl);
         if (next === null) {
+          (this.getSourceBlock()?.workspace as Blockly.WorkspaceSvg | null)
+            ?.getAudioManager()
+            .playErrorBeep();
           e.preventDefault();
           e.stopPropagation();
           return;
