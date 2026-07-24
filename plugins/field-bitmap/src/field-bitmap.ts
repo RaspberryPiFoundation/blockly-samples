@@ -606,6 +606,11 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
    * Initializes the on-block display.
    */
   override initView() {
+    this.createBorderRect_();
+    // Invisible fill so the rect only provides keyboard-nav focus stroke.
+    this.getBorderRect().style.fill = 'none';
+    // Don't intercept clicks meant for the pixel rects beneath.
+    this.getBorderRect().style.pointerEvents = 'none';
     if (this.fieldGroup_) {
       Blockly.utils.dom.addClass(this.fieldGroup_, 'blocklyField');
     }
@@ -629,6 +634,9 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       }
       this.blockDisplayPixels.push(row);
     }
+    // SVG strokes are centered on the path; paint the border above the
+    // pixels so the inner half of the focus ring isn't covered.
+    this.getSvgRoot()?.appendChild(this.getBorderRect());
     this.recomputeAriaContext();
   }
 
