@@ -1,6 +1,7 @@
 name: Report a bug 🐛
 description: Create a report to help us improve
-labels: 'type: bug, triage'
+type: Bug
+labels: 'status: triage'
 body:
   - type: markdown
     attributes:
