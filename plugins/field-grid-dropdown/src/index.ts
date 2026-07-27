@@ -45,8 +45,10 @@ export class FieldGridDropdown extends Blockly.FieldDropdown {
 
   private borderColour?: string;
 
-  /** Object representing the grid of choices show in the dropdown. */
-  private grid?: Grid;
+  /** Object representing the grid of choices shown in the dropdown. */
+  private grid: Grid | null = null;
+
+  protected override ariaTypeName = Blockly.Msg['ARIA_TYPE_FIELD_GRID'];
 
   /**
    * Class for an grid dropdown field.
@@ -133,10 +135,16 @@ export class FieldGridDropdown extends Blockly.FieldDropdown {
   override recomputeAriaContext(): boolean {
     const shouldCustomize = super.recomputeAriaContext();
     if (!shouldCustomize) return false;
+    const focusableElement = this.getFocusableElement();
     Blockly.utils.aria.setState(
-      this.getFocusableElement(),
+      focusableElement,
       Blockly.utils.aria.State.HASPOPUP,
       'grid',
+    );
+    Blockly.utils.aria.setState(
+      focusableElement,
+      Blockly.utils.aria.State.EXPANDED,
+      !!this.grid,
     );
     return true;
   }
@@ -180,6 +188,17 @@ export class FieldGridDropdown extends Blockly.FieldDropdown {
     if (selectedValue) {
       this.grid.setSelectedValue(selectedValue);
     }
+    this.recomputeAriaContext();
+  }
+
+  /**
+   * Disposes of events and DOM-references belonging to the dropdown editor.
+   */
+  protected override dropdownDispose_() {
+    // Keep aria-expanded accurate on later recomputes.
+    this.grid = null;
+    super.dropdownDispose_();
+    this.recomputeAriaContext();
   }
 
   /**
