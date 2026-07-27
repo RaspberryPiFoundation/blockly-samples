@@ -179,18 +179,18 @@ export class Grid {
         this.moveFocus(1, true, false);
         break;
       case 'ArrowLeft':
-        this.moveFocus(-1 * (this.rtl ? -1 : 1), true);
+        this.moveFocus(-1 * (this.rtl ? -1 : 1), true, true);
         break;
       case 'ArrowRight':
-        this.moveFocus(1 * (this.rtl ? -1 : 1), true);
+        this.moveFocus(1 * (this.rtl ? -1 : 1), true, true);
         break;
       case 'PageUp':
       case 'Home':
-        this.moveFocus(0, false);
+        this.moveFocus(0, false, true);
         break;
       case 'PageDown':
       case 'End':
-        this.moveFocus(this.items.length - 1, false);
+        this.moveFocus(this.items.length - 1, false, true);
         break;
       case 'Enter':
       case 'Space':
@@ -225,7 +225,7 @@ export class Grid {
     const targetId = gridItem.id;
     const targetIndex = this.itemIndices.get(targetId);
     if (targetIndex === undefined) return;
-    this.moveFocus(targetIndex, false);
+    this.moveFocus(targetIndex, false, true);
   }
 
   /**
@@ -238,7 +238,7 @@ export class Grid {
       const selected = item.getValue() === value;
       item.setSelected(selected);
       if (selected) {
-        this.moveFocus(index, false);
+        this.moveFocus(index, false, true);
       }
     }
   }
@@ -250,14 +250,14 @@ export class Grid {
    *     item to focus.
    * @param relative True to interpret the index as relative to the currently
    *     focused item, false to move focus to it as an absolute value.
-   * @param horizontal True for a left/right move (default). False for an
-   *     up/down move. Vertical moves wrap to the next/previous column at
-   *     column edges, but do not wrap around the ends of the grid.
+   * @param horizontal True for a left/right move. False for an up/down move.
+   *     Vertical moves wrap to the next/previous column at column edges, but
+   *     do not wrap around the ends of the grid.
    */
   private moveFocus(
     movementIndex: number,
     relative: boolean,
-    horizontal = true,
+    horizontal: boolean,
   ) {
     let targetIndex = movementIndex;
 
