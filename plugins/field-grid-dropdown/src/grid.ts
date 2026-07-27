@@ -6,10 +6,12 @@
 
 import {
   browserEvents,
+  common,
   FieldDropdown,
   ImageProperties,
   MenuOption,
   utils,
+  WorkspaceSvg,
 } from 'blockly/core';
 import {GridItem} from './grid_item';
 
@@ -171,10 +173,10 @@ export class Grid {
 
     switch (e.key) {
       case 'ArrowUp':
-        this.moveFocus(-1 * this.columns, true);
+        this.moveFocus(-1, true, false);
         break;
       case 'ArrowDown':
-        this.moveFocus(this.columns, true);
+        this.moveFocus(1, true, false);
         break;
       case 'ArrowLeft':
         this.moveFocus(-1 * (this.rtl ? -1 : 1), true);
@@ -244,21 +246,41 @@ export class Grid {
   /**
    * Moves browser focus to the grid item at the given index.
    *
-   * @param index The index of the item to focus.
+   * @param movementIndex The absolute or directionally relative index of the
+   *     item to focus.
    * @param relative True to interpret the index as relative to the currently
    *     focused item, false to move focus to it as an absolute value.
+   * @param horizontal True for a left/right move (default). False for an
+   *     up/down move. Vertical moves wrap to the next/previous column at
+   *     column edges, but do not wrap around the ends of the grid.
    */
-  private moveFocus(index: number, relative: boolean) {
-    let targetIndex = index;
+  private moveFocus(
+    movementIndex: number,
+    relative: boolean,
+    horizontal = true,
+  ) {
+    let targetIndex = movementIndex;
 
     if (relative) {
       const focusedItem = this.getFocusedItem();
       if (!focusedItem) return;
-      targetIndex += this.indexOfItem(focusedItem);
+      const currentIndex = this.indexOfItem(focusedItem);
+
+      if (horizontal) {
+        targetIndex += currentIndex;
+      } else {
+        targetIndex = this.getVerticalTargetIndex(currentIndex, movementIndex);
+      }
     }
 
     const targetItem = this.itemAtIndex(targetIndex);
-    if (!targetItem) return;
+    if (!targetItem) {
+      const workspace = common.getMainWorkspace();
+      if (workspace instanceof WorkspaceSvg) {
+        workspace.getAudioManager().playErrorBeep();
+      }
+      return;
+    }
 
     targetItem.focus();
     utils.aria.setState(
@@ -266,6 +288,44 @@ export class Grid {
       utils.aria.State.ACTIVEDESCENDANT,
       targetItem.getId(),
     );
+  }
+
+  /**
+   * Returns the index to focus after a vertical move from the given index.
+   *
+   * Prefers moving within the same column. At a column edge, wraps to the
+   * first/last item of the adjacent column. Returns an out-of-bounds index
+   * when movement is blocked at the start or end of the grid.
+   *
+   * @param currentIndex The currently focused item index.
+   * @param direction 1 to move down, -1 to move up.
+   * @returns The target item index.
+   */
+  private getVerticalTargetIndex(
+    currentIndex: number,
+    direction: number,
+  ): number {
+    // First try moving to the vertically adjacent item in the same column.
+    const column = currentIndex % this.columns;
+    const row = Math.floor(currentIndex / this.columns);
+    const targetIndex = (row + direction) * this.columns + column;
+
+    if (this.itemAtIndex(targetIndex)) {
+      return targetIndex;
+    }
+
+    // We are past this column's edge, so wrap to the adjacent column.
+    const targetColumn = column + direction;
+    if (targetColumn < 0 || targetColumn >= this.columns) {
+      return targetIndex;
+    }
+
+    const columnItems = this.items.filter(
+      (item, i) => i % this.columns === targetColumn,
+    );
+    const item =
+      direction > 0 ? columnItems[0] : columnItems[columnItems.length - 1];
+    return this.indexOfItem(item);
   }
 
   /**
