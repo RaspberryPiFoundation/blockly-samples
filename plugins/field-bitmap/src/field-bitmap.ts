@@ -123,10 +123,16 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
   override recomputeAriaContext(): boolean {
     const shouldCustomize = super.recomputeAriaContext();
     if (!shouldCustomize) return false;
+    const focusableElement = this.getFocusableElement();
     Blockly.utils.aria.setState(
-      this.getFocusableElement(),
+      focusableElement,
       Blockly.utils.aria.State.HASPOPUP,
       'grid',
+    );
+    Blockly.utils.aria.setState(
+      focusableElement,
+      Blockly.utils.aria.State.EXPANDED,
+      !!this.pixelGrid,
     );
     return true;
   }
@@ -221,6 +227,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       this.dropdownDispose.bind(this),
     );
     this.focusPixelAt(0);
+    this.recomputeAriaContext();
   }
 
   /**
@@ -703,6 +710,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       Blockly.browserEvents.unbind(event);
     }
     this.boundEvents.length = 0;
+    // Keep aria-expanded accurate on later recomputes.
     this.pixelGrid = null;
     this.editorPixels = null;
     this.focusedPixelIndex = -1;
@@ -714,6 +722,7 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     Blockly.DropDownDiv.getContentDiv().classList.remove(
       'contains-bitmap-editor',
     );
+    this.recomputeAriaContext();
   }
 
   /**
