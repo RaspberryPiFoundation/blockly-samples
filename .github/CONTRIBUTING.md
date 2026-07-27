@@ -2,14 +2,14 @@
 
 ## How can I contribute?
 
-- [Suggest](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=type%3A+feature+request%2C+triage&template=feature_request.md) plugins or examples
-  - :arrow_right: Start by reading [How To Write A Good Issue](https://developers.google.com/blockly/guides/modify/contribute/write_a_good_issue)
+- [Suggest](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=status%3A+triage&template=feature_request.yaml) plugins or examples
+  - :arrow_right: Start by reading [How To Write A Good Issue](https://docs.blockly.com/guides/modify/contribute/write_a_good_issue)
 - Implement plugins
-  - :arrow_right: Read up on how to [Add a Plugin](https://developers.google.com/blockly/guides/modify/contribute/add_a_plugin)
-- [Report bugs](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=type%3A+bug%2C+triage&template=bug_report.md)
-  - :arrow_right: Start by reading [How To Write A Good Issue](https://developers.google.com/blockly/guides/modify/contribute/write_a_good_issue)
+  - :arrow_right: Read up on how to [Add a Plugin](https://docs.blockly.com/guides/modify/contribute/add_a_plugin)
+- [Report bugs](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new?assignees=&labels=status%3A+triage&template=bug_report.yaml)
+  - :arrow_right: Start by reading [How To Write A Good Issue](https://docs.blockly.com/guides/modify/contribute/write_a_good_issue)
 - Fix bugs
-  - :arrow_right: Start by reading [Finding a Good Issue](https://developers.google.com/blockly/guides/modify/contribute/issue_labels)
+  - :arrow_right: Start by reading [Finding a Good Issue](https://docs.blockly.com/guides/modify/contribute/issue_labels)
 
 ## Contributor License Agreement
 
@@ -28,7 +28,7 @@ again.
 All submissions, including submissions by project members, require review. We
 use GitHub pull requests for this purpose.
 
-:arrow_right: Read more about our [PR review process](https://developers.google.com/blockly/guides/modify/contribute/pr_review_process).
+:arrow_right: Read more about our [PR review process](https://docs.blockly.com/guides/modify/contribute/pr_review_process).
 
 ## Community guidelines
 
@@ -37,4 +37,4 @@ This project follows
 
 ## More information
 
-Head over to the [Developer Site](https://developers.google.com/blockly/guides/modify/contributing) for more information, including an [overview of the repository structure](https://developers.google.com/blockly/guides/modify/contribute/samples_repository_structure) and details of our [publishing process](https://developers.google.com/blockly/guides/modify/contribute/add_a_plugin#publishing).
+Head over to the [Developer Site](https://docs.blockly.com/guides/modify/contributing) for more information, including an [overview of the repository structure](https://docs.blockly.com/guides/modify/contribute/samples_repository_structure) and details of our [publishing process](https://docs.blockly.com/guides/modify/contribute/add_a_plugin#publishing).

@@ -1,6 +1,7 @@
 name: Make a feature request ✨
 description: Suggest an idea for this project
-labels: 'type: feature request, triage'
+type: Feature
+labels: 'status: triage'
 body:
   - type: markdown
     attributes:
