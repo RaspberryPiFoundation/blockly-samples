@@ -48,7 +48,12 @@ javascriptDefinitionGenerator.forBlock['field_image'] = function (
   const alt = generator.quote_(block.getFieldValue('ALT'));
   const flipRtl = block.getFieldValue('FLIP_RTL') === 'TRUE';
 
-  const code = `.appendField(new Blockly.FieldImage(${src}, ${width}, ${height}, { alt: ${alt}, flipRtl: ${flipRtl}}))`;
+  const args = [src, width, height, alt];
+  if (flipRtl) {
+    // The onClick handler argument precedes flipRtl in the constructor.
+    args.push('undefined', 'true');
+  }
+  const code = `.appendField(new Blockly.FieldImage(${args.join(', ')}))`;
   return code;
 };
 
