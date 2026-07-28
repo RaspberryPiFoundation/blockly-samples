@@ -338,7 +338,6 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     this.bindEvent(dropdownEditor, 'pointerleave', this.onPointerEnd);
     this.bindEvent(dropdownEditor, 'pointerdown', this.onPointerStart);
     this.bindEvent(dropdownEditor, 'pointercancel', this.onPointerEnd);
-    this.bindEvent(dropdownEditor, 'keydown', this.onEditorKeyDown);
     // Stop the browser from handling touch events and cancelling the event.
     this.bindEvent(dropdownEditor, 'touchmove', (e: Event) => {
       e.preventDefault();
@@ -422,26 +421,6 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
       }
     }
     return grid;
-  }
-
-  /**
-   * Handles editor-level keyboard shortcuts.
-   * Ctrl/Cmd+Enter commits and closes; Escape reverts and closes.
-   *
-   * @param e The keydown event.
-   */
-  private onEditorKeyDown(e: KeyboardEvent) {
-    const isEscape = e.key === 'Escape';
-    const isCommit = e.key === 'Enter' && (e.ctrlKey || e.metaKey);
-    if (!isEscape && !isCommit) return;
-
-    if (isEscape && this.initialValue !== null) {
-      this.setValue(this.initialValue, false);
-    }
-    Blockly.DropDownDiv.hideIfOwner(this);
-    Blockly.getFocusManager().focusNode(this);
-    e.preventDefault();
-    e.stopPropagation();
   }
 
   /**
@@ -737,7 +716,6 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
     this.focusedPixelIndex = -1;
     this.pointerIsDown = false;
     this.valToPaintWith = undefined;
-    // Set this.initialValue back to null.
     this.initialValue = null;
 
     Blockly.DropDownDiv.getContentDiv().classList.remove(
