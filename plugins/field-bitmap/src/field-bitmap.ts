@@ -821,10 +821,11 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
    * Resets pointer state (e.g. After either a pointerup event or if the
    * gesture is canceled).
    *
-   * @param e The pointer event that ended the gesture.
+   * @param e The pointer event that ended the gesture, when available.
    */
-  private onPointerEnd(e: PointerEvent) {
+  private onPointerEnd(e?: PointerEvent) {
     if (
+      e &&
       e.currentTarget instanceof HTMLElement &&
       e.currentTarget.hasPointerCapture?.(e.pointerId)
     ) {
@@ -916,10 +917,10 @@ export class FieldBitmap extends Blockly.Field<number[][]> {
    * @param eventName Name of the event to bind.
    * @param callback Function to be called on specified event.
    */
-  private bindEvent<E extends Event>(
+  private bindEvent(
     element: HTMLElement,
     eventName: string,
-    callback: (e: E) => void,
+    callback: (e: PointerEvent) => void,
   ) {
     this.boundEvents.push(
       Blockly.browserEvents.bind(element, eventName, this, callback),
