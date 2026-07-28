@@ -1,6 +1,6 @@
 {
   "name": "developer-tools",
-  "version": "1.0.0",
+  "version": "13.2.0",
   "description": "Blockly Developer Tools",
   "private": true,
   "main": "index.js",

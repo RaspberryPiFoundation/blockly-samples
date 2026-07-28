@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.2.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.1.0...v13.2.0) (2026-07-28)
+
+### Features
+
+* **field-bitmap:** make the bitmap editor keyboard and screen-reader accessible ([#2754](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2754))
+* **field-grid-dropdown:** wrap vertical keyboard focus across columns
+
+### Bug Fixes
+
+* **block-dynamic-connection:** recache connection pairs after dynamically adding new ones
+* **field-grid-dropdown:** announce as a grid popup instead of a listbox
+* FieldGridDropdown recomputeAriaContext no longer throws an error ([#2741](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2741))
+* Fix positioning of dropdown on full-block color fields ([#2747](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2747))
+* Improve accessibility of colour slider plugin ([#2745](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2745))
+* Minimap variable renaming ([#2756](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2756))
+* **workspace-search:** set search buttons to type='button'
+* Wrong code generation for FieldImage ([#2755](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2755))
+
+
 ## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
 
 ### ⚠ BREAKING CHANGES

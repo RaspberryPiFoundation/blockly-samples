@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.2.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.1.0...v13.2.0) (2026-07-28)
+
+### Bug Fixes
+
+* Improve accessibility of colour slider plugin ([#2745](https://github.com/RaspberryPiFoundation/blockly-samples/issues/2745))
+
+
 ## [6.0.12](https://github.com/RaspberryPiFoundation/blockly-samples/compare/@blockly/field-colour-hsv-sliders@6.0.11...@blockly/field-colour-hsv-sliders@6.0.12) (2026-04-09)
 
 **Note:** Version bump only for package @blockly/field-colour-hsv-sliders

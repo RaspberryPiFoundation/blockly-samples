@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [13.2.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.1.0...v13.2.0) (2026-07-28)
+
+### Bug Fixes
+
+* **block-dynamic-connection:** recache connection pairs after dynamically adding new ones
+
+
 ## [13.1.0](https://github.com/RaspberryPiFoundation/blockly-samples/compare/v13.0.0...v13.1.0) (2026-06-30)
 
 ### ⚠ BREAKING CHANGES
