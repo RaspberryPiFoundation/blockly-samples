@@ -474,6 +474,79 @@ suite('Mirroring events', function () {
   });
 });
 
+suite('Field editing focus', function () {
+  setup(function () {
+    require('blockly/blocks');
+    this.jsdomCleanup = require('jsdom-global')(
+      '<!DOCTYPE html><div id="blocklyDiv"></div>',
+    );
+    global.SVGElement = window.SVGElement;
+    if (!global.FocusEvent) {
+      global.FocusEvent = class FocusEvent extends Event {
+        constructor(type, init) {
+          super(type, init);
+          this.relatedTarget = init?.relatedTarget ?? null;
+        }
+      };
+    }
+    window.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+    window.cancelAnimationFrame = (id) => clearTimeout(id);
+    this.workspace = Blockly.inject('blocklyDiv', {
+      move: {scrollbars: true},
+    });
+    this.minimap = new Minimap(this.workspace);
+    this.minimap.init();
+  });
+
+  teardown(function () {
+    this.minimap.dispose();
+    this.workspace.dispose();
+    this.jsdomCleanup();
+  });
+
+  test('tab between number fields keeps the next field editor open', async function () {
+    const forBlock = this.workspace.newBlock('controls_for');
+    forBlock.initSvg();
+    forBlock.render();
+
+    const fromNumber = this.workspace.newBlock('math_number');
+    fromNumber.setFieldValue('1', 'NUM');
+    fromNumber.initSvg();
+    fromNumber.render();
+
+    const toNumber = this.workspace.newBlock('math_number');
+    toNumber.setFieldValue('10', 'NUM');
+    toNumber.initSvg();
+    toNumber.render();
+
+    forBlock.getInput('FROM').connection.connect(fromNumber.outputConnection);
+    forBlock.getInput('TO').connection.connect(toNumber.outputConnection);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const fromField = fromNumber.getField('NUM');
+    const toField = toNumber.getField('NUM');
+    fromField.showEditor();
+    fromField.setValue('2');
+
+    const htmlInput = document.querySelector('.blocklyHtmlInput');
+    htmlInput.dispatchEvent(
+      new window.KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    assert.isTrue(
+      toField.isBeingEdited_,
+      'Tab should move focus to the next field without closing its editor',
+    );
+  });
+});
+
 suite('Keyboard navigation', function () {
   setup(function () {
     this.jsdomCleanup = require('jsdom-global')(

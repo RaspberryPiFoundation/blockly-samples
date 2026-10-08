@@ -250,8 +250,14 @@ export class Minimap {
 
     // Resize and center the minimap.
     // We need to wait for the event to finish rendering to do the zoom.
+    // Skip zoomToFit while a field editor holds ephemeral focus. Otherwise
+    // zoomToFit can steal DOM focus and close the editor (e.g. when tabbing
+    // between fields). See https://github.com/RaspberryPiFoundation/blockly-samples/issues/2636
     Blockly.renderManagement.finishQueuedRenders().then(() => {
-      if (this.minimapWorkspace) {
+      if (
+        this.minimapWorkspace &&
+        !Blockly.getFocusManager().ephemeralFocusTaken()
+      ) {
         this.minimapWorkspace.zoomToFit();
       }
     });
