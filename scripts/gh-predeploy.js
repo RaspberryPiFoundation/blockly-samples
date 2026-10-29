@@ -111,7 +111,7 @@ function injectFooter(initialContents) {
  * @returns {string} The modified contents of the page, as a string.
  */
 function injectPluginNavBar(inputString, packageJson, pluginDir, isLocal) {
-  const codeLink = `https://github.com/raspberrypifoundation/blockly-samples/blob/main/plugins/${pluginDir}`;
+  const codeLink = `https://github.com/raspberrypifoundation/blockly/tree/main/packages/plugins/${pluginDir}`;
   const npmLink = `https://www.npmjs.com/package/${packageJson.name}`;
   const baseURL = isLocal ? '/' : '/blockly-samples/';
 
