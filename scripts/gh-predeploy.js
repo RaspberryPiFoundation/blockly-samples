@@ -41,6 +41,7 @@ function injectHeader(initialContents, title, isLocal) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://blocklycodelabs.dev/styles/main.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown-light.min.css"/>
   <link rel="stylesheet" href="${baseURL}css/custom.css"/>
   <!-- END INJECTED HEADER -->`;
 
@@ -263,7 +264,7 @@ function createReadmePage(pluginDir, isLocal) {
   </head>
   <body class="root">
     <article class="article-container site-width">
-      <div class="article">
+      <div class="article markdown-body">
       ${html}
       </div>
     </article>
