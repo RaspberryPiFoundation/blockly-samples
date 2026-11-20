@@ -30,8 +30,9 @@ import {
   fieldLabelSerializable,
   fieldNumber,
   fieldVariable,
+  fieldColourSlider,
 } from './fields';
-import {colourHue} from './colour';
+import {colorHsv, colourHue} from './colour';
 
 // import for side effects for now
 import '../output-generators/factory_base';
@@ -47,6 +48,7 @@ import '../output-generators/fields/image';
 import '../output-generators/fields/variable';
 import '../output-generators/fields/angle';
 import '../output-generators/fields/colour';
+import '../output-generators/fields/colour_slider';
 import '../output-generators/colour';
 
 /* eslint-disable @typescript-eslint/naming-convention
@@ -73,11 +75,13 @@ export const registerAllBlocks = function () {
     field_image: fieldImage,
     field_angle: fieldAngle,
     field_colour: fieldColour,
+    field_colour_slider: fieldColourSlider,
     connection_check_group: connectionCheckGroup,
     connection_check_group_container: connectionCheckContainer,
     connection_check_group_item: connectionCheckItem,
     connection_check: connectionCheck,
     colour_hue: colourHue,
+    colour_hsv_sliders: colorHsv,
   });
 };
 /* eslint-enable @typescript-eslint/naming-convention */

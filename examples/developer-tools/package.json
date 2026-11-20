@@ -41,6 +41,7 @@
   "dependencies": {
     "@blockly/field-angle": "^6.0.9",
     "@blockly/field-colour": "^6.0.12",
+    "@blockly/field-colour-hsv-sliders": "^13.5.0",
     "@material/web": "^2.4.1",
     "blockly": "^13.2.0"
   }

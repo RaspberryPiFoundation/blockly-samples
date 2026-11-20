@@ -46,3 +46,34 @@ javascriptDefinitionGenerator.forBlock['colour_hue'] = function (
 ): [string, number] {
   return [this.getFieldValue('HUE').toString(), JsOrder.ATOMIC];
 };
+
+/**
+ * JSON definition for the "colour_hsv_sliders" block.
+ *
+ * @param block
+ * @param generator
+ * @returns The stringified JSON representing the stack of input blocks.
+ *    The entire stack will be returned due to the `scrub_` function.
+ *    The JSON returned here should be part of the `args0` of the JSON
+ *    in the final block definition.
+ */
+jsonDefinitionGenerator.forBlock['colour_hsv_sliders'] = function (
+  block: Blockly.Block,
+  generator: JsonDefinitionGenerator,
+): [string, number] {
+  return ['"' + this.getFieldValue('COLOUR').toString() + '"', JsonOrder.ATOMIC];
+};
+
+/**
+ * JavaScript definition for the "colour_hsv_sliders" block.
+ *
+ * @param block
+ * @param generator
+ * @returns The value of the colour field, as an RGB string.
+ */
+javascriptDefinitionGenerator.forBlock['colour_hsv_sliders'] = function (
+  block: Blockly.Block,
+  generator: JavascriptDefinitionGenerator,
+): [string, number] {
+  return ['"' + this.getFieldValue('COLOUR').toString() + '"', JsOrder.ATOMIC];
+};

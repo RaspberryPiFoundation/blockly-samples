@@ -119,9 +119,9 @@ function createStartBlock(name: string): object {
             },
             COLOUR: {
               block: {
-                type: 'colour_hue',
+                type: 'colour_hsv_sliders',
                 fields: {
-                  HUE: 230,
+                  COLOUR: '#ff0000',
                 },
               },
             },

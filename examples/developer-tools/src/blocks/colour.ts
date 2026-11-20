@@ -5,10 +5,10 @@
  */
 
 import {FieldAngle} from '@blockly/field-angle';
+import {FieldColourHsvSliders} from '@blockly/field-colour-hsv-sliders';
 
 /**
  * A hue-picker to set the colour of a block.
- * TODO(#2159): Use the new angle field.
  */
 export const colourHue = {
   init: function () {
@@ -23,3 +23,22 @@ export const colourHue = {
     this.getSourceBlock().setColour(hue);
   },
 };
+
+export const colorHsv = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('hsv:')
+      .appendField(new BorderHsvSliders('#ff0000'), 'COLOUR');
+    this.setOutput(true, 'Colour');
+    this.setTooltip('Paint the block with this colour.');
+    this.setColour('#5ba593');
+  },
+};
+
+class BorderHsvSliders extends FieldColourHsvSliders {
+  override initView() {
+    super.initView();
+    this.getBorderRect().style.stroke = '#ffffff';
+    this.getBorderRect().style.strokeWidth = '1px';
+  }
+}
