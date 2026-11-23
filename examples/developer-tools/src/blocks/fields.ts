@@ -7,6 +7,7 @@
 import * as Blockly from 'blockly/core';
 import {FieldAngle} from '@blockly/field-angle';
 import {FieldColour} from '@blockly/field-colour';
+import {FieldColourHsvSliders} from '@blockly/field-colour-hsv-sliders';
 
 /** The default source to use as prepopulated text in image fields. */
 const defaultImageSrc =
@@ -479,5 +480,20 @@ export const fieldColour = {
   },
   onchange: function () {
     checkNameConflicts(this);
+  },
+};
+
+/** Colour slider field. */
+export const fieldColourSlider = {
+  init: function () {
+    this.setStyle('field');
+    this.appendDummyInput()
+      .appendField('colour sliders')
+      .appendField(new FieldColourHsvSliders('#ff0000'), 'COLOUR')
+      .appendField(',')
+      .appendField(new Blockly.FieldTextInput('NAME'), 'FIELDNAME');
+    this.setPreviousStatement(true, 'Field');
+    this.setNextStatement(true, 'Field');
+    this.setTooltip('Colour field with HSV sliders.');
   },
 };

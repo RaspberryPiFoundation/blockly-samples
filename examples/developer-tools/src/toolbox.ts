@@ -87,6 +87,10 @@ export const toolbox = {
           kind: 'block',
           type: 'field_colour',
         },
+        {
+          kind: 'block',
+          type: 'field_colour_slider',
+        },
       ],
     },
     {
@@ -150,65 +154,54 @@ export const toolbox = {
       contents: [
         {
           kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#a56d5b'},
+        }, // hue 15
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#a5a55b'},
+        }, // hue 60
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#5ba55b'},
+        }, // hue 120
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#5ba593'},
+        }, // hue 165
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#5b80a5'},
+        }, // hue 210
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#5b6da5'},
+        }, // hue 225
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#6d5ba5'},
+        }, // hue 255
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#935ba5'},
+        }, // hue 285
+        {
+          kind: 'block',
+          type: 'colour_hsv_sliders',
+          fields: {COLOUR: '#a55b80'},
+        }, // hue 330
+        {
+          kind: 'block',
           type: 'colour_hue',
           fields: {
             HUE: 20,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 65,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 120,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 160,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 210,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 230,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 260,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 290,
-          },
-        },
-        {
-          kind: 'block',
-          type: 'colour_hue',
-          fields: {
-            HUE: 330,
           },
         },
       ],
