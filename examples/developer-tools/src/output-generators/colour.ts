@@ -61,7 +61,10 @@ jsonDefinitionGenerator.forBlock['colour_hsv_sliders'] = function (
   block: Blockly.Block,
   generator: JsonDefinitionGenerator,
 ): [string, number] {
-  return ['"' + this.getFieldValue('COLOUR').toString() + '"', JsonOrder.ATOMIC];
+  return [
+    '"' + this.getFieldValue('COLOUR').toString() + '"',
+    JsonOrder.ATOMIC,
+  ];
 };
 
 /**

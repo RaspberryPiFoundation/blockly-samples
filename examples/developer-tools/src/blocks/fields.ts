@@ -495,5 +495,5 @@ export const fieldColourSlider = {
     this.setPreviousStatement(true, 'Field');
     this.setNextStatement(true, 'Field');
     this.setTooltip('Colour field with HSV sliders.');
-  }
-}
+  },
+};
