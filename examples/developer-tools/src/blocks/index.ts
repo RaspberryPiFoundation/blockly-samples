@@ -32,7 +32,7 @@ import {
   fieldVariable,
   fieldColourSlider,
 } from './fields';
-import {colorHsv, colourHue} from './colour';
+import {colourHsv, colourHue} from './colour';
 
 // import for side effects for now
 import '../output-generators/factory_base';
@@ -81,7 +81,7 @@ export const registerAllBlocks = function () {
     connection_check_group_item: connectionCheckItem,
     connection_check: connectionCheck,
     colour_hue: colourHue,
-    colour_hsv_sliders: colorHsv,
+    colour_hsv_sliders: colourHsv,
   });
 };
 /* eslint-enable @typescript-eslint/naming-convention */

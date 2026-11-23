@@ -24,7 +24,7 @@ export const colourHue = {
   },
 };
 
-export const colorHsv = {
+export const colourHsv = {
   init: function () {
     this.appendDummyInput()
       .appendField('hsv:')
