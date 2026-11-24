@@ -25,6 +25,7 @@ export class ViewModel {
 
   createButton = document.getElementById('create-btn');
   deleteButton = document.getElementById('delete-btn');
+  copyBlockButton = document.getElementById('copy-block-btn');
   loadButton = document.getElementById('load-btn');
   loadMenu = document.getElementById('load-menu');
 

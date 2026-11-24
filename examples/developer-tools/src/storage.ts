@@ -132,6 +132,20 @@ export function getNewUnusedName(startName = 'my_block'): string {
   return name;
 }
 
+/**
+ * Finds a name for copy of an existing block that isn't being used yet.
+ *
+ * @param startName Name of the block being copied.
+ * @returns An unused name with '_copy' appended.
+ */
+export function getCopyName(startName: string): string {
+  let name = startName;
+  while (getAllSavedBlockNames().has(name)) {
+    name = name + '_copy';
+  }
+  return name;
+}
+
 export interface BlockFactorySettings {
   blockDefinitionFormat: string;
   codeHeaderStyle: string;
