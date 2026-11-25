@@ -60,6 +60,27 @@ export function loadBlock(workspace: Blockly.Workspace, blockName?: string) {
 }
 
 /**
+ * Copies and renames an existing block.
+ * Creates a new block if there is no existing block to copy.
+ *
+ * @param workspace Blockly workspace to load into.
+ * @param blockName Name of saved block to copy.
+ */
+export function copyBlock(workspace: Blockly.Workspace, blockName: string) {
+  const block = storage.getBlock(blockName);
+  if (block) {
+    const newBlockName = storage.getCopyName(blockName);
+    const blockData = JSON.parse(block);
+    blockData.blocks.blocks.find(
+      (b: Blockly.serialization.blocks.State) => b.type === 'factory_base',
+    ).fields.NAME = newBlockName;
+    Blockly.serialization.workspaces.load(blockData, workspace);
+  } else {
+    createNewBlock(workspace);
+  }
+}
+
+/**
  * Creates a new block from scratch.
  *
  * @param workspace Blockly workspace to load into.

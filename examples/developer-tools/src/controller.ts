@@ -6,7 +6,7 @@
 
 import * as Blockly from 'blockly';
 import * as storage from './storage';
-import {createNewBlock, loadBlock} from './serialization';
+import {createNewBlock, copyBlock, loadBlock} from './serialization';
 import {ViewModel} from './view_model';
 import {JavascriptDefinitionGenerator} from './output-generators/javascript_definition_generator';
 import {JsonDefinitionGenerator} from './output-generators/json_definition_generator';
@@ -55,6 +55,10 @@ export class Controller {
 
     this.viewModel.createButton.addEventListener('click', () => {
       this.handleCreateButton();
+    });
+
+    this.viewModel.copyBlockButton.addEventListener('click', () => {
+      this.handleCopyBlockButton();
     });
 
     this.viewModel.deleteButton.addEventListener('click', () => {
@@ -240,6 +244,16 @@ export class Controller {
   /** Handles a click on the "Create new block" button. */
   private handleCreateButton() {
     createNewBlock(this.mainWorkspace);
+  }
+
+  private handleCopyBlockButton() {
+    const blockName = this.mainWorkspace
+      .getBlocksByType('factory_base')[0]
+      .getFieldValue('NAME');
+    if (!blockName) {
+      throw new Error('No block name found to copy');
+    }
+    copyBlock(this.mainWorkspace, blockName);
   }
 
   /** Handles a click on the "Delete" button. */

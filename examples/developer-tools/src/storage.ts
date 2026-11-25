@@ -132,6 +132,21 @@ export function getNewUnusedName(startName = 'my_block'): string {
   return name;
 }
 
+/**
+ * Finds a name for copy of an existing block that isn't being used yet.
+ *
+ * @param startName Name of the block being copied.
+ * @returns The start name with '_copy' appended, and a number following if
+ * startName + '_copy' already exists
+ */
+export function getCopyName(startName: string): string {
+  let copyName = startName + '_copy';
+  if (getAllSavedBlockNames().has(copyName)) {
+    copyName = getNewUnusedName(copyName);
+  }
+  return copyName;
+}
+
 export interface BlockFactorySettings {
   blockDefinitionFormat: string;
   codeHeaderStyle: string;
