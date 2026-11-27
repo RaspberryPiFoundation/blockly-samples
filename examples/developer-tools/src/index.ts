@@ -68,5 +68,12 @@ mainWorkspace.addChangeListener((e: Blockly.Events.Abstract) => {
   }
 
   saveOnChange(mainWorkspace, e);
-  controller.updateOutput();
+
+  // Top-level value blocks are briefly enabled when swapping. If this is the
+  // case, don't run the generators.
+  const topBlocks = mainWorkspace.getTopBlocks();
+  const valueBlockEnabled = topBlocks.some(
+    (block) => block.isEnabled() && block.outputConnection,
+  );
+  if (!valueBlockEnabled) controller.updateOutput();
 });
